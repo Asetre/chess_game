@@ -1,0 +1,20 @@
+{
+  "name": "chessgamev2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "server.js",
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "express": "^4.14.0",
+    "mocha": "^3.2.0"
+  },
+  "devDependencies": {
+    "gulp-concat": "^2.6.1"
+  }
+}
