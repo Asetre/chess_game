@@ -1,6 +1,7 @@
 var board = [];
 var boundsBoard = [];
 var outOfBounds = [];
+var tiles = [];
 
 function initBoard() {
     //Create the board
@@ -35,6 +36,19 @@ function initBoard() {
     for(let i=29;i<100;i+=10) {
         outOfBounds.push(i);
     }
+
+    //////////////////////////////////////////
+    //Dom Element Creation
+    /////////////////////////////////////////
+    //for(let i=8;i>0;i--){
+    //    for(let j=8;j>0;j--){
+    //        var tileHTML = `<div id="${i}${j}" class="tile" style="border:.2px solid black; width: 80px; height: 80px;display: inline-block;"i>${i}${j}</div>`;
+    //        tiles.push(tileHTML);
+    //    }
+    //}
+
+    ////Append tiles to div
+    //$('#chessBoard').append(tiles);
 }
 
 function convertToBounds(index) {
@@ -51,7 +65,7 @@ function convertToBounds(index) {
 function WhitePawn() {
     return {
         index: null,
-        img: null,
+        //img: wPImage,
         team: 1,
         validMoves: function() {
             let moves = [];
@@ -98,7 +112,7 @@ function WhitePawn() {
 function BlackPawn() {
     return {
         index: null,
-        img: null,
+        //img: bPImage,
         team: 2,
         validMoves: function() {
             let moves = [];
@@ -145,7 +159,7 @@ function BlackPawn() {
 function WhiteKing() {
     return {
         index: null,
-        img: null,
+        //img: wKImage,
         team: 1,
         validMoves: function() {
             let moves = [];
@@ -162,7 +176,7 @@ function WhiteKing() {
                         }
                     }
                 }
-            });
+            }.bind(this));
             return moves;
         }
     }
@@ -171,7 +185,7 @@ function WhiteKing() {
 function WhiteRook() {
     return {
         index: null,
-        img: null,
+        //img: wRImage,
         team: 1,
         validMoves: function() {
             let moves =[];
@@ -241,7 +255,7 @@ function WhiteRook() {
 function WhiteBishop() {
     return {
         index: null,
-        img: null,
+        //img: wBImage,
         team: 1,
         validMoves: function() {
             let moves =[];
@@ -309,7 +323,7 @@ function WhiteBishop() {
 function WhiteKnight() {
     return {
         index: null,
-        img: null,
+        //img: wKnImage,
         team: 1,
         validMoves: function() {
             let moves = [];
@@ -321,14 +335,14 @@ function WhiteKnight() {
                 if(!isOffBoard(int)) {
                     let index = boundsToIndex(int);
                     if(isTileEmpty(index)) {
-                        moves.push[index];
+                        moves.push(index);
                     }else {
                         if(!isSameTeam(index, this.team)) {
                             moves.push(index);
                         }
                     }
                 }
-            });
+            }.bind(this));
             return moves;
         }
     }
@@ -337,7 +351,7 @@ function WhiteKnight() {
 function WhiteQueen() {
     return {
         index: null,
-        img: null,
+        //img: wQImage,
         team: 1,
         validMoves: function() {
             let moves = [];
@@ -463,9 +477,52 @@ function WhiteQueen() {
 
 const boolTrue = true;
 const boolFalse = false;
+const imgDimensions = 60;
 
+  //  var wPImage = new Image(imgDimensions,imgDimensions);
+  //      wPImage.src = '../chessPieces/wP.png';
+
+  //  var wKImage = new Image(imgDimensions,imgDimensions);
+  //      wKImage.src = '../chessPieces/wK.png';
+
+  //  var wRImage = new Image(imgDimensions,imgDimensions);
+  //      wRImage.src = '../chessPieces/wR.png';
+
+  //  var wKnImage = new Image(imgDimensions,imgDimensions);
+  //      wKnImage.src = '../chessPieces/wN.png';
+
+  //  var wBImage = new Image(imgDimensions,imgDimensions);
+  //      wBImage.src = '../chessPieces/wB.png';
+
+  //  var wQImage = new Image(imgDimensions,imgDimensions);
+  //      wQImage.src = '../chessPieces/wQ.png';
+
+  //  var bPImage = new Image(imgDimensions,imgDimensions);
+  //      bPImage.src = '../chessPieces/bP.png';
+
+  //  var bKImage = new Image(imgDimensions,imgDimensions);
+  //      bKImage.src = '../chessPieces/bK.png';
+
+  //  var bRImage = new Image(imgDimensions,imgDimensions);
+  //      bRImage.src = '../chessPieces/bR.png';
+
+  //  var bKnImage = new Image(imgDimensions,imgDimensions);
+  //      bKnImage.src = '../chessPieces/bN.png';
+
+  //  var bBImage = new Image(imgDimensions,imgDimensions);
+  //      bBImage.src = '../chessPieces/bB.png';
+
+  //  var bBImage = new Image(imgDimensions,imgDimensions);
+  //      bBImage.src = '../chessPieces/bB.png';
+
+  //  var bQImage = new Image(imgDimensions,imgDimensions);
+  //      bQImage.src = '../chessPieces/bQ.png';
 function init() {
 
+    //Cache images
+
+//Create Board Representation
+    initBoard();
 }
 
 function placePiece(pce, position) {
@@ -534,5 +591,42 @@ function isSameTeam(index, team) {
     return (tile.piece.team === team) ? boolTrue : boolFalse;
 }
 
+function movePiece(piece, newPos) {
+    let moves = piece.validMoves();
+    moves.forEach(function(int) {
+        if(int === newPos) {
+            board[piece.index].piece = null;
+            piece.index = newPos;
+            
+        }
+    });
+//    draw();
+}
 
-module.exports = {WhiteQueen, WhiteKnight, WhiteBishop, WhiteRook, isSameTeam, WhiteKing, boundsToIndex,BlackPawn, returnTile, isTileEmpty, WhitePawn, indexToRankFile, placePiece, posToIndex, convertToBounds, board, boundsBoard, initBoard};
+function draw() {
+    //Clear the board
+    $('.tile').each(function(){
+        $(this).find('img').remove();
+    });
+//Draw Images
+    board.forEach(function(tile) {
+        if(tile.piece) {
+            let rnkFile = tile.rankFile;
+            $("#chessBoard").find("[data-file-Rank='" + rnkFile + "']").append(tile.piece.img);
+        }
+    });
+}
+//Event listener for moving
+
+//initBoard();
+//placePiece(new WhitePawn, '0,0');
+//placePiece(new WhiteQueen, '3,4');
+//
+//draw();
+//
+//$('button').click(function() {
+//    movePiece(board[0].piece, 8);
+//    console.log(board[0]);
+//});
+
+module.exports = {movePiece, WhiteQueen, WhiteKnight, WhiteBishop, WhiteRook, isSameTeam, WhiteKing, boundsToIndex,BlackPawn, returnTile, isTileEmpty, WhitePawn, indexToRankFile, placePiece, posToIndex, convertToBounds, board, boundsBoard, initBoard};

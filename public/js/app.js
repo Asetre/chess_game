@@ -2,47 +2,47 @@ const boolTrue = true;
 const boolFalse = false;
 const imgDimensions = 60;
 
+  //  var wPImage = new Image(imgDimensions,imgDimensions);
+  //      wPImage.src = '../chessPieces/wP.png';
+
+  //  var wKImage = new Image(imgDimensions,imgDimensions);
+  //      wKImage.src = '../chessPieces/wK.png';
+
+  //  var wRImage = new Image(imgDimensions,imgDimensions);
+  //      wRImage.src = '../chessPieces/wR.png';
+
+  //  var wKnImage = new Image(imgDimensions,imgDimensions);
+  //      wKnImage.src = '../chessPieces/wN.png';
+
+  //  var wBImage = new Image(imgDimensions,imgDimensions);
+  //      wBImage.src = '../chessPieces/wB.png';
+
+  //  var wQImage = new Image(imgDimensions,imgDimensions);
+  //      wQImage.src = '../chessPieces/wQ.png';
+
+  //  var bPImage = new Image(imgDimensions,imgDimensions);
+  //      bPImage.src = '../chessPieces/bP.png';
+
+  //  var bKImage = new Image(imgDimensions,imgDimensions);
+  //      bKImage.src = '../chessPieces/bK.png';
+
+  //  var bRImage = new Image(imgDimensions,imgDimensions);
+  //      bRImage.src = '../chessPieces/bR.png';
+
+  //  var bKnImage = new Image(imgDimensions,imgDimensions);
+  //      bKnImage.src = '../chessPieces/bN.png';
+
+  //  var bBImage = new Image(imgDimensions,imgDimensions);
+  //      bBImage.src = '../chessPieces/bB.png';
+
+  //  var bBImage = new Image(imgDimensions,imgDimensions);
+  //      bBImage.src = '../chessPieces/bB.png';
+
+  //  var bQImage = new Image(imgDimensions,imgDimensions);
+  //      bQImage.src = '../chessPieces/bQ.png';
 function init() {
 
     //Cache images
-    var wPImage = new Image(imgDimensions,imgDimensions);
-        wPImage.src = '../chessPieces/wP.png';
-
-    var wKImage = new Image(imgDimensions,imgDimensions);
-        wKImage.src = '../chessPieces/wK.png';
-
-    var wRImage = new Image(imgDimensions,imgDimensions);
-        wRImage.src = '../chessPieces/wR.png';
-
-    var wKnImage = new Image(imgDimensions,imgDimensions);
-        wKnImage.src = '../chessPieces/wN.png';
-
-    var wBImage = new Image(imgDimensions,imgDimensions);
-        wBImage.src = '../chessPieces/wB.png';
-
-    var wQImage = new Image(imgDimensions,imgDimensions);
-        wQImage.src = '../chessPieces/wQ.png';
-
-    var bPImage = new Image(imgDimensions,imgDimensions);
-        bPImage.src = '../chessPieces/bP.png';
-
-    var bKImage = new Image(imgDimensions,imgDimensions);
-        bKImage.src = '../chessPieces/bK.png';
-
-    var bRImage = new Image(imgDimensions,imgDimensions);
-        bRImage.src = '../chessPieces/bR.png';
-
-    var bKnImage = new Image(imgDimensions,imgDimensions);
-        bKnImage.src = '../chessPieces/bN.png';
-
-    var bBImage = new Image(imgDimensions,imgDimensions);
-        bBImage.src = '../chessPieces/bB.png';
-
-    var bBImage = new Image(imgDimensions,imgDimensions);
-        bBImage.src = '../chessPieces/bB.png';
-
-    var bQImage = new Image(imgDimensions,imgDimensions);
-        bQImage.src = '../chessPieces/bQ.png';
 
 //Create Board Representation
     initBoard();
@@ -118,25 +118,38 @@ function movePiece(piece, newPos) {
     let moves = piece.validMoves();
     moves.forEach(function(int) {
         if(int === newPos) {
+            board[piece.index].piece = null;
             piece.index = newPos;
-        }
-    });
-    draw();
-}
-
-   var tileElement = document.getElementsByTagNme("div"); 
-function draw() {
-   console.log(tileElement.length);
-
-    console.log('Drawing');
-    board.forEach(function(tile) {
-        if(tile.piece != null) {
             
         }
     });
+//    draw();
 }
 
-draw();
+function draw() {
+    //Clear the board
+    $('.tile').each(function(){
+        $(this).find('img').remove();
+    });
+//Draw Images
+    board.forEach(function(tile) {
+        if(tile.piece) {
+            let rnkFile = tile.rankFile;
+            $("#chessBoard").find("[data-file-Rank='" + rnkFile + "']").append(tile.piece.img);
+        }
+    });
+}
+//Event listener for moving
 
+//initBoard();
+//placePiece(new WhitePawn, '0,0');
+//placePiece(new WhiteQueen, '3,4');
+//
+//draw();
+//
+//$('button').click(function() {
+//    movePiece(board[0].piece, 8);
+//    console.log(board[0]);
+//});
 
 module.exports = {movePiece, WhiteQueen, WhiteKnight, WhiteBishop, WhiteRook, isSameTeam, WhiteKing, boundsToIndex,BlackPawn, returnTile, isTileEmpty, WhitePawn, indexToRankFile, placePiece, posToIndex, convertToBounds, board, boundsBoard, initBoard};
