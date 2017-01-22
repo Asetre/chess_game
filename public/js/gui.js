@@ -3,6 +3,7 @@ function draw() {
     //Clear the board
     $.each($('.tile'), function() {
         $(this).find('img').remove();
+        $(this).removeClass('highlighted');
     });
 
     //Draw Images
@@ -30,8 +31,12 @@ function firstClick() {
     console.log('first');
     let elemPos = $(this).attr('data-file-Rank');
     let elemIndex = posToIndex(elemPos);
+    //If there is a piece highlight possible moves and wait for second click
     if(board[elemIndex].piece) {
-        console.log('piece is here');
+        //Highlight possible moves
+        let moves = board[elemIndex].piece.validMoves();
+        highlightMoves(moves);
+
     $('.tile').unbind();
     $('.tile').bind('click', secondClick(elemIndex));
     }
@@ -51,8 +56,13 @@ function secondClick(index) {
 }
 
 //possible moves highlighted
-
-
+function highlightMoves(moves) {
+    moves.forEach(function(index) {
+        let elemPos = indexToRankFile(index);
+        let tile = $("#chessBoard").find(".tile[data-file-Rank='" + elemPos + "']");
+        tile.addClass('highlighted');
+    });
+}
 
 
 
