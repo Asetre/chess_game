@@ -1,7 +1,7 @@
 function WhitePawn() {
     return {
         index: null,
-        //img: wPImage,
+        img: wPImage,
         team: 1,
         validMoves: function() {
             let moves = [];
@@ -48,7 +48,7 @@ function WhitePawn() {
 function BlackPawn() {
     return {
         index: null,
-        //img: bPImage,
+        img: bPImage,
         team: 2,
         validMoves: function() {
             let moves = [];
@@ -95,7 +95,7 @@ function BlackPawn() {
 function WhiteKing() {
     return {
         index: null,
-        //img: wKImage,
+        img: wKImage,
         team: 1,
         validMoves: function() {
             let moves = [];
@@ -121,7 +121,7 @@ function WhiteKing() {
 function WhiteRook() {
     return {
         index: null,
-        //img: wRImage,
+        img: wRImage,
         team: 1,
         validMoves: function() {
             let moves =[];
@@ -191,7 +191,7 @@ function WhiteRook() {
 function WhiteBishop() {
     return {
         index: null,
-        //img: wBImage,
+        img: wBImage,
         team: 1,
         validMoves: function() {
             let moves =[];
@@ -259,7 +259,7 @@ function WhiteBishop() {
 function WhiteKnight() {
     return {
         index: null,
-        //img: wKnImage,
+        img: wKnImage,
         team: 1,
         validMoves: function() {
             let moves = [];
@@ -287,7 +287,7 @@ function WhiteKnight() {
 function WhiteQueen() {
     return {
         index: null,
-        //img: wQImage,
+        img: wQImage,
         team: 1,
         validMoves: function() {
             let moves = [];
