@@ -1,11 +1,11 @@
 //Board rendering
 function draw() {
+    console.log('drawing');
     //Clear the board
     $.each($('.tile'), function() {
         $(this).find('img').remove();
         $(this).removeClass('highlighted');
     });
-
     //Draw Images
     board.forEach(function(tile) {
         if(tile.piece) {
@@ -15,12 +15,7 @@ function draw() {
     });
 }
 
-function selectTile(tileElem) {
- 
-}
 //Event listener for moving
-
-
 //Only used for the very first click
 $('.tile').on('click',function() {
     var x = this;
@@ -28,7 +23,6 @@ $('.tile').on('click',function() {
 });
 
 function firstClick() {
-    console.log('first');
     let elemPos = $(this).attr('data-file-Rank');
     let elemIndex = posToIndex(elemPos);
     //If there is a piece highlight possible moves and wait for second click
@@ -44,7 +38,6 @@ function firstClick() {
 
 function secondClick(index) {
     return function() {
-        console.log('second');
         let piece = board[index].piece; 
         let newRnkFl = $(this).attr('data-file-Rank');
         let newPos = posToIndex(newRnkFl);
@@ -54,7 +47,6 @@ function secondClick(index) {
         $('.tile').bind('click', firstClick);
     }
 }
-
 //possible moves highlighted
 function highlightMoves(moves) {
     moves.forEach(function(index) {
@@ -63,23 +55,3 @@ function highlightMoves(moves) {
         tile.addClass('highlighted');
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Test Pieces
-
-initBoard();
-placePiece(new WhitePawn, '0,0');
-placePiece(new WhiteQueen, '3,4');
-
-draw();

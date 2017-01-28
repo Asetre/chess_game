@@ -1,49 +1,8 @@
 const boolTrue = true;
 const boolFalse = false;
-const imgDimensions = 60;
+var socket = io.connect();
 
-var wPImage = new Image(imgDimensions,imgDimensions);
-wPImage.src = '../chessPieces/wP.png';
-
-var wKImage = new Image(imgDimensions,imgDimensions);
-wKImage.src = '../chessPieces/wK.png';
-
-var wRImage = new Image(imgDimensions,imgDimensions);
-wRImage.src = '../chessPieces/wR.png';
-
-var wKnImage = new Image(imgDimensions,imgDimensions);
-wKnImage.src = '../chessPieces/wN.png';
-
-var wBImage = new Image(imgDimensions,imgDimensions);
-wBImage.src = '../chessPieces/wB.png';
-
-var wQImage = new Image(imgDimensions,imgDimensions);
-wQImage.src = '../chessPieces/wQ.png';
-
-var bPImage = new Image(imgDimensions,imgDimensions);
-bPImage.src = '../chessPieces/bP.png';
-
-var bKImage = new Image(imgDimensions,imgDimensions);
-bKImage.src = '../chessPieces/bK.png';
-
-var bRImage = new Image(imgDimensions,imgDimensions);
-bRImage.src = '../chessPieces/bR.png';
-
-var bKnImage = new Image(imgDimensions,imgDimensions);
-bKnImage.src = '../chessPieces/bN.png';
-
-var bBImage = new Image(imgDimensions,imgDimensions);
-bBImage.src = '../chessPieces/bB.png';
-
-var bBImage = new Image(imgDimensions,imgDimensions);
-bBImage.src = '../chessPieces/bB.png';
-
-var bQImage = new Image(imgDimensions,imgDimensions);
-bQImage.src = '../chessPieces/bQ.png';
 function init() {
-
-    //Cache images
-
     //Create Board Representation
     initBoard();
 }
@@ -123,10 +82,17 @@ function movePiece(piece, newPos) {
             piece.index = newPos;
         }
     });
+    socket.emit('movedPiece', {piece: piece, newPos: newPos});
     draw();
 }
 
+socket.on('updateBoard', function(data) {
 
+    board[data.piece.index].piece = null;
+    console.log(board[data.newPos]);
+    board[data.newPos].piece = data.piece;
+    draw();
+});
 
 
 //module.exports = {movePiece, WhiteQueen, WhiteKnight, WhiteBishop, WhiteRook, isSameTeam, WhiteKing, boundsToIndex,BlackPawn, returnTile, isTileEmpty, WhitePawn, indexToRankFile, placePiece, posToIndex, convertToBounds, board, boundsBoard, initBoard};

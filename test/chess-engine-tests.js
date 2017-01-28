@@ -60,20 +60,82 @@ describe('Chess Engine', function() {
     });
 
     describe('King', function() {
-        it('should have correct moves', function() {
+        it('should have correct moves in each corner', function() {
             placePiece(new WhiteKing, '0,0');
-            placePiece(new WhiteKing, '0,7'); 
-            placePiece(new WhitePawn, '0,6');
-            placePiece(new BlackPawn, '1,7');
-            board[6].piece.team.should.equal(board[7].piece.team);
-            board[0].piece.validMoves().should.be.a('array');
-            let cor1 = [8, 1];
-            let mov1 = board[0].piece.validMoves();
-            mov1.length.should.equal(cor1.length);
-            let cor2 = [15];
-            let mov2 = board[7].piece.validMoves();
-            mov2.length.should.equal(cor2.length);
+            placePiece(new WhiteKing, '0,7');
+            placePiece(new WhiteKing, '7,0');
+            placePiece(new WhiteKing, '7,7');
+
+            board[0].piece.should.be.a('object');
+            board[63].piece.should.be.a('object');
+            board[7].piece.should.be.a('object');
+            board[56].piece.should.be.a('object');
+
+            let leftBottomCornerCorrectMoves = [1,8]
+            let leftBottomCornerMoves = board[0].piece.validMoves();
+            leftBottomCornerMoves.length.should.equal(leftBottomCornerCorrectMoves.length);
+            for(i=0;i<leftBottomCornerCorrectMoves;i++){
+                leftBottomCornerMoves[i].should.equal(leftBottomCornerCorrectMoves[i]);
+            }
+            let leftUpperCornerCorrectMoves = [57, 48];
+            let leftUpperCornerMoves = board[56].piece.validMoves();
+            leftUpperCornerMoves.length.should.equal(leftUpperCornerCorrectMoves.length);
+            for(i=0;i<leftUpperCornerCorrectMoves.length;i++){
+                leftUpperCornerMoves[i].should.equal(leftUpperCornerCorrectMoves[i]);
+            }
+
+            let rightBottomCornerCorrectMoves = [6,15];
+            let rightBottomCornerMoves = board[7].piece.validMoves();
+            leftBottomCornerMoves.length.should.equal(rightBottomCornerMoves.length);
+            for(i=0;i<rightBottomCornerCorrectMoves.length;i++) {
+                rightBottomCornerMoves[i].should.equal(rightBottomCornerCorrectMoves[i]);
+            }
+
+            let rightUpperCornerCorrectMoves = [62,55];
+            let rightUpperCornerMoves = board[63].piece.validMoves();
+            rightUpperCornerMoves.length.should.equal(leftUpperCornerCorrectMoves.length);
+            for(i=0;i<rightUpperCornerCorrectMoves.length;i++) {
+                rightUpperCornerMoves[i].should.equal(rightUpperCornerCorrectMoves[i]);
+            }
         });
+        it('should have correct moves without pieces around',function() {
+            placePiece(new WhiteKing, '1,1');
+
+            board[9].piece.should.be.a('object');
+            let corMoves = [10,8,17,1];
+            let moves = board[9].piece.validMoves();
+            moves.length.should.equal(corMoves.length);
+            for(i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
+            }
+        });
+        it('should detect teamates', function() {
+            placePiece(new WhiteKing, '0,0');
+            placePiece(new WhitePawn, '1,0');
+
+            board[0].should.be.a('object');
+            board[8].should.be.a('object');
+            
+            let corMoves = [1];
+            let moves = board[0].piece.validMoves();
+
+            moves.length.should.equal(corMoves.length);
+            for(i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
+            }
+        });
+        it('should detect enemies', function() {
+            placePiece(new WhiteKing, '0,0');
+            placePiece(new BlackPawn, '1,0');
+
+            let corMoves = [1,8];
+            let moves = board[0].piece.validMoves();
+            moves.length.should.equal(corMoves.length);
+            for(i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
+            }
+        });
+
     });
 
     describe('Rook', function() {
@@ -127,26 +189,80 @@ describe('Chess Engine', function() {
     });
 
     describe('Knight', function() {
-        it('should have correct moves', function() {
-            placePiece(new WhiteKnight, '0,0');            
-            placePiece(new WhiteKnight, '2,6');
-            placePiece(new WhitePawn, '4,5');
-            placePiece(new BlackPawn, '4,7');
 
-            let cor1 =[17,10];
-            let mov1=board[0].piece.validMoves();
+        it('should have correct moves in each corner', function() {
+            placePiece(new WhiteKnight, '0,0');
+            placePiece(new WhiteKnight, '0,7');
+            placePiece(new WhiteKnight, '7,0');
+            placePiece(new WhiteKnight, '7,7');
 
-            mov1.length.should.be.equal(cor1.length);
-            for(let i=0;i<cor1;i++) {
-                mov1[i].should.be.equal(cor1[i]);
+            board[0].piece.should.be.a('object');
+            board[63].piece.should.be.a('object');
+            board[7].piece.should.be.a('object');
+            board[56].piece.should.be.a('object');
+
+            let leftBottomCornerCorrectMoves = [17,8]
+            let leftBottomCornerMoves = board[0].piece.validMoves();
+            leftBottomCornerMoves.length.should.equal(leftBottomCornerCorrectMoves.length);
+            for(i=0;i<leftBottomCornerCorrectMoves;i++){
+                leftBottomCornerMoves[i].should.equal(leftBottomCornerCorrectMoves[i]);
+            }
+            let leftUpperCornerCorrectMoves = [50,41];
+            let leftUpperCornerMoves = board[56].piece.validMoves();
+            leftUpperCornerMoves.length.should.equal(leftUpperCornerCorrectMoves.length);
+            for(i=0;i<leftUpperCornerCorrectMoves.length;i++){
+                leftUpperCornerMoves[i].should.equal(leftUpperCornerCorrectMoves[i]);
             }
 
-            let cor2=[35,7,5,12,28];
-            let mov2=board[20].piece.validMoves();
+            let rightBottomCornerCorrectMoves = [13,22];
+            let rightBottomCornerMoves = board[7].piece.validMoves();
+            leftBottomCornerMoves.length.should.equal(rightBottomCornerMoves.length);
+            for(i=0;i<rightBottomCornerCorrectMoves.length;i++) {
+                rightBottomCornerMoves[i].should.equal(rightBottomCornerCorrectMoves[i]);
+            }
 
-            mov2.length.should.equal(cor2.length);
-            for(let i=0;i<cor2.length;i++) {
-                mov2[i].should.equal(cor2[i]);
+            let rightUpperCornerCorrectMoves = [46,53];
+            let rightUpperCornerMoves = board[63].piece.validMoves();
+            rightUpperCornerMoves.length.should.equal(leftUpperCornerCorrectMoves.length);
+            for(i=0;i<rightUpperCornerCorrectMoves.length;i++) {
+                rightUpperCornerMoves[i].should.equal(rightUpperCornerCorrectMoves[i]);
+            }
+        });
+        it('should have correct moves without pieces around',function() {
+            placePiece(new WhiteKnight, '2,2');
+
+            board[18].piece.should.be.a('object');
+            let corMoves = [35,28,12,3,1,8,24,33];
+            let moves = board[18].piece.validMoves();
+            moves.length.should.equal(corMoves.length);
+            for(i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
+            }
+        });
+        it('should detect teamates', function() {
+            placePiece(new WhiteKnight, '0,0');
+            placePiece(new WhitePawn, '2,1');
+
+            board[0].should.be.a('object');
+            board[17].should.be.a('object');
+            
+            let corMoves = [10];
+            let moves = board[0].piece.validMoves();
+
+            moves.length.should.equal(corMoves.length);
+            for(i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
+            }
+        });
+        it('should detect enemies', function() {
+            placePiece(new WhiteKnight, '0,0');
+            placePiece(new BlackPawn, '2,1');
+
+            let corMoves = [17,10];
+            let moves = board[0].piece.validMoves();
+            moves.length.should.equal(corMoves.length);
+            for(i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
             }
         });
     });
@@ -154,21 +270,41 @@ describe('Chess Engine', function() {
     describe('Queen', function() {
         it('should have correct moves', function() {
             placePiece(new WhiteQueen, '0,0');
-            placePiece(new WhiteQueen, '1,7');
-            placePiece(new WhitePawn, '1,6');
-            placePiece(new WhitePawn, '2,6');
-            placePiece(new BlackPawn, '2,7');
-
-            let cor1=[1,2,3,4,5,6,7,8,16,24,32,40,48,56,9,18,27,36,45,54,63];
-            let mov1=board[0].piece.validMoves();
-            mov1.length.should.equal(cor1.length);
-            for(let i=0;i<cor1.length;i++) {
-                mov1[i].should.equal(cor1[i]);
+            let corMoves = [1,2,3,4,5,6,7,8,16,24,32,40,48,56,9,18,27,36,45,54,63];
+            let moves = board[0].piece.validMoves(); 
+            
+            moves.length.should.equal(corMoves.length);
+            for(let i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
             }
-            let cor2=[21,7,6];
-            let mov2=board[14].piece.validMoves();
-            mov2.length.should.equal(cor2.length);
+        });
+        it('should detect teamates', function() {
+            placePiece(new WhiteQueen, '0,0');
+            placePiece(new WhitePawn, '2,0');
+            placePiece(new WhitePawn, '0,2');
+            placePiece(new WhitePawn, '2,2');
 
+            let corMoves = [1,8,9];
+            let moves = board[0].piece.validMoves(); 
+            
+            moves.length.should.equal(corMoves.length);
+            for(let i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
+            }
+        });
+        it('should detect enemies', function() {
+            placePiece(new WhiteQueen, '0,7');
+            placePiece(new BlackPawn, '0,6');
+            placePiece(new BlackPawn, '1,6');
+            placePiece(new BlackPawn, '1,7');
+
+            let corMoves = [6,15,14];
+            let moves = board[7].piece.validMoves(); 
+            
+            moves.length.should.equal(corMoves.length);
+            for(let i=0;i<corMoves.length;i++) {
+                moves[i].should.equal(corMoves[i]);
+            }
         });
     });
 
