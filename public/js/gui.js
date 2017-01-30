@@ -1,6 +1,5 @@
 //Board rendering
 function draw() {
-    console.log('drawing');
     //Clear the board
     $.each($('.tile'), function() {
         $(this).find('img').remove();

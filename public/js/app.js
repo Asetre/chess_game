@@ -1,6 +1,6 @@
 const boolTrue = true;
 const boolFalse = false;
-var socket = io.connect();
+const socket = io.connect();
 
 function init() {
     //Create Board Representation
@@ -77,20 +77,25 @@ function movePiece(piece, newPos) {
     let moves = piece.validMoves();
     moves.forEach(function(int) {
         if(int === newPos) {
+            socket.emit('movedPiece', {piece: piece, newPos: newPos});
             board[newPos].piece = piece;
             board[piece.index].piece = null;
             piece.index = newPos;
         }
     });
-    socket.emit('movedPiece', {piece: piece, newPos: newPos});
     draw();
 }
 
 socket.on('updateBoard', function(data) {
 
-    board[data.piece.index].piece = null;
-    console.log(board[data.newPos]);
-    board[data.newPos].piece = data.piece;
+    console.log(data);
+
+    let oldTile = board[data.piece.index];
+    let newTile = board[data.newPos];
+    
+    newTile.piece = oldTile.piece;
+    oldTile.piece = null;
+
     draw();
 });
 
