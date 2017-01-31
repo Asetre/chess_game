@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const {BasicStrategy} = require('passport-http');
+const passport = require('passport');
 
 
 //User node Promise instead of mongoose promise
@@ -27,6 +29,36 @@ app.set('views', path.join(__dirname, '/public/views'));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: true}));
 
+passport.use(basicStrategy);
+
+app.use(passport.initialize());
+
+
+
+
+//Passport strategy
+const basicStrategy = new BasicStrategy(function(username, password, callback) {
+    let user; 
+    User
+        .findOne({username: username})
+        .exec()
+        .then(function(_user) {
+            user = _user;
+            if (!user) {
+                return callback(null, false, {message: 'Incorrect username'});
+            }
+            return user.validatePassword(password);
+        })
+    .then(function(isValid) {
+        if(!isValid) {
+            return callback(null, false, {message: 'Incorrect password'});
+        }
+        else {
+            return callback(null, user);
+        }
+    });
+});
+
 
 //Routes
 
@@ -41,7 +73,7 @@ app.post('/signup', function(req, res) {
         password: req.body.password,
         level: 1,
         experience: 0,
-        class: 'Pawn'
+        classType: 'Pawn'
     }, function(err, User) {
         if(err) {
             console.log(err);
@@ -55,14 +87,8 @@ app.post('/signup', function(req, res) {
 
 //Login page
 app.get('/login', function(req, res) {
-    
+   res.render('login');
 });
-
-
-
-
-
-
 
 
 
