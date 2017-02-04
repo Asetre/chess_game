@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Menu</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="../styles/main.css">
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-11">
+                    <div class="container">
+                        <h2><%= user.username %></h1>
+                        <h5><%= user.level %></h5>
+                        <h5><%= user.classType %></h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div> 
+                        <button class="btn btn-success" id="find-match-js">Find Match</button>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div>
+                        <button type="submit" method="post" class="btn btn-warning">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src='../js/socket.js'></script>
+</html>
