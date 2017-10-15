@@ -1,25 +1,24 @@
 //The chess board
 export default class Board {
-    //methods: convertBounds, convertBoard, isOffBoard
+    //methods: convertBounds, convertBoard, isOffBoard, placePiece, isTileEmpty
     //Initialize methods: createArrays, findOutOfBounds
 
     //Initialize the default board
     constructor() {
-        //values considered out of bounds
-        this.outOfBounds = []
         //The actual playing board conatining tiles and pieces
         this.board = []
         //The board containing the boundaries
         this.boundsBoard = []
-
+        //values considered out of bounds
+        this.outOfBounds = []
 
         //Start of methods
         this.createArrays()
         this.findOutOfBounds()
     }
     //Create 2 arrays to represent the board
-    //2 arrays length of 64, 1 array length of 120
-    //Array 1 index based ex: 0..63, Array 2 index based [0..120]
+    //1 arrays length of 64, 1 array length of 120
+    //Array 1 index based ex: 0..63, Array 2 index based [0..119]
     createArrays() {
         //push 64 empty the tiles into the board
         for(let i = 0; i < 8; i++) {
@@ -94,4 +93,11 @@ export default class Board {
         //index === boundsBoard[index]
         return this.outOfBounds.indexOf(index) !== -1 ? true : false
     }
+
+    //place a piece on a tile
+    placePiece(piece, index) {
+        piece.position = index
+        this.board[index].piece = piece
+    }
+
 }
