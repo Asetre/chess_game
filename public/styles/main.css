@@ -1,0 +1,29 @@
+* {
+    padding: 0;
+    margin-right: 0;
+    box-sizing: border-box;
+}
+
+.tile {
+    width: 100px;
+    height: 100px;
+    border: 1px solid red;
+    float: left;
+}
+
+.board {
+    width: 805px;
+    border: 1px solid green;
+}
+
+/*Tile alternating background */
+.tile:nth-child(-2n+8),
+.tile:nth-child(8) ~ .tile:nth-child(-2n+15),
+.tile:nth-child(16) ~ .tile:nth-child(-2n+24),
+.tile:nth-child(24) ~ .tile:nth-child(-2n+31),
+.tile:nth-child(32) ~ .tile:nth-child(-2n+40),
+.tile:nth-child(40) ~ .tile:nth-child(-2n+47),
+.tile:nth-child(48) ~ .tile:nth-child(-2n+56),
+.tile:nth-child(56) ~ .tile:nth-child(-2n+63) {
+    background-color: #000;
+}

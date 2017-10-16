@@ -1,7 +1,10 @@
 import React from 'react'
-import ReactDom from 'react-dom'
+import ReactDOM from 'react-dom'
+
+import Board from './components/board.jsx'
+import Layout from './components/layout.jsx'
 
 document.addEventListener('DOMContentLoaded', () => {
-//ReactDOM.render(/* render stuff */, document.getElementById('app'))
+        ReactDOM.render(<Board />, document.getElementById('app'))
     }
 );
