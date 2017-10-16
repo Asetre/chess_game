@@ -28,6 +28,7 @@ function createArrays() {
     }
 }
 
+//check to see if index value is considered out of bounds
 function findOutOfBounds() {
     boundsBoard.forEach(index => {
         //Top
