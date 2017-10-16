@@ -2,7 +2,7 @@ const mocha = require('mocha')
 const chai = require('chai')
 const assert = chai.assert
 
-import * as Engine from '../public/chess_engine.js'
+import * as Engine from '../public/js/chess_engine.js'
 //useful functions
 var placePiece = Engine.placePiece
 
