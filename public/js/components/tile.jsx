@@ -1,4 +1,5 @@
 import React from 'react'
+import Piece from './piece.jsx'
 
 export default class Tile extends React.Component {
     constructor(props){
@@ -6,7 +7,9 @@ export default class Tile extends React.Component {
     }
     render() {
         return(
-            <div className="tile"></div>
+            <div className="tile">
+                <Piece piece={this.props.tile.piece}/>
+            </div>
         )
     }
 }

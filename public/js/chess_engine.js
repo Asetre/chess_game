@@ -137,6 +137,7 @@ export class King extends Piece {
     constructor(team, type) {
         super(team, type)
         this.king = true
+        this.team === 1 ? this.name = 'whiteKing' : 'blackKing'
     }
 
     findValidMoves() {
