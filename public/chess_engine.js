@@ -345,12 +345,32 @@ export class Knight extends Piece {
         return possibleMoves
     }
 }
-
-//Note pawns cannot en passant
+//Note pawns cannot en passant, or double move on first move
 export class Pawn extends Piece {
     constructor(team) {
         super(team)
+        this.firstMove = true
     }
     findValidMoves() {
+        let boundsIndex = convertBounds(board[this.position].rankFile)
+        //order of moves, north, north east, north west
+        let possibleMoves
+        //Check which direction the pawn should be able to move
+        if(this.team === 0) possibleMoves = [boundsIndex-10, boundsIndex-11, boundsIndex-9]
+        else possibleMoves = [boundsIndex+10, boundsIndex+11, boundsIndex+9]
+        let actualMoves = []
+        //check to see if it can move forward
+        if(!isOffBoard(possibleMoves[0]) && !board[convertBoard(possibleMoves[0])].piece) actualMoves.push(convertBoard(possibleMoves[0]))
+        //check to see if it can attack diagonally
+        let possibleAttacks = possibleMoves.splice(1)
+        possibleAttacks.forEach(int => {
+            let posBoard = convertBoard(int)
+            if(!isOffBoard(int)) {
+                if(board[posBoard].piece) {
+                    if(!this.isSameTeam(board[posBoard].piece.team)) actualMoves.push(posBoard)
+                }
+            }
+        })
+        return actualMoves
     }
 }

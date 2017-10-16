@@ -250,4 +250,61 @@ describe('Piece functionality', function() {
         })
     })
 
+    describe('Pawn', function() {
+        var board
+        beforeEach(function() {
+            Engine.resetBoard()
+            Engine.InitializeBoard()
+            board = Engine.board
+        })
+
+        it('should have correct moves', function() {
+            let whitePawn = new Engine.Pawn(1)
+            let blackPawn = new Engine.Pawn(0)
+            placePiece(whitePawn, 0)
+            placePiece(blackPawn, 16)
+            let moves = whitePawn.findValidMoves()
+            let correctMoves = [8]
+            let blackMoves = blackPawn.findValidMoves()
+            let blackCorrectMoves = [8]
+            assert.equal(matchArray(moves, correctMoves),true, 'should only be able to move forward')
+            assert.equal(matchArray(blackMoves, blackCorrectMoves),true, 'should move in the opposite direction')
+        })
+
+        it('should detect borders', function() {
+            let whitePawn = new Engine.Pawn(1)
+            let blackPawn = new Engine.Pawn(0)
+            placePiece(whitePawn, 56)
+            placePiece(blackPawn, 0)
+            let moves = whitePawn.findValidMoves()
+            let correctMoves = []
+            let blackMoves = blackPawn.findValidMoves()
+            let blackCorrectMoves = []
+            assert.equal(matchArray(moves, correctMoves),true, 'should only be able to move forward')
+            assert.equal(matchArray(blackMoves, blackCorrectMoves),true, 'should move in the opposite direction')
+        })
+
+        it('should detect teamates', function() {
+            let whitePawn = new Engine.Pawn(1)
+            let secondPawn = new Engine.Pawn(1)
+            placePiece(whitePawn, 0)
+            placePiece(secondPawn, 9)
+            let moves = whitePawn.findValidMoves()
+            let correctMoves = [8]
+            assert.equal(matchArray(moves, correctMoves), true, 'should see teamate')
+        })
+
+        it('should detect enemies', function() {
+
+            let whitePawn = new Engine.Pawn(1)
+            let blackPawn = new Engine.Pawn(0)
+            placePiece(whitePawn, 0)
+            placePiece(blackPawn, 9)
+            let moves = whitePawn.findValidMoves()
+            let correctMoves = [8, 9]
+            assert.equal(matchArray(moves, correctMoves), true, 'should see teamate')
+        })
+    })
+
+
 })
