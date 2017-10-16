@@ -12,7 +12,7 @@ export default class Board {
         //values considered out of bounds
         this.outOfBounds = []
 
-        //Start of methods
+        //Start of Initialize methods
         this.createArrays()
         this.findOutOfBounds()
     }
@@ -48,17 +48,6 @@ export default class Board {
         })
     }
 
-    //converts 64 index based array to 120 index based array
-    convertBounds(rankFile) {
-        //rankFile is a string ex: '0,6' => board[6]
-        //convert rankFile to an array of inegers ex: '1,8' => [1,8]
-        let parsed = rankFile.split(',').map(num => parseInt(num))
-        let rank = parsed[0]
-        let file = parsed[1]
-        let boundsIndex = (21 + file) + (rank * 10)
-        //return the index of 120 array
-        return boundsIndex
-    }
 
     //converts index from 120 array to 64 array
     convertBoard(index){
@@ -91,6 +80,7 @@ export default class Board {
     //returns boolean if index is considered offboard
     isOffBoard(index) {
         //index === boundsBoard[index]
+        //console.log(this.outOfBounds.indexOf(index))
         return this.outOfBounds.indexOf(index) !== -1 ? true : false
     }
 
@@ -99,5 +89,4 @@ export default class Board {
         piece.position = index
         this.board[index].piece = piece
     }
-
 }
