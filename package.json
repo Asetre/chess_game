@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npm run build && node server.js",
     "test": "mocha --compilers js:babel-core/register",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "start-dev": "npm run build && NODE_ENV=development node server.js"
   },
   "author": "",
   "license": "ISC",

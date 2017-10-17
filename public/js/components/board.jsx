@@ -1,5 +1,6 @@
 import React from 'react'
 import * as Engine from '../chess_engine.js'
+import {connect} from 'react-redux'
 
 import Tile from './tile.jsx'
 import Piece from './piece.jsx'
@@ -7,17 +8,13 @@ import Piece from './piece.jsx'
 export default class Board extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            game: false
-        }
         //Populate the board with tiles
         Engine.InitializeBoard()
-        this.props.board = Engine.board
-        let whiteKing = new Engine.King(1)
-        Engine.placePiece(whiteKing, 0)
+        let board = Engine.board
         this.props.boardView = []
-        this.props.board.forEach(tile => this.props.boardView.push(
-            <Tile tile={tile}/>
+        //create tile Components
+        board.forEach((tile, i) => this.props.boardView.push(
+            <Tile tile={tile} index={i}/>
         ))
     }
 
@@ -27,9 +24,5 @@ export default class Board extends React.Component {
                 {this.props.boardView}
             </div>
         )
-    }
-
-    updateBoard() {
-
     }
 }
