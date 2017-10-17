@@ -107,6 +107,14 @@ export function isTileEmpty(index) {
     return board[index].piece ? false : true
 }
 
+//moves a piece from an index to a new index
+export function movePiece(piece, newPosition) {
+    //remove the piece from old location
+    board[piece.position].piece = null
+    //place the piece into the new position
+    board[newPosition].piece = piece
+}
+
 /* ---------------------------------------------------------------------- */
 //Chess Pieces
 /* ---------------------------------------------------------------------- */

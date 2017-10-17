@@ -35,6 +35,14 @@ describe('Board functionality', function() {
         Engine.placePiece(whiteKing, 0)
         assert.strictEqual(board[0].piece, whiteKing, 'the piece should be the same')
     })
+
+    it('should move a piece', function() {
+        let whiteKing = new Engine.King(1)
+        placePiece(whiteKing, 0)
+        Engine.movePiece(whiteKing, 3)
+        assert.equal(board[0].piece, null, 'The piece should no longer be on the old position')
+        assert.equal(board[3].piece, whiteKing, 'The piece should be in the new position')
+    })
 })
 
 describe('Piece functionality', function() {
