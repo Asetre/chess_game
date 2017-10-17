@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run build && node server.js",
     "test": "mocha --compilers js:babel-core/register",
-    "build" : "webpack -p"
+    "build": "webpack -p"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +26,8 @@
     "passport-local": "^1.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "socket.io": "^1.7.2",
     "webpack": "^3.7.1"
   },
