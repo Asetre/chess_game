@@ -117,6 +117,86 @@ export function movePiece(piece, newPosition) {
     piece.position = newPosition
 }
 
+export function setupPieces() {
+    //accepts second argument as type(class)
+    //todo: add types
+    //currently only default setup
+    //white pieces
+    let whiteKing = new King(1)
+    let whiteQueen = new Queen(1)
+    let whiteRook1 = new Rook(1)
+    let whiteRook2 = new Rook(1)
+    let whiteKnight1 = new Knight(1)
+    let whiteKnight2 = new Knight(1)
+    let whiteBishop1 = new Bishop(1)
+    let whiteBishop2 = new Bishop(1)
+
+    let whitePawn1 = new Pawn(1)
+    let whitePawn2 = new Pawn(1)
+    let whitePawn3 = new Pawn(1)
+    let whitePawn4 = new Pawn(1)
+    let whitePawn5 = new Pawn(1)
+    let whitePawn6 = new Pawn(1)
+    let whitePawn7 = new Pawn(1)
+    let whitePawn8 = new Pawn(1)
+
+    //black pieces
+    let blackKing = new King(0)
+    let blackQueen = new Queen(0)
+    let blackRook1 = new Rook(0)
+    let blackRook2 = new Rook(0)
+    let blackKnight1 = new Knight(0)
+    let blackKnight2 = new Knight(0)
+    let blackBishop1 = new Bishop(0)
+    let blackBishop2 = new Bishop(0)
+
+    let blackPawn1 = new Pawn(0)
+    let blackPawn2 = new Pawn(0)
+    let blackPawn3 = new Pawn(0)
+    let blackPawn4 = new Pawn(0)
+    let blackPawn5 = new Pawn(0)
+    let blackPawn6 = new Pawn(0)
+    let blackPawn7 = new Pawn(0)
+    let blackPawn8 = new Pawn(0)
+
+    //place onto board
+    placePiece(whiteKing, 60)
+    placePiece(whiteQueen, 59)
+    placePiece(whiteRook1, 56)
+    placePiece(whiteRook2, 63)
+    placePiece(whiteBishop1, 58)
+    placePiece(whiteBishop2, 61)
+    placePiece(whiteKnight1, 57)
+    placePiece(whiteKnight2, 62)
+
+    placePiece(whitePawn1, 48)
+    placePiece(whitePawn2, 49)
+    placePiece(whitePawn3, 50)
+    placePiece(whitePawn4, 51)
+    placePiece(whitePawn5, 52)
+    placePiece(whitePawn6, 53)
+    placePiece(whitePawn7, 54)
+    placePiece(whitePawn8, 55)
+
+    placePiece(blackKing, 4)
+    placePiece(blackQueen, 3)
+    placePiece(blackRook1, 0)
+    placePiece(blackRook2, 7)
+    placePiece(blackKnight1, 1)
+    placePiece(blackKnight2, 6)
+    placePiece(blackBishop1, 2)
+    placePiece(blackBishop2, 5)
+
+    placePiece(blackPawn1, 8)
+    placePiece(blackPawn2, 9)
+    placePiece(blackPawn3, 10)
+    placePiece(blackPawn4, 11)
+    placePiece(blackPawn5, 12)
+    placePiece(blackPawn6, 13)
+    placePiece(blackPawn7, 14)
+    placePiece(blackPawn8, 15)
+}
+
 /* ---------------------------------------------------------------------- */
 //Chess Pieces
 /* ---------------------------------------------------------------------- */
@@ -373,7 +453,7 @@ export class Pawn extends Piece {
         //order of moves, north, north east, north west
         let possibleMoves
         //Check which direction the pawn should be able to move
-        if(this.team === 0) possibleMoves = [boundsIndex-10, boundsIndex-11, boundsIndex-9]
+        if(this.team === 1) possibleMoves = [boundsIndex-10, boundsIndex-11, boundsIndex-9]
         else possibleMoves = [boundsIndex+10, boundsIndex+11, boundsIndex+9]
         let actualMoves = []
         //check to see if it can move forward

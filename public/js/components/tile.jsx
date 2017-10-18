@@ -20,6 +20,7 @@ class Tile extends React.Component {
             //todo: check if the playersTeam matches the piece team clicked/ current players turn
             if(piece && props.selectedPiece != piece && piece.team === props.playerTurn) {
                 let moves = piece.findValidMoves()
+                console.log(moves, props)
                 //dispatch action
                 props.addValidMoves(moves, piece)
             }

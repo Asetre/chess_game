@@ -10,14 +10,7 @@ class Board extends React.Component {
     constructor(props) {
         super(props)
         Engine.InitializeBoard()
-        let whiteRook = new Engine.Rook(1)
-        let whiteQueen = new Engine.Queen(1)
-        let whiteBishop = new Engine.Bishop(1)
-        let blackQueen = new Engine.Queen(0)
-        Engine.placePiece(whiteRook, 0)
-        Engine.placePiece(whiteQueen, 11)
-        Engine.placePiece(whiteBishop, 27)
-        Engine.placePiece(blackQueen, 12)
+        Engine.setupPieces()
         let board = Engine.board
         props.initB(board)
     }
