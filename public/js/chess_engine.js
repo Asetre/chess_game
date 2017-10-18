@@ -113,6 +113,8 @@ export function movePiece(piece, newPosition) {
     board[piece.position].piece = null
     //place the piece into the new position
     board[newPosition].piece = piece
+    //update the position
+    piece.position = newPosition
 }
 
 /* ---------------------------------------------------------------------- */
@@ -145,7 +147,7 @@ export class King extends Piece {
     constructor(team, type) {
         super(team, type)
         this.king = true
-        this.team === 1 ? this.name = 'whiteKing' : 'blackKing'
+        this.team === 1 ? this.name = 'whiteKing' : this.name = 'blackKing'
     }
 
     findValidMoves() {
@@ -166,6 +168,7 @@ export class King extends Piece {
 export class Queen extends Piece {
     constructor(team) {
         super(team)
+        this.team === 1 ? this.name = 'whiteQueen' : this.name = 'blackQueen'
     }
 
     findValidMoves() {
@@ -242,6 +245,7 @@ export class Queen extends Piece {
 export class Rook extends Piece {
     constructor(team) {
         super(team)
+        this.team === 1 ? this.name = 'whiteRook' : this.name = 'blackRook'
     }
     findValidMoves() {
         let posBounds = convertBounds(board[this.position].rankFile)
@@ -290,6 +294,7 @@ export class Rook extends Piece {
 export class Bishop extends Piece{
     constructor(team, type) {
         super(team, type)
+        this.team === 1 ? this.name = 'whiteBishop' : this.name = 'blackBishop'
     }
 
     findValidMoves() {
@@ -340,6 +345,7 @@ export class Bishop extends Piece{
 export class Knight extends Piece {
     constructor(team, type) {
         super(team, type)
+        this.team === 1 ? this.name = 'whiteKnight' : this.name = 'blackKnight'
     }
     findValidMoves() {
         let boundsIndex = convertBounds(board[this.position].rankFile)
@@ -360,6 +366,7 @@ export class Pawn extends Piece {
     constructor(team) {
         super(team)
         this.firstMove = true
+        this.team === 1 ? this.name = 'whitePawn' : this.name = 'blackPawn'
     }
     findValidMoves() {
         let boundsIndex = convertBounds(board[this.position].rankFile)

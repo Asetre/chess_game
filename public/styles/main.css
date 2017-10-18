@@ -7,14 +7,23 @@
 .tile {
     width: 100px;
     height: 100px;
-    border: 1px solid red;
     float: left;
+}
+
+button {
+    font-size: 20px;
+    width: 200px;
+    height: 50px;
+    border: 1px solid red;
+
 }
 
 .board {
     width: 805px;
     border: 1px solid green;
 }
+
+
 
 /*Tile alternating background */
 .tile:nth-child(-2n+8),
@@ -25,5 +34,9 @@
 .tile:nth-child(40) ~ .tile:nth-child(-2n+47),
 .tile:nth-child(48) ~ .tile:nth-child(-2n+56),
 .tile:nth-child(56) ~ .tile:nth-child(-2n+63) {
-    background-color: #000;
+    background-color: #f49542;
+}
+
+.highlight {
+    background-color: #c1ffde;
 }
