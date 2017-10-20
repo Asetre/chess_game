@@ -7,7 +7,11 @@ var BUILD_DIR = path.resolve(__dirname, 'public/')
 var APP_DIR = path.resolve(__dirname, 'client/js')
 
 var config = {
-    entry: APP_DIR,
+    entry: [
+    'webpack-dev-server/client?http://localhost:8000',
+    'webpack/hot/only-dev-server',
+    APP_DIR + '/index.js'
+  ],
     output: {
         path: BUILD_DIR,
         filename: 'bundle.js'
@@ -16,7 +20,7 @@ var config = {
         loaders : [
             {
                 test : /\.jsx?/,
-                loader : 'babel-loader'
+                use: ['react-hot-loader/webpack', 'babel-loader']
             },
             {
                 test: /\.html$/,
@@ -38,8 +42,12 @@ var config = {
     plugins: [
         new ExtractTextPlugin({
             filename: 'main.css'
-        })
-    ]
+        }),
+        new webpack.HotModuleReplacementPlugin()
+    ],
+    devServer: {
+        port: 8000
+    }
 }
 
 module.exports = config
