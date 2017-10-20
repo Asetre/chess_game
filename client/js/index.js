@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import indexHTML from '../index.html'
 import mainCSS from '../main.scss'
@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(
     <Provider store={store}>
         <Router>
-            <Route path="/" component={Board} />
+            <Switch>
+                <Route exact path="/" component={Board} />
+                <Route exact path="/test" component={Layout} />
+            </Switch>
         </Router>
     </Provider>,
         document.getElementById('app'))

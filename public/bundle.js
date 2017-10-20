@@ -5222,7 +5222,12 @@ document.addEventListener('DOMContentLoaded', function () {
         _react2.default.createElement(
             _reactRouterDom.BrowserRouter,
             null,
-            _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _board2.default })
+            _react2.default.createElement(
+                _reactRouterDom.Switch,
+                null,
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _board2.default }),
+                _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/test', component: _layout2.default })
+            )
         )
     ), document.getElementById('app'));
 });
