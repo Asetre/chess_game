@@ -1,10 +1,10 @@
-var webpack = require('webpack');
-var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var webpack = require('webpack')
+var path = require('path')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
-var BUILD_DIR = path.resolve(__dirname, 'public/');
-var APP_DIR = path.resolve(__dirname, 'client/js');
+var BUILD_DIR = path.resolve(__dirname, 'public/')
+var APP_DIR = path.resolve(__dirname, 'client/js')
 
 var config = {
     entry: APP_DIR,
@@ -40,6 +40,6 @@ var config = {
             filename: 'main.css'
         })
     ]
-};
+}
 
-module.exports = config;
+module.exports = config

@@ -317,6 +317,15 @@ export class Queen extends Piece {
                 break
             }else break
         }
+        //Check North West
+        for(let boundsIndex = convertBounds(board[this.position].rankFile)+9; !isOffBoard(boundsIndex); boundsIndex+=9) {
+            let posBoard = convertBoard(boundsIndex)
+            if(!board[posBoard].piece) possibleMoves.push(posBoard)
+            else if(!this.isSameTeam(board[posBoard].piece.team)) {
+                possibleMoves.push(posBoard)
+                break
+            }else break
+        }
         this.validMoves = possibleMoves
         return this.validMoves
     }
@@ -359,15 +368,6 @@ export class Rook extends Piece {
         }
         //Check West
         for(let boundsIndex = convertBounds(board[this.position].rankFile)-1; !isOffBoard(boundsIndex); boundsIndex--) {
-            let posBoard = convertBoard(boundsIndex)
-            if(!board[posBoard].piece) possibleMoves.push(posBoard)
-            else if(!this.isSameTeam(board[posBoard].piece.team)) {
-                possibleMoves.push(posBoard)
-                break
-            }else break
-        }
-        //Check North West
-        for(let boundsIndex = convertBounds(board[this.position].rankFile)+9; !isOffBoard(boundsIndex); boundsIndex+=9) {
             let posBoard = convertBoard(boundsIndex)
             if(!board[posBoard].piece) possibleMoves.push(posBoard)
             else if(!this.isSameTeam(board[posBoard].piece.team)) {
