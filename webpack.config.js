@@ -10,8 +10,7 @@ var config = {
     entry: APP_DIR,
     output: {
         path: BUILD_DIR,
-        filename: 'bundle.js',
-        publicPath: '/public'
+        filename: 'bundle.js'
     },
     module : {
         loaders : [
@@ -25,9 +24,9 @@ var config = {
             },
             {
                 test: /\.(jpg|png)$/,
-                loader: 'file-loader',
+                loader: 'url-loader',
                 options: {
-                    name: '[name].[ext]'
+                    limit: 4500
                 }
             },
             {
