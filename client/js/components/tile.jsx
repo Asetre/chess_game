@@ -8,7 +8,6 @@ class Tile extends React.Component {
     constructor(props){
         super(props)
         this.tileClicked = this.tileClicked.bind(this)
-        props.tile = props.board[props.index]
     }
 
     tileClicked() {
@@ -39,11 +38,6 @@ class Tile extends React.Component {
 
     render() {
         let props = this.props
-        //check to see if the tile needs to be highlighted
-        if(props.validMoves.indexOf(props.index) != -1) {
-            //this tile is part of valid moves and needs to be highlighted
-            props.highlight = 'highlight'
-        }else props.highlight = null
 
         return(
             <div className={"tile " + props.highlight } onClick={this.tileClicked}>
@@ -52,13 +46,19 @@ class Tile extends React.Component {
         )
     }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+    state = state.reducer
+    let highlight
+    if(state.validMoves.indexOf(ownProps.index) !== -1) {
+        highlight = 'highlight'
+    }else highlight = null
     return {
         validMoves: state.validMoves,
         selectedPiece: state.selectedPiece,
-        board: state.board,
         status: state.status,
-        playerTurn: state.playerTurn
+        playerTurn: state.playerTurn,
+        tile: state.board[ownProps.index],
+        highlight: highlight
     }
 }
 

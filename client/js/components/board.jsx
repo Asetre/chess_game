@@ -17,13 +17,10 @@ class Board extends React.Component {
 
     render() {
         let tiles = []
-        if(this.props.status) {
-        }
 
         try {
             this.props.board.forEach((tile, index) => { tiles.push(<Tile tile={tile} index={index}/>)})
         } catch(err) {
-            console.log(err)
         }
 
         return (
@@ -38,8 +35,8 @@ class Board extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        board: state.board,
-        status: state.status
+        board: state.reducer.board,
+        status: state.reducer.status
     }
 }
 
