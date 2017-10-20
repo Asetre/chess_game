@@ -17,11 +17,7 @@ class Board extends React.Component {
 
     render() {
         let tiles = []
-
-        try {
-            this.props.board.forEach((tile, index) => { tiles.push(<Tile tile={tile} index={index}/>)})
-        } catch(err) {
-        }
+        this.props.board.forEach((tile, index) => { tiles.push(<Tile tile={tile} index={index} key={index}/>)})
 
         return (
             <div>

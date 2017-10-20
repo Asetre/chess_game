@@ -20420,12 +20420,9 @@ var Board = function (_React$Component) {
         key: 'render',
         value: function render() {
             var tiles = [];
-
-            try {
-                this.props.board.forEach(function (tile, index) {
-                    tiles.push(_react2.default.createElement(_tile2.default, { tile: tile, index: index }));
-                });
-            } catch (err) {}
+            this.props.board.forEach(function (tile, index) {
+                tiles.push(_react2.default.createElement(_tile2.default, { tile: tile, index: index, key: index }));
+            });
 
             return _react2.default.createElement(
                 'div',
