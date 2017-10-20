@@ -6,8 +6,10 @@ export default class Layout extends React.Component {
     }
 
     render() {
-        <main>
-            <h1>Test</h1>
-        </main>
+        return(
+            <main>
+                <h1>Test</h1>
+            </main>
+        )
     }
 }

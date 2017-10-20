@@ -8,12 +8,6 @@
   height: 100px;
   float: left; }
 
-button {
-  font-size: 20px;
-  width: 200px;
-  height: 50px;
-  border: 1px solid red; }
-
 .board {
   width: 805px;
   border: 1px solid green; }

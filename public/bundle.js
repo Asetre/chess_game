@@ -5201,10 +5201,17 @@ document.addEventListener('DOMContentLoaded', function () {
         _react2.default.createElement(
             _reactRouterRedux.ConnectedRouter,
             { history: _store.history },
-            _react2.default.createElement(_reactRouter.Route, { path: '/', component: _board2.default })
+            _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _board2.default }),
+                _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/test', component: _layout2.default })
+            )
         )
     ), document.getElementById('app'));
 });
+
+_store2.default.dispatch((0, _reactRouterRedux.push)('/test'));
 
 /***/ }),
 /* 69 */
@@ -20426,12 +20433,8 @@ var Board = function (_React$Component) {
 
             return _react2.default.createElement(
                 'div',
-                null,
-                _react2.default.createElement(
-                    'div',
-                    { className: 'board' },
-                    tiles
-                )
+                { className: 'board' },
+                tiles
             );
         }
     }]);
@@ -20808,7 +20811,7 @@ var Layout = function (_React$Component) {
     _createClass(Layout, [{
         key: 'render',
         value: function render() {
-            _react2.default.createElement(
+            return _react2.default.createElement(
                 'main',
                 null,
                 _react2.default.createElement(

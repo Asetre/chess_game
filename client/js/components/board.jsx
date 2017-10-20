@@ -20,10 +20,8 @@ class Board extends React.Component {
         this.props.board.forEach((tile, index) => { tiles.push(<Tile tile={tile} index={index} key={index}/>)})
 
         return (
-            <div>
-                <div className="board">
-                    {tiles}
-                </div>
+            <div className="board">
+                {tiles}
             </div>
         )
     }

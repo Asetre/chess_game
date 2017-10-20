@@ -16,9 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(
         <Provider store={store}>
             <ConnectedRouter history={history}>
-                <Route path="/" component={Board}/>
+                <div>
+                    <Route exact path="/" component={Board}/>
+                    <Route exact path="/test" component={Layout} />
+                </div>
             </ConnectedRouter>
         </Provider>,
         document.getElementById('app'))
     }
-);
+)
+
+store.dispatch(push('/test'))
