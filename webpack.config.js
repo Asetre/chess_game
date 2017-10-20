@@ -1,24 +1,46 @@
 var webpack = require('webpack');
 var path = require('path');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-var BUILD_DIR = path.resolve(__dirname, 'public/js/build');
-var APP_DIR = path.resolve(__dirname, 'public/js');
+var BUILD_DIR = path.resolve(__dirname, 'public/');
+var APP_DIR = path.resolve(__dirname, 'client/js');
 
 var config = {
     entry: APP_DIR,
     output: {
         path: BUILD_DIR,
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        publicPath: '/public'
     },
     module : {
         loaders : [
             {
                 test : /\.jsx?/,
-                include : APP_DIR,
                 loader : 'babel-loader'
+            },
+            {
+                test: /\.html$/,
+                use: [ 'file-loader?name=[name].[ext]', 'extract-loader', 'html-loader']
+            },
+            {
+                test: /\.(jpg|png)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]'
+                }
+            },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
             }
         ]
-    }
+    },
+    plugins: [
+        new ExtractTextPlugin({
+            filename: 'main.css'
+        })
+    ]
 };
 
 module.exports = config;
