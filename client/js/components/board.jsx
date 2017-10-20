@@ -5,7 +5,6 @@ import {connect} from 'react-redux'
 
 import Tile from './tile.jsx'
 
-
 class Board extends React.Component {
     constructor(props) {
         super(props)
@@ -29,11 +28,10 @@ class Board extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        board: state.reducer.board,
-        status: state.reducer.status
+        board: state.board,
+        status: state.status
     }
 }
-
 const mapDispatchToProps = dispatch => {
     return {
         initB: board => {

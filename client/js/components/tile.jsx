@@ -47,7 +47,6 @@ class Tile extends React.Component {
     }
 }
 const mapStateToProps = (state, ownProps) => {
-    state = state.reducer
     let highlight
     if(state.validMoves.indexOf(ownProps.index) !== -1) {
         highlight = 'highlight'

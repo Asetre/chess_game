@@ -1,5 +1,4 @@
 import * as actions from './actions.js'
-import * as Engine from './chess_engine.js'
 
 export let initialBoardState = {
     board: [],
@@ -16,7 +15,7 @@ export default function reducer(state=initialBoardState, action) {
     switch (action.type) {
         case actions.init_board:
         return Object.assign({}, state, {board: payload.board, status: 'idle'})
-        
+
         case actions.find_moves:
         return Object.assign({}, state, {validMoves: payload.validMoves, selectedPiece: payload.piece, status: 'waiting for valid move'})
 
