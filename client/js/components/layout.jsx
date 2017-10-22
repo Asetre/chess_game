@@ -1,15 +1,17 @@
 import React from 'react'
+import Login from './login-form.jsx'
 
 export default class Layout extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
     }
 
     render() {
         return(
-            <main>
-                <h1>Test</h1>
-            </main>
+            <div className="landing">
+                <h1>Chess Battles</h1>
+                <Login />
+            </div>
         )
     }
 }

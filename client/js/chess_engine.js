@@ -117,6 +117,30 @@ export function movePiece(piece, newPosition) {
     piece.position = newPosition
 }
 
+export function inCheck() {
+    let allMoves = []
+    let blackKingPos
+    let whiteKingPos
+    let inCheck
+    board.forEach((tile, index) => {
+        if(tile.piece.king) {
+            tile.piece.validMoves().forEach(move => allMoves.push(move))
+            switch (tile.piece.name) {
+                case 'whiteKing':
+                return whiteKingPos = tile.piece.index
+                case 'blackKing':
+                return blackKingPos = tile.piece.index
+            }
+        }
+        if(tile.piece) {
+            tile.piece.validMoves().forEach(move => allMoves.push(move))
+        }
+    })
+    if(allMoves.indexOf(blackKingPos) != -1) return inCheck = 0
+    else if(allMoves.indexOf(whiteKingPos) != -1) return inCheck = 1
+    else return false
+}
+
 export function setupPieces() {
     //accepts second argument as type(class)
     //todo: add types

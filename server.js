@@ -18,14 +18,16 @@ app.use(cookieParser());
 app.use(router)
 
 //Routes
+router.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+})
+
 router.get('/*', function (request, response){
   response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
 })
 
-router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'))
-})
 var serv;
+
 function runServer() {
     serv = app.listen(8000)
     console.log('app is listening on port: 8000')
@@ -69,5 +71,4 @@ function closeServer() {
 if(require.main === module) {
     runServer();
 }
-
 //module.exports = {runServer, closeServer};

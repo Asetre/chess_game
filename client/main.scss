@@ -1,8 +1,40 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:200,400');
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
+$fontColor: #ffffff;
+$btnBackground: #ff9900;
+$green: #00c656;
+$bg: #828282;
+
 * {
     padding: 0;
-    margin-right: 0;
+    margin: 0;
     box-sizing: border-box;
+    font-family: sans-serif;
 }
+
+h1, h2, h3, h4, h5, h6, a, p, input[type="submit"], button{
+    color: $fontColor;
+    font-family: 'Nunito', sans-serif;
+    font-weight: normal;
+}
+
+h1 {
+    font-family: 'Press Start 2P';
+    color: #322d72;
+}
+
+input[type="submit"], button {
+    background-color: $btnBackground;
+    border: none;
+    height: 50px;
+    font-family: 'Nunito', sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
 
 .tile {
     width: 100px;
@@ -30,4 +62,68 @@
     background-color: #ffd368 !important;
     opacity: .6;
     border: 1px solid #e8a400;
+}
+
+/*---------------------------------------------------------------*/
+//Mobile View
+/*---------------------------------------------------------------*/
+@media (max-width: 420px) {
+    $full: 100vh;
+    /*---------------------------------------------------------------*/
+    //Landing Page
+    /*---------------------------------------------------------------*/
+    .landing {
+        height: $full;
+        width: 100%;
+        background-color: $bg;
+        padding: 110px 50px;
+    }
+    .landing>h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .login-container>h2 {
+        text-align: center;
+        font-weight: 200;
+        margin-bottom: 20px;
+    }
+    .login-container>form {
+        display: flex;
+        flex-direction: column;
+    }
+    .login-container>form>input {
+        font-size: 24px;
+        font-family: 'Nunito';
+        font-weight: 200;
+        font-style: italic;
+        margin-bottom: 20px;
+        padding: 5px 15px;
+    }
+    .login-container>form>input[type="submit"] {
+        font-weight: 400;
+        font-style: normal;
+    }
+    .auth-containers {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .signup-btn {
+        background-color: $green;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .signup-btn>h3 {
+        text-align: center;
+        text-shadow: 1px 1px #d3d3d3;
+    }
+/*---------------------------------------------------------------*/
+//Dashboard Page
+/*---------------------------------------------------------------*/
+    .dashboard {
+        background-color: $bg;
+        height: $full;
+    }
 }
