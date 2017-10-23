@@ -20,8 +20,7 @@ userSchema.statics.hashPassword = function(password) {
 }
 
 userSchema.methods.validPassword = function(password) {
-    console.log(this);
-    return bcrypt.compareSync(password, this.password);
+    return bcrypt.compareSync(password, this.local.password);
 }
 
 const User = mongoose.model('User', userSchema);

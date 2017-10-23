@@ -1,12 +1,18 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
 
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
     constructor(props) {
         super(props)
-
     }
 
     render() {
+        //Temporary middleware
+        if(!this.props.user) {
+            return <Redirect to="/"></Redirect>
+        }
+
         return (
             <div className="dashboard">
                 <h2>Username</h2>
@@ -17,19 +23,23 @@ export default class Dashboard extends React.Component {
                         <li>MoreInfo</li>
                     </ul>
                 </div>
+
+                <button>Find Game</button>
             </div>
         )
 
     }
 }
-//const mapStateToProps = (state, ownProps) => {
-//    return  {
-//    }
-//}
-//
-//const mapDispatchToProps = dispatch -> {
-//    return {
-//    }
-//}
-//
-//export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+const mapStateToProps = (state, ownProps) => {
+    return  {
+        user: state.user
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        //add find game
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

@@ -1,5 +1,5 @@
 const passport = require('passport')
-const LocalStrategy = require('passport-local')
+const LocalStrategy = require('passport-local').Strategy
 const User = require('../models/users.js')
 
 var FACEBOOK_APP_ID = '1658951590816760'
@@ -16,12 +16,15 @@ module.exports = function() {
 
     passport.use(new LocalStrategy(
         (username, password, done) => {
-            User.findOne({username: username}, (err, user => {
-                if(err) return done(err)
+            User.findOne({"local.username": username})
+            .then(user => {
                 if(!user) return done(null, false)
-                if(!user.validPassword(password))  return done(null, false)
-                return done(mull, user)
-            }))
+                if(!user.validPassword(password)) return done(null, false)
+                return done(null, user)
+            })
+            .catch(err => {
+                return done(err)
+            })
         }
     ));
 }
