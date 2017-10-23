@@ -130,6 +130,15 @@ a {
     .dashboard {
         background-color: $bg;
         height: $full;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .find-game-btn {
+        width: 200px;
+        font-size: 20px;
+        align-self: center;
     }
 /*---------------------------------------------------------------*/
 //Signup

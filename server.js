@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
+
 const router = express.Router()
 //const io = require('socket.io')(server);
 
@@ -40,8 +43,9 @@ var serv;
 function runServer() {
     mongoose.connect(databaseURL)
     .then(() => {
-        serv = app.listen(8000)
-        console.log('app is listening on port: 8000')
+        serv = http.listen(8000, () => {
+            console.log('app is listening on port: 8000')
+        })
     })
     .catch(err => {
         console.log(err)

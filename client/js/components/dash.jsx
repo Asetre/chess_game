@@ -24,7 +24,7 @@ class Dashboard extends React.Component {
                     </ul>
                 </div>
 
-                <button>Find Game</button>
+                <button className="find-game-btn">Find Game</button>
             </div>
         )
 
