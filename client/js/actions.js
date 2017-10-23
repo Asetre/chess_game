@@ -3,6 +3,7 @@ export const find_moves = 'find validMoves'
 export const invalid_move = 'invalid move'
 export const move_piece = 'move piece'
 export const change_turn = 'change player turn'
+export const user_login = 'login user'
 
 export function initializeBoard(board) {
     return {
@@ -40,5 +41,12 @@ export function changePlayerTurn(newTurn) {
     return {
         type: change_turn,
         payload: newTurn
+    }
+}
+
+export function loginUser(user) {
+    return {
+        type: user_login,
+        payload: user
     }
 }

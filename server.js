@@ -6,35 +6,57 @@ const router = express.Router()
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const passport = require('passport')
+const mongoose = require('mongoose')
+const session = require('express-session')
+
+const passportConfig = require('./config/passport.js')()
 
 var {PORT, databaseURL} = require('./config/config');
 
-//Set view engine
+mongoose.Promise = global.Promise
 
 //Middleware
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(cookieParser());
+app.use(bodyParser.json())
+app.use(cookieParser())
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(router)
 
 //Routes
-router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'))
-})
+const routes = require('./routes.js')
+routes(router)
 
-router.get('/*', function (request, response){
-  response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
-})
 
 var serv;
 
 function runServer() {
-    serv = app.listen(8000)
-    console.log('app is listening on port: 8000')
+    mongoose.connect(databaseURL)
+    .then(() => {
+        serv = app.listen(8000)
+        console.log('app is listening on port: 8000')
+    })
+    .catch(err => {
+        console.log(err)
+        mongoose.disconnect()
+    })
 }
 
 function closeServer() {
-    serv.close()
+    mongoose.disconnect()
+    .then(() => {
+        serv.close()
+    })
+    .catch(err => {
+        console.log(err)
+    })
 }
 //// For testing
 //function runServer(port=PORT, databaseUrl=databaseURL) {

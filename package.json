@@ -7,11 +7,13 @@
     "start": "npm run build && node server.js",
     "test": "mocha --compilers js:babel-core/register",
     "build": "webpack -p",
-    "dev": "webpack-dev-server --hot"
+    "dev": "webpack-dev-server --hot",
+    "prod": "NODE_ENV='production' webpack -p && node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.17.0",
     "babel-loader": "^7.1.2",
     "babel-preset-react": "^6.24.1",
     "bcrypt-nodejs": "0.0.3",
@@ -19,7 +21,7 @@
     "chai": "^3.5.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
-    "express-session": "^1.15.0",
+    "express-session": "^1.15.6",
     "mocha": "^4.0.1",
     "mongoose": "^4.7.9",
     "passport": "^0.3.2",
