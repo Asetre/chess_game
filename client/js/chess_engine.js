@@ -118,6 +118,26 @@ export function movePiece(oldPosition, newPosition) {
     board[newPosition].piece.position = newPosition
 }
 
+export function isGameOver() {
+    let whiteKing
+    let blackKing
+    board.forEach((tile, index) => {
+        if(tile.piece) {
+            if(tile.piece.name === 'whiteKing' || tile.piece.name  === 'blackKing') {
+                switch (tile.piece.name) {
+                    case 'whiteKing':
+                    return whiteKing = index
+                    case 'blackKing':
+                    return blackKing = index
+                }
+            }
+        }
+    })
+    if(!whiteKing) return 0
+    else if(!blackKing) return 1
+    else return false
+}
+
 export function inCheck() {
     let allMoves = []
     let blackKingPos

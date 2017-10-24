@@ -48,7 +48,6 @@ a {
 }
 .board {
     width: 805px;
-    border: 1px solid green;
 }
 
 /*Tile alternating background */
@@ -167,5 +166,20 @@ a {
         font-style: italic;
         margin-bottom: 20px;
         padding: 5px 15px;
+    }
+/*---------------------------------------------------------------*/
+//Game Board
+/*---------------------------------------------------------------*/
+    img {
+        max-width: 50px;
+        max-height: 50px;
+    }
+    .board {
+        max-width: 420px;
+    }
+
+    .tile {
+        max-height: 52px;
+        max-width: 52px;
     }
 }

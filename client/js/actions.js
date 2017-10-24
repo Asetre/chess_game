@@ -8,6 +8,7 @@ export const find_game = 'finding game'
 export const start_game = 'starting game'
 export const update_board = 'update board'
 export const in_check = 'player in check'
+export const game_over = 'game over'
 
 export function initializeBoard(board) {
     return {
@@ -79,5 +80,12 @@ export function playerInCheck(data) {
     return {
         type: in_check,
         payload: data
+    }
+}
+
+export function gameOver(winner) {
+    return {
+        type: game_over,
+        payload: winner
     }
 }

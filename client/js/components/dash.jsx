@@ -9,6 +9,13 @@ class Dashboard extends React.Component {
         this.findGame = this.findGame.bind(this)
     }
 
+    componentDidMount() {
+        let props = this.props
+        socket.on('game found', function(data) {
+            props.startGame(data.team, data.opponent)
+        })
+    }
+
     findGame(e) {
         e.preventDefault()
         socket.emit('find game', socket.id)
@@ -20,10 +27,6 @@ class Dashboard extends React.Component {
         if(props.redirect) {
             return <Redirect to="/board"></Redirect>
         }
-
-        socket.on('game found', function(data) {
-            props.startGame(data.team, data.opponent)
-        })
 
         //Temporary middleware
         if(!props.user) {

@@ -12,6 +12,7 @@ class Board extends React.Component {
         Engine.setupPieces()
         let board = Engine.board
         props.initB(board)
+        console.log('constructed board')
     }
     componentDidMount() {
         let props = this.props
@@ -24,7 +25,14 @@ class Board extends React.Component {
             props.updateBoard(newData)
             let inCheck = Engine.inCheck()
             if(inCheck) {
-                props.playerInCheck(inCheck)
+                return props.playerInCheck(inCheck)
+            }
+            let isGameOver = Engine.isGameOver()
+            if(isGameOver) {
+                socket.emit('game over', {
+                    winner: isGameOver,
+                    user: props
+                })
             }
         })
     }
@@ -44,7 +52,8 @@ class Board extends React.Component {
 const mapStateToProps = state => {
     return {
         board: state.board,
-        status: state.status
+        status: state.status,
+        user: state.user
     }
 }
 const mapDispatchToProps = dispatch => {
