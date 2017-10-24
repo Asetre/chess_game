@@ -22,10 +22,10 @@ class Board extends React.Component {
                 board: Engine.board
             }
             props.updateBoard(newData)
-            //let inCheck = Engine.inCheck()
-            //if(inCheck) {
-            //    props.playerInCheck(inCheck)
-            //}
+            let inCheck = Engine.inCheck()
+            if(inCheck) {
+                props.playerInCheck(inCheck)
+            }
         })
     }
 
@@ -54,6 +54,9 @@ const mapDispatchToProps = dispatch => {
         },
         updateBoard: data => {
             dispatch(actions.updateBoard(data))
+        },
+        playerInCheck: data => {
+            dispatch(actions.playerInCheck(data))
         }
     }
 }

@@ -79,7 +79,8 @@ const mapStateToProps = (state, ownProps) => {
         tile: state.board[ownProps.index],
         highlight: highlight,
         team: state.playerTeam,
-        opponent: state.opponent
+        opponent: state.opponent,
+        inCheck: inCheckHighlight
     }
 }
 
@@ -97,9 +98,6 @@ const mapDispatchToProps = dispatch => {
         changeTurn: newTurn => {
             dispatch(actions.changePlayerTurn(newTurn))
         },
-        playerInCheck: data => {
-            dispatch(actions.playerInCheck(data))
-        }
     }
 }
 
