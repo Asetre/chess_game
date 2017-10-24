@@ -110,6 +110,9 @@ export function isTileEmpty(index) {
 //moves a piece from an index to a new index
 export function movePiece(oldPosition, newPosition) {
     let piece = board[oldPosition].piece
+    if(piece.name === 'whitePawn' || piece.name === 'blackPawn') {
+        piece.firstMove = false
+    }
     //place the piece into the new position
     board[newPosition].piece = piece
     //remove the piece from old location
@@ -510,12 +513,25 @@ export class Pawn extends Piece {
         //order of moves, north, north east, north west
         let possibleMoves
         //Check which direction the pawn should be able to move
-        if(this.team === 1) possibleMoves = [boundsIndex-10, boundsIndex-11, boundsIndex-9]
-        else possibleMoves = [boundsIndex+10, boundsIndex+11, boundsIndex+9]
+        if(this.team === 1) {
+            possibleMoves = [boundsIndex-10, boundsIndex-11, boundsIndex-9]
+            if(this.firstMove) possibleMoves.push(boundsIndex-20)
+        }
+        else {
+            possibleMoves = [boundsIndex+10, boundsIndex+11, boundsIndex+9]
+            if(this.firstMove) possibleMoves.push(boundsIndex+20)
+        }
         let actualMoves = []
         //check to see if it can move forward
         if(!isOffBoard(possibleMoves[0]) && !board[convertBoard(possibleMoves[0])].piece) actualMoves.push(convertBoard(possibleMoves[0]))
         //check to see if it can attack diagonally
+        if(this.firstMove){
+            let possibleDoubleMove = possibleMoves.pop()
+            let posBoard = convertBoard(possibleDoubleMove)
+            if(!board[posBoard].piece) {
+                actualMoves.push(posBoard)
+            }
+        }
         let possibleAttacks = possibleMoves.splice(1)
         possibleAttacks.forEach(int => {
             let posBoard = convertBoard(int)
