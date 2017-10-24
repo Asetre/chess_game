@@ -5137,6 +5137,7 @@ exports.isOffBoard = isOffBoard;
 exports.placePiece = placePiece;
 exports.isTileEmpty = isTileEmpty;
 exports.movePiece = movePiece;
+exports.changePawn = changePawn;
 exports.isGameOver = isGameOver;
 exports.inCheck = inCheck;
 exports.setupPieces = setupPieces;
@@ -5263,6 +5264,10 @@ function movePiece(oldPosition, newPosition) {
     var piece = board[oldPosition].piece;
     if (piece.name === 'whitePawn' || piece.name === 'blackPawn') {
         piece.firstMove = false;
+        var pawnChanges = [0, 1, 2, 3, 4, 5, 6, 7, 56, 57, 58, 59, 60, 61, 62, 63];
+        if (pawnChanges.indexOf(newPosition) !== -1) {
+            return changePawn(oldPosition, newPosition, piece.team);
+        }
     }
     //place the piece into the new position
     board[newPosition].piece = piece;
@@ -5270,6 +5275,16 @@ function movePiece(oldPosition, newPosition) {
     board[oldPosition].piece = null;
     //update the position
     board[newPosition].piece.position = newPosition;
+}
+
+function changePawn(oldPos, newPos, team) {
+    //Move the to the new locaton
+    board[newPos].piece = board[oldPos].piece;
+    board[newPos].piece.position = newPos;
+    board[oldPos].piece = null;
+    //Change the pawn into a queen
+    var queen = new Queen(team);
+    return placePiece(queen, newPos);
 }
 
 function isGameOver() {

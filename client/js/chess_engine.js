@@ -112,6 +112,10 @@ export function movePiece(oldPosition, newPosition) {
     let piece = board[oldPosition].piece
     if(piece.name === 'whitePawn' || piece.name === 'blackPawn') {
         piece.firstMove = false
+        let pawnChanges = [0,1,2,3,4,5,6,7,56,57,58,59,60,61,62,63]
+        if(pawnChanges.indexOf(newPosition) !== -1 ) {
+            return changePawn(oldPosition, newPosition, piece.team)
+        }
     }
     //place the piece into the new position
     board[newPosition].piece = piece
@@ -119,6 +123,16 @@ export function movePiece(oldPosition, newPosition) {
     board[oldPosition].piece = null
     //update the position
     board[newPosition].piece.position = newPosition
+}
+
+export function changePawn(oldPos, newPos, team) {
+    //Move the to the new locaton
+    board[newPos].piece = board[oldPos].piece
+    board[newPos].piece.position = newPos
+    board[oldPos].piece = null
+    //Change the pawn into a queen
+    let queen = new Queen(team)
+    return placePiece(queen, newPos)
 }
 
 export function isGameOver() {
