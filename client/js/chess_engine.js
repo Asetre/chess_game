@@ -108,36 +108,40 @@ export function isTileEmpty(index) {
 }
 
 //moves a piece from an index to a new index
-export function movePiece(piece, newPosition) {
-    //remove the piece from old location
-    board[piece.position].piece = null
+export function movePiece(oldPosition, newPosition) {
+    let piece = board[oldPosition].piece
     //place the piece into the new position
     board[newPosition].piece = piece
+    //remove the piece from old location
+    board[oldPosition].piece = null
     //update the position
-    piece.position = newPosition
+    board[newPosition].piece.position = newPosition
 }
 
 export function inCheck() {
     let allMoves = []
     let blackKingPos
     let whiteKingPos
-    let inCheck
+    let inCheck = false
     board.forEach((tile, index) => {
-        if(tile.piece.king) {
-            tile.piece.validMoves().forEach(move => allMoves.push(move))
-            switch (tile.piece.name) {
-                case 'whiteKing':
-                return whiteKingPos = tile.piece.index
-                case 'blackKing':
-                return blackKingPos = tile.piece.index
+        if(tile.piece) {
+            if(tile.piece.name === 'whiteKing' || tile.piece.name  === 'blackKing') {
+                switch (tile.piece.name) {
+                    case 'whiteKing':
+                    return whiteKingPos = index
+                    case 'blackKing':
+                    return blackKingPos = index
+                }
             }
         }
+    })
+    board.forEach((tile, index) => {
         if(tile.piece) {
-            tile.piece.validMoves().forEach(move => allMoves.push(move))
+            board[index].piece.findValidMoves().forEach(move => allMoves.push(move))
         }
     })
-    if(allMoves.indexOf(blackKingPos) != -1) return inCheck = 0
-    else if(allMoves.indexOf(whiteKingPos) != -1) return inCheck = 1
+    if(allMoves.indexOf(blackKingPos) != -1) return inCheck = {team: 0, position: blackKingPos}
+    else if(allMoves.indexOf(whiteKingPos) != -1) return inCheck = {team: 1, position: whiteKingPos}
     else return false
 }
 

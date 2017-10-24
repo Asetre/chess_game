@@ -4,11 +4,16 @@ import {connect} from 'react-redux'
 import * as actions from '../actions.js'
 import * as Engine from '../chess_engine.js'
 
+socket.on('update', data => {
+    console.log(data)
+})
+
 class Tile extends React.Component {
     constructor(props){
         super(props)
         this.tileClicked = this.tileClicked.bind(this)
     }
+
 
     tileClicked() {
         let props = this.props
@@ -26,8 +31,7 @@ class Tile extends React.Component {
             //check if a valid move
             if(props.validMoves.indexOf(props.index) !== -1) {
                 let oldPosition = props.selectedPiece.position
-                Engine.movePiece(props.selectedPiece, props.index)
-                props.selectedPiece.position = oldPosition
+                Engine.movePiece(props.selectedPiece.position, props.index)
 
                 let newTurn = props.playerTurn === 1 ? 0 : 1
 
@@ -36,11 +40,12 @@ class Tile extends React.Component {
                     board: Engine.board,
                     turn: props.playerTurn,
                     opponent: props.opponent,
-                    piece: props.selectedPiece,
+                    oldLocation: oldPosition,
                     newLocation: props.index
                 })
                 //dispatch action
                 props.movePiece(Engine.board)
+                //check if any Kings in check
                 //dispatch action
                 props.changeTurn(newTurn)
             }else return props.invalidMove()
@@ -50,17 +55,8 @@ class Tile extends React.Component {
     render() {
         let props = this.props
 
-        socket.on('update', data => {
-            Engine.movePiece(data.piece, data.newLocation)
-            let newData = {
-                turn: data.turn,
-                board: Engine.board
-            }
-            props.updateBoard(newData)
-        })
-
         return(
-            <div className={"tile " + props.highlight } onClick={this.tileClicked}>
+            <div className={"tile " + props.highlight + ' ' + this.props.inCheck} onClick={this.tileClicked}>
                 <Piece piece={props.tile.piece} />
             </div>
         )
@@ -68,11 +64,14 @@ class Tile extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
     let highlight
+    let inCheckHighlight
+    if(state.inCheck && state.inCheckKingPos === ownProps.index) {
+        inCheckHighlight = 'in-check'
+    }
     if(state.validMoves.indexOf(ownProps.index) !== -1) {
         highlight = 'highlight'
     }else highlight = null
     return {
-        board: state.board,
         validMoves: state.validMoves,
         selectedPiece: state.selectedPiece,
         status: state.status,
@@ -98,8 +97,8 @@ const mapDispatchToProps = dispatch => {
         changeTurn: newTurn => {
             dispatch(actions.changePlayerTurn(newTurn))
         },
-        updateBoard: data => {
-            dispatch(actions.updateBoard(data))
+        playerInCheck: data => {
+            dispatch(actions.playerInCheck(data))
         }
     }
 }

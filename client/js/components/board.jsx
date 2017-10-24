@@ -13,6 +13,21 @@ class Board extends React.Component {
         let board = Engine.board
         props.initB(board)
     }
+    componentDidMount() {
+        let props = this.props
+        socket.on('update board', data => {
+            Engine.movePiece(data.oldLocation, data.newLocation)
+            let newData = {
+                turn: data.turn,
+                board: Engine.board
+            }
+            props.updateBoard(newData)
+            //let inCheck = Engine.inCheck()
+            //if(inCheck) {
+            //    props.playerInCheck(inCheck)
+            //}
+        })
+    }
 
     render() {
         let tiles = []
@@ -36,6 +51,9 @@ const mapDispatchToProps = dispatch => {
     return {
         initB: board => {
             dispatch(actions.initializeBoard(board))
+        },
+        updateBoard: data => {
+            dispatch(actions.updateBoard(data))
         }
     }
 }

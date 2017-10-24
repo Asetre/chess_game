@@ -915,6 +915,7 @@ exports.loginUser = loginUser;
 exports.findingGame = findingGame;
 exports.startGame = startGame;
 exports.updateBoard = updateBoard;
+exports.playerInCheck = playerInCheck;
 var init_board = exports.init_board = 'initialize board';
 var find_moves = exports.find_moves = 'find validMoves';
 var invalid_move = exports.invalid_move = 'invalid move';
@@ -924,6 +925,7 @@ var user_login = exports.user_login = 'login user';
 var find_game = exports.find_game = 'finding game';
 var start_game = exports.start_game = 'starting game';
 var update_board = exports.update_board = 'update board';
+var in_check = exports.in_check = 'player in check';
 
 function initializeBoard(board) {
     return {
@@ -987,6 +989,13 @@ function startGame(team, opponent) {
 function updateBoard(data) {
     return {
         type: update_board,
+        payload: data
+    };
+}
+
+function playerInCheck(data) {
+    return {
+        type: in_check,
         payload: data
     };
 }
@@ -5240,39 +5249,41 @@ function isTileEmpty(index) {
 }
 
 //moves a piece from an index to a new index
-function movePiece(piece, newPosition) {
-    //remove the piece from old location
-    board[piece.position].piece = null;
+function movePiece(oldPosition, newPosition) {
+    var piece = board[oldPosition].piece;
     //place the piece into the new position
     board[newPosition].piece = piece;
+    //remove the piece from old location
+    board[oldPosition].piece = null;
     //update the position
-    piece.position = newPosition;
+    board[newPosition].piece.position = newPosition;
 }
 
 function inCheck() {
     var allMoves = [];
     var blackKingPos = void 0;
     var whiteKingPos = void 0;
-    var inCheck = void 0;
+    var inCheck = false;
     board.forEach(function (tile, index) {
-        if (tile.piece.king) {
-            tile.piece.validMoves().forEach(function (move) {
-                return allMoves.push(move);
-            });
-            switch (tile.piece.name) {
-                case 'whiteKing':
-                    return whiteKingPos = tile.piece.index;
-                case 'blackKing':
-                    return blackKingPos = tile.piece.index;
+        if (tile.piece) {
+            if (tile.piece.name === 'whiteKing' || tile.piece.name === 'blackKing') {
+                switch (tile.piece.name) {
+                    case 'whiteKing':
+                        return whiteKingPos = index;
+                    case 'blackKing':
+                        return blackKingPos = index;
+                }
             }
         }
+    });
+    board.forEach(function (tile, index) {
         if (tile.piece) {
-            tile.piece.validMoves().forEach(function (move) {
+            board[index].piece.findValidMoves().forEach(function (move) {
                 return allMoves.push(move);
             });
         }
     });
-    if (allMoves.indexOf(blackKingPos) != -1) return inCheck = 0;else if (allMoves.indexOf(whiteKingPos) != -1) return inCheck = 1;else return false;
+    if (allMoves.indexOf(blackKingPos) != -1) return inCheck = { team: 0, position: blackKingPos };else if (allMoves.indexOf(whiteKingPos) != -1) return inCheck = { team: 1, position: whiteKingPos };else return false;
 }
 
 function setupPieces() {
@@ -21997,7 +22008,9 @@ var initialBoardState = exports.initialBoardState = {
     playerPieces: null,
     user: null,
     opponent: null,
-    redirect: false
+    redirect: false,
+    inCheck: false,
+    inCheckKingPos: null
 };
 
 function reducer() {
@@ -22016,7 +22029,7 @@ function reducer() {
             return Object.assign({}, state, { validMoves: [], selectedPiece: null, status: 'idle' });
 
         case actions.move_piece:
-            return Object.assign({}, state, { board: payload, selectedPiece: null, validMoves: [], status: 'idle' });
+            return Object.assign({}, state, { board: payload, selectedPiece: null, validMoves: [], status: 'idle', inCheck: false, inCheckKingPos: null });
 
         case actions.change_turn:
             return Object.assign({}, state, { playerTurn: payload });
@@ -22032,6 +22045,9 @@ function reducer() {
 
         case actions.update_board:
             return Object.assign({}, state, { playerTurn: payload.turn, board: payload.board });
+
+        case actions.in_check:
+            return Object.assign({}, state, { inCheck: true, inCheckKingPos: payload.position });
 
         default:
             return state;
@@ -22095,6 +22111,23 @@ var Board = function (_React$Component) {
     }
 
     _createClass(Board, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var props = this.props;
+            socket.on('update board', function (data) {
+                Engine.movePiece(data.oldLocation, data.newLocation);
+                var newData = {
+                    turn: data.turn,
+                    board: Engine.board
+                };
+                props.updateBoard(newData);
+                //let inCheck = Engine.inCheck()
+                //if(inCheck) {
+                //    props.playerInCheck(inCheck)
+                //}
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             var tiles = [];
@@ -22123,6 +22156,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
         initB: function initB(board) {
             dispatch(actions.initializeBoard(board));
+        },
+        updateBoard: function updateBoard(data) {
+            dispatch(actions.updateBoard(data));
         }
     };
 };
@@ -22170,6 +22206,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+socket.on('update', function (data) {
+    console.log(data);
+});
+
 var Tile = function (_React$Component) {
     _inherits(Tile, _React$Component);
 
@@ -22200,8 +22240,7 @@ var Tile = function (_React$Component) {
                 //check if a valid move
                 if (props.validMoves.indexOf(props.index) !== -1) {
                     var oldPosition = props.selectedPiece.position;
-                    Engine.movePiece(props.selectedPiece, props.index);
-                    props.selectedPiece.position = oldPosition;
+                    Engine.movePiece(props.selectedPiece.position, props.index);
 
                     var newTurn = props.playerTurn === 1 ? 0 : 1;
 
@@ -22210,11 +22249,12 @@ var Tile = function (_React$Component) {
                         board: Engine.board,
                         turn: props.playerTurn,
                         opponent: props.opponent,
-                        piece: props.selectedPiece,
+                        oldLocation: oldPosition,
                         newLocation: props.index
                     });
                     //dispatch action
                     props.movePiece(Engine.board);
+                    //check if any Kings in check
                     //dispatch action
                     props.changeTurn(newTurn);
                 } else return props.invalidMove();
@@ -22225,18 +22265,9 @@ var Tile = function (_React$Component) {
         value: function render() {
             var props = this.props;
 
-            socket.on('update', function (data) {
-                Engine.movePiece(data.piece, data.newLocation);
-                var newData = {
-                    turn: data.turn,
-                    board: Engine.board
-                };
-                props.updateBoard(newData);
-            });
-
             return _react2.default.createElement(
                 'div',
-                { className: "tile " + props.highlight, onClick: this.tileClicked },
+                { className: "tile " + props.highlight + ' ' + this.props.inCheck, onClick: this.tileClicked },
                 _react2.default.createElement(_piece2.default, { piece: props.tile.piece })
             );
         }
@@ -22247,11 +22278,14 @@ var Tile = function (_React$Component) {
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
     var highlight = void 0;
+    var inCheckHighlight = void 0;
+    if (state.inCheck && state.inCheckKingPos === ownProps.index) {
+        inCheckHighlight = 'in-check';
+    }
     if (state.validMoves.indexOf(ownProps.index) !== -1) {
         highlight = 'highlight';
     } else highlight = null;
     return {
-        board: state.board,
         validMoves: state.validMoves,
         selectedPiece: state.selectedPiece,
         status: state.status,
@@ -22277,8 +22311,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         changeTurn: function changeTurn(newTurn) {
             dispatch(actions.changePlayerTurn(newTurn));
         },
-        updateBoard: function updateBoard(data) {
-            dispatch(actions.updateBoard(data));
+        playerInCheck: function playerInCheck(data) {
+            dispatch(actions.playerInCheck(data));
         }
     };
 };

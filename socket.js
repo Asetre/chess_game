@@ -4,7 +4,6 @@ let findQue = []
 module.exports = function(io) {
     io.on('connection', socket => {
         socket.on('find game', socketId => {
-            console.log('added to que')
             findQue.push(socketId)
             matchPlayers(io)
         })
@@ -17,9 +16,9 @@ module.exports = function(io) {
                 turn: turn,
                 board: data.board,
                 newLocation: data.newLocation,
-                piece: data.piece
+                oldLocation: data.oldLocation
             }
-            io.to(data.opponent).emit('update', info)
+            io.to(data.opponent).emit('update board', info)
         })
 
     })
@@ -27,7 +26,6 @@ module.exports = function(io) {
 
 function matchPlayers(io) {
     if(findQue.length % 2 === 0)  {
-        console.log('game found')
         //let roomId = shortid.generate()
         //Save players
         let playerOne = findQue[0]

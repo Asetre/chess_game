@@ -7,6 +7,7 @@ export const user_login = 'login user'
 export const find_game = 'finding game'
 export const start_game = 'starting game'
 export const update_board = 'update board'
+export const in_check = 'player in check'
 
 export function initializeBoard(board) {
     return {
@@ -70,6 +71,13 @@ export function startGame(team, opponent) {
 export function updateBoard(data) {
     return {
         type: update_board,
+        payload: data
+    }
+}
+
+export function playerInCheck(data) {
+    return {
+        type: in_check,
         payload: data
     }
 }
