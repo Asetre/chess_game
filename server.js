@@ -13,7 +13,9 @@ const passport = require('passport')
 const mongoose = require('mongoose')
 const session = require('express-session')
 
+
 const passportConfig = require('./config/passport.js')()
+const socketFiles = require('./socket.js')(io)
 
 var {PORT, databaseURL} = require('./config/config');
 

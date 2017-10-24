@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div>
                     <Route exact path="/" component={Login} />
                     <Route exact path="/signup" component={Signup} />
-                    <Route exact path='/test' component={Board}/>
+                    <Route exact path="/board" component={Board}/>
                     <Route exact path='/dashboard' component={Dashboard}/>
                 </div>
             </Router>

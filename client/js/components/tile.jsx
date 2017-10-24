@@ -13,11 +13,11 @@ class Tile extends React.Component {
     tileClicked() {
         let props = this.props
         let piece = Engine.board[props.index].piece
-        //todo: check is user turn
+
         if(props.status === 'idle') {
             //check if there is a piece on this tile
             //todo: check if the playersTeam matches the piece team clicked/ current players turn
-            if(piece && props.selectedPiece != piece && piece.team === props.playerTurn) {
+            if(piece && props.selectedPiece != piece && piece.team === props.playerTurn && piece.team === props.team) {
                 let moves = piece.findValidMoves()
                 //dispatch action
                 props.addValidMoves(moves, piece)
@@ -25,19 +25,39 @@ class Tile extends React.Component {
         }else if(props.status === 'waiting for valid move') {
             //check if a valid move
             if(props.validMoves.indexOf(props.index) !== -1) {
+                let oldPosition = props.selectedPiece.position
                 Engine.movePiece(props.selectedPiece, props.index)
+                props.selectedPiece.position = oldPosition
 
                 let newTurn = props.playerTurn === 1 ? 0 : 1
+
+                //update other players board
+                socket.emit('move piece', {
+                    board: Engine.board,
+                    turn: props.playerTurn,
+                    opponent: props.opponent,
+                    piece: props.selectedPiece,
+                    newLocation: props.index
+                })
                 //dispatch action
                 props.movePiece(Engine.board)
                 //dispatch action
-                return props.changeTurn(newTurn)
+                props.changeTurn(newTurn)
             }else return props.invalidMove()
         }
     }
 
     render() {
         let props = this.props
+
+        socket.on('update', data => {
+            Engine.movePiece(data.piece, data.newLocation)
+            let newData = {
+                turn: data.turn,
+                board: Engine.board
+            }
+            props.updateBoard(newData)
+        })
 
         return(
             <div className={"tile " + props.highlight } onClick={this.tileClicked}>
@@ -52,12 +72,15 @@ const mapStateToProps = (state, ownProps) => {
         highlight = 'highlight'
     }else highlight = null
     return {
+        board: state.board,
         validMoves: state.validMoves,
         selectedPiece: state.selectedPiece,
         status: state.status,
         playerTurn: state.playerTurn,
         tile: state.board[ownProps.index],
-        highlight: highlight
+        highlight: highlight,
+        team: state.playerTeam,
+        opponent: state.opponent
     }
 }
 
@@ -74,6 +97,9 @@ const mapDispatchToProps = dispatch => {
         },
         changeTurn: newTurn => {
             dispatch(actions.changePlayerTurn(newTurn))
+        },
+        updateBoard: data => {
+            dispatch(actions.updateBoard(data))
         }
     }
 }

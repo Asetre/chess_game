@@ -1,15 +1,32 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
+import * as actions from '../actions.js'
 
 class Dashboard extends React.Component {
     constructor(props) {
         super(props)
+        this.findGame = this.findGame.bind(this)
+    }
+
+    findGame(e) {
+        e.preventDefault()
+        socket.emit('find game', socket.id)
+        this.props.findGame()
     }
 
     render() {
+        let props = this.props
+        if(props.redirect) {
+            return <Redirect to="/board"></Redirect>
+        }
+
+        socket.on('game found', function(data) {
+            props.startGame(data.team, data.opponent)
+        })
+
         //Temporary middleware
-        if(!this.props.user) {
+        if(!props.user) {
             return <Redirect to="/"></Redirect>
         }
 
@@ -24,7 +41,7 @@ class Dashboard extends React.Component {
                     </ul>
                 </div>
 
-                <button className="find-game-btn">Find Game</button>
+                <button className="find-game-btn" onClick={this.findGame}>Find Game</button>
             </div>
         )
 
@@ -32,13 +49,20 @@ class Dashboard extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
     return  {
-        user: state.user
+        user: state.user,
+        opponent: state.opponent,
+        redirect: state.redirect
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        //add find game
+        findGame: () => {
+            dispatch(actions.findingGame())
+        },
+        startGame: (team, opponent) => {
+            dispatch(actions.startGame(team, opponent))
+        }
     }
 }
 
