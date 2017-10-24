@@ -168,12 +168,12 @@ export function inCheck() {
     else return false
 }
 
-export function setupPieces() {
+export function setupPieces(playerOneType, playerTwoType) {
     //accepts second argument as type(class)
     //todo: add types
     //currently only default setup
     //white pieces
-    let whiteKing = new King(1)
+    let whiteKing = new King(1, 'Conqueror')
     let whiteQueen = new Queen(1)
     let whiteRook1 = new Rook(1)
     let whiteRook2 = new Rook(1)
@@ -196,7 +196,7 @@ export function setupPieces() {
     let blackQueen = new Queen(0)
     let blackRook1 = new Rook(0)
     let blackRook2 = new Rook(0)
-    let blackKnight1 = new Knight(0)
+    let blackKnight1 = new Knight(0, 'Knight')
     let blackKnight2 = new Knight(0)
     let blackBishop1 = new Bishop(0)
     let blackBishop2 = new Bishop(0)
@@ -282,17 +282,30 @@ export class King extends Piece {
     }
 
     findValidMoves() {
-        //Convert the board position to bound position
-        let posBounds = convertBounds(board[this.position].rankFile)
-        let possibleMoves = [posBounds+1, posBounds-1, posBounds+10, posBounds-10, posBounds+11, posBounds+9, posBounds-11, posBounds-9]
-        this.validMoves = possibleMoves.map(int => {
-            if(!isOffBoard(int)) {
-                let posBoard = convertBoard(int)
-                if(isTileEmpty(posBoard)) return posBoard
-                else if(!isTileEmpty(posBoard) && !this.isSameTeam(board[posBoard].piece.team)) return posBoard
-            }
-        }).filter(int => int !== undefined)
-        return this.validMoves
+        if(this.type) {
+            let posBounds = convertBounds(board[this.position].rankFile)
+            let possibleMoves = [posBounds+1, posBounds-1, posBounds+10, posBounds-10, posBounds+11, posBounds+9, posBounds-11, posBounds-9, posBounds+20, posBounds-20, posBounds+2, posBounds-2]
+            this.validMoves = possibleMoves.map(int => {
+                if(!isOffBoard(int)) {
+                    let posBoard = convertBoard(int)
+                    if(isTileEmpty(posBoard)) return posBoard
+                    else if(!isTileEmpty(posBoard) && !this.isSameTeam(board[posBoard].piece.team)) return posBoard
+                }
+            }).filter(int => int !== undefined)
+            return this.validMoves
+        }else {
+            //Convert the board position to bound position
+            let posBounds = convertBounds(board[this.position].rankFile)
+            let possibleMoves = [posBounds+1, posBounds-1, posBounds+10, posBounds-10, posBounds+11, posBounds+9, posBounds-11, posBounds-9]
+            this.validMoves = possibleMoves.map(int => {
+                if(!isOffBoard(int)) {
+                    let posBoard = convertBoard(int)
+                    if(isTileEmpty(posBoard)) return posBoard
+                    else if(!isTileEmpty(posBoard) && !this.isSameTeam(board[posBoard].piece.team)) return posBoard
+                }
+            }).filter(int => int !== undefined)
+            return this.validMoves
+        }
     }
 }
 
@@ -488,17 +501,31 @@ export class Knight extends Piece {
         this.team === 1 ? this.name = 'whiteKnight' : this.name = 'blackKnight'
     }
     findValidMoves() {
-        let boundsIndex = convertBounds(board[this.position].rankFile)
-        let possibleMoves = [boundsIndex+21, boundsIndex+12, boundsIndex-8, boundsIndex-19, boundsIndex-21, boundsIndex-12, boundsIndex+8, boundsIndex+19]
-        //Remove out of bounds
-        possibleMoves = possibleMoves.map(int => {if(!isOffBoard(int)) return convertBoard(int)}).filter(int => int !== undefined)
-        //Check for teamate/enemy
-        possibleMoves = possibleMoves.map(int => {
-            if(!board[int].piece) return int
-            else if(!this.isSameTeam(board[int].piece.team)) return int
-        }).filter(int => int !== undefined)
+        if(this.type) {
+            let boundsIndex = convertBounds(board[this.position].rankFile)
+            let possibleMoves = [boundsIndex+21, boundsIndex+12, boundsIndex-8, boundsIndex-19, boundsIndex-21, boundsIndex-12, boundsIndex+8, boundsIndex+19, boundsIndex+20, boundsIndex-20, boundsIndex-2, boundsIndex+2 ]
+            //Remove out of bounds
+            possibleMoves = possibleMoves.map(int => {if(!isOffBoard(int)) return convertBoard(int)}).filter(int => int !== undefined)
+            //Check for teamate/enemy
+            possibleMoves = possibleMoves.map(int => {
+                if(!board[int].piece) return int
+                else if(!this.isSameTeam(board[int].piece.team)) return int
+            }).filter(int => int !== undefined)
 
-        return possibleMoves
+            return possibleMoves
+        }else {
+            let boundsIndex = convertBounds(board[this.position].rankFile)
+            let possibleMoves = [boundsIndex+21, boundsIndex+12, boundsIndex-8, boundsIndex-19, boundsIndex-21, boundsIndex-12, boundsIndex+8, boundsIndex+19]
+            //Remove out of bounds
+            possibleMoves = possibleMoves.map(int => {if(!isOffBoard(int)) return convertBoard(int)}).filter(int => int !== undefined)
+            //Check for teamate/enemy
+            possibleMoves = possibleMoves.map(int => {
+                if(!board[int].piece) return int
+                else if(!this.isSameTeam(board[int].piece.team)) return int
+            }).filter(int => int !== undefined)
+
+            return possibleMoves
+        }
     }
 }
 //Note pawns cannot en passant, or double move on first move
