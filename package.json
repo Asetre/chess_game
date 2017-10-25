@@ -7,7 +7,6 @@
     "start": "npm run build && node server.js",
     "test": "mocha --compilers js:babel-core/register",
     "build": "webpack -p",
-    "dev": "webpack-dev-server --hot",
     "prod": "NODE_ENV='production' webpack -p && node server.js"
   },
   "author": "",
