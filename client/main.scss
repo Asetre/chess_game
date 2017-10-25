@@ -6,6 +6,8 @@ $btnBackground: #ff9900;
 $green: #00c656;
 $bg: #828282;
 $err: red;
+$cancel: #f92545;
+$success: #00d66b;
 
 * {
     padding: 0;
@@ -138,10 +140,142 @@ a {
         text-align: center;
     }
 
+    .dashboard>h2 {
+        margin: 45px 0;
+    }
+    .dashboard>h4 {
+        margin-bottom: 10px;
+        font-weight: 200px;
+        font-style: italic;
+        color: #005482;
+    }
+
+    .user-info {
+        margin-bottom:  35px;
+    }
+
     .find-game-btn {
         width: 200px;
         font-size: 20px;
         align-self: center;
+        background-color: $success;
+    }
+    #type-select {
+        font-size: 20px;
+        width: 200px;
+        margin: 0 auto;
+        border: 1px solid #ffffff;
+        margin-bottom: 25px;
+    }
+
+    /*---------Loading screen -----------*/
+    .finding-game-load-screen {
+        height: $full;
+        background-color: $bg;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .finding-game-load-screen>h2 {
+        font-weight: 200;
+        font-style: italic;
+        margin-top: 80px;
+        margin-bottom: 50px;
+    }
+
+    .loader-container {
+        width: 200px;
+        margin-bottom: 40px;
+    }
+
+    .finding-game-load-screen>button {
+        width: 200px;
+        font-size: 20px;
+        background-color: $cancel;
+    }
+
+    @keyframes fade {
+        from {border: none}
+        to {border: 2px solid white}
+    }
+
+    @keyframes pulse {
+        0% {background-color: #ea1300;
+            width: 110px;
+            height: 110px;
+        }
+        12% {
+            width: 112px;
+            height: 112px;
+        }
+        25% {background-color: #ffbb32;
+            width: 115px;
+            height: 115px;
+        }
+        33% {
+            width: 118px;
+            height: 118px;
+        }
+        50% {background-color: #1c4dff;
+            width: 125px;
+            height: 125px;
+        }
+        63% {
+            width: 130px;
+            height: 130px;
+        }
+        75% {background-color: #9514ff;
+            width: 135px;
+            height: 135px;
+        }
+        83% {
+            width: 140px;
+            height: 140px;
+        }
+        100% {background-color: #ff1466;
+            width: 145px;
+            height: 145px;
+        }
+    }
+
+    .first-l {
+        width: 200px;
+        height: 200px;
+        border-radius: 200px/200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation-name: fade;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-delay: 1.5s;
+        animation-direction: alternate;
+        animation-timing-function: ease-out;
+    }
+
+    .second-l {
+        width: 150px;
+        height: 150px;
+        border-radius: 150px/150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation-name: fade;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-delay: 1s;
+        animation-direction: alternate;
+        animation-timing-function: ease-out;
+    }
+
+    .main-l {
+        width: 100px;
+        height: 100px;
+        background-color: #000000;
+        border-radius: 100px/100px;
+        animation-name: pulse;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
     }
 /*---------------------------------------------------------------*/
 //Signup

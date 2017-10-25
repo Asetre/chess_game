@@ -917,6 +917,7 @@ exports.startGame = startGame;
 exports.updateBoard = updateBoard;
 exports.playerInCheck = playerInCheck;
 exports.gameOver = gameOver;
+exports.cancelSearch = cancelSearch;
 var init_board = exports.init_board = 'initialize board';
 var find_moves = exports.find_moves = 'find validMoves';
 var invalid_move = exports.invalid_move = 'invalid move';
@@ -928,6 +929,7 @@ var start_game = exports.start_game = 'starting game';
 var update_board = exports.update_board = 'update board';
 var in_check = exports.in_check = 'player in check';
 var game_over = exports.game_over = 'game over';
+var cancel_search = exports.cancel_search = 'cancel search';
 
 function initializeBoard(board) {
     return {
@@ -1006,6 +1008,12 @@ function gameOver(winner) {
     return {
         type: game_over,
         payload: winner
+    };
+}
+
+function cancelSearch() {
+    return {
+        type: cancel_search
     };
 }
 
@@ -5337,12 +5345,26 @@ function setupPieces(playerOneType, playerTwoType) {
     //todo: add types
     //currently only default setup
     //white pieces
-    var whiteKing = new King(1, 'Conqueror');
+    var whiteKing = void 0;
+    if (playerOneType === 'Conqueror') {
+        whiteKing = new King(1, 'Conqueror');
+    } else whiteKing = new King(1);
+
     var whiteQueen = new Queen(1);
     var whiteRook1 = new Rook(1);
     var whiteRook2 = new Rook(1);
-    var whiteKnight1 = new Knight(1);
-    var whiteKnight2 = new Knight(1);
+
+    var whiteKnight1 = void 0;
+    var whiteKnight2 = void 0;
+
+    if (playerOneType === 'Knight') {
+        whiteKnight1 = new Knight(1, 'Knight');
+        whiteKnight2 = new Knight(1, 'Knight');
+    } else {
+        whiteKnight1 = new Knight(1);
+        whiteKnight2 = new Knight(1);
+    }
+
     var whiteBishop1 = new Bishop(1);
     var whiteBishop2 = new Bishop(1);
 
@@ -5356,12 +5378,23 @@ function setupPieces(playerOneType, playerTwoType) {
     var whitePawn8 = new Pawn(1);
 
     //black pieces
-    var blackKing = new King(0);
+    var blackKing = void 0;
+    if (playerTwoType === 'Conqueror') {
+        blackKing = new King(0, 'Conqueror');
+    } else blackKing = new King(0);
+
     var blackQueen = new Queen(0);
     var blackRook1 = new Rook(0);
     var blackRook2 = new Rook(0);
-    var blackKnight1 = new Knight(0, 'Knight');
-    var blackKnight2 = new Knight(0);
+    var blackKnight1 = void 0;
+    var blackKnight2 = void 0;
+    if (playerTwoType === 'Knight') {
+        blackKnight1 = new Knight(0, 'Knight');
+        blackKnight2 = new Knight(0, 'Knight');
+    } else {
+        blackKnight1 = new Knight(0);
+        blackKnight1 = new Knight(0);
+    }
     var blackBishop1 = new Bishop(0);
     var blackBishop2 = new Bishop(0);
 
@@ -22128,7 +22161,7 @@ function reducer() {
             return Object.assign({}, state, { playerTurn: payload });
 
         case actions.user_login:
-            return Object.assign({}, state, { user: payload });
+            return Object.assign({}, state, { user: payload, status: 'dashboard' });
 
         case actions.find_game:
             return Object.assign({}, state, { status: 'looking for game' });
@@ -22144,6 +22177,9 @@ function reducer() {
 
         case actions.game_over:
             return Object.assign({}, state, { board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: null, playerTeam: null, playerPieces: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: null });
+
+        case actions.cancel_search:
+            return Object.assign({}, state, { status: 'dashboard' });
 
         default:
             return state;
@@ -23596,28 +23632,48 @@ var Dashboard = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Dashboard.__proto__ || Object.getPrototypeOf(Dashboard)).call(this, props));
 
         _this.findGame = _this.findGame.bind(_this);
+        _this.cancelSearch = _this.cancelSearch.bind(_this);
         return _this;
     }
 
     _createClass(Dashboard, [{
         key: 'componentDidMount',
         value: function componentDidMount() {
+            var _this2 = this;
+
             var props = this.props;
             socket.on('game found', function (data) {
                 props.startGame(data.team, data.opponent);
+            });
+
+            socket.on('search cancelled', function () {
+                _this2.props.cancelSearch();
             });
         }
     }, {
         key: 'findGame',
         value: function findGame(e) {
             e.preventDefault();
-            socket.emit('find game', socket.id);
+            var f = document.getElementById('type-select');
+            var selectedClass = f.options[f.selectedIndex].value;
+            var info = {
+                id: socket.id,
+                selectedClass: selectedClass
+            };
+            socket.emit('find game', info);
             this.props.findGame();
+        }
+    }, {
+        key: 'cancelSearch',
+        value: function cancelSearch(e) {
+            e.preventDefault();
+            socket.emit('cancel search', socket.id);
         }
     }, {
         key: 'render',
         value: function render() {
             var props = this.props;
+            var user = props.user.local;
             if (props.redirect) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/board' });
             }
@@ -23627,13 +23683,43 @@ var Dashboard = function (_React$Component) {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
             }
 
+            if (props.status === 'looking for game') {
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'finding-game-load-screen' },
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Looking for a game...'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'loader-container' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'first-l' },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'second-l' },
+                                _react2.default.createElement('div', { className: 'main-l' })
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.cancelSearch },
+                        'Cancel'
+                    )
+                );
+            }
+
             return _react2.default.createElement(
                 'div',
                 { className: 'dashboard' },
                 _react2.default.createElement(
                     'h2',
                     null,
-                    'Username'
+                    user.username
                 ),
                 _react2.default.createElement(
                     'div',
@@ -23659,6 +23745,25 @@ var Dashboard = function (_React$Component) {
                     )
                 ),
                 _react2.default.createElement(
+                    'h4',
+                    null,
+                    'Choose your class'
+                ),
+                _react2.default.createElement(
+                    'select',
+                    { id: 'type-select' },
+                    _react2.default.createElement(
+                        'option',
+                        { value: 'Conqueror' },
+                        'Conqueror'
+                    ),
+                    _react2.default.createElement(
+                        'option',
+                        { value: 'Knight' },
+                        'Knight'
+                    )
+                ),
+                _react2.default.createElement(
                     'button',
                     { className: 'find-game-btn', onClick: this.findGame },
                     'Find Game'
@@ -23674,7 +23779,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
     return {
         user: state.user,
         opponent: state.opponent,
-        redirect: state.redirect
+        redirect: state.redirect,
+        status: state.status
     };
 };
 
@@ -23685,6 +23791,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         },
         startGame: function startGame(team, opponent) {
             dispatch(actions.startGame(team, opponent));
+        },
+        cancelSearch: function cancelSearch() {
+            dispatch(actions.cancelSearch());
         }
     };
 };

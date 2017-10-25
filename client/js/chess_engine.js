@@ -187,12 +187,26 @@ export function setupPieces(playerOneType, playerTwoType) {
     //todo: add types
     //currently only default setup
     //white pieces
-    let whiteKing = new King(1, 'Conqueror')
+    let whiteKing
+    if(playerOneType === 'Conqueror') {
+        whiteKing = new King(1, 'Conqueror')
+    }else whiteKing = new King(1)
+
     let whiteQueen = new Queen(1)
     let whiteRook1 = new Rook(1)
     let whiteRook2 = new Rook(1)
-    let whiteKnight1 = new Knight(1)
-    let whiteKnight2 = new Knight(1)
+
+    let whiteKnight1
+    let whiteKnight2
+
+    if(playerOneType === 'Knight') {
+        whiteKnight1 = new Knight(1, 'Knight')
+        whiteKnight2 = new Knight(1, 'Knight')
+    }else {
+        whiteKnight1 = new Knight(1)
+        whiteKnight2 = new Knight(1)
+    }
+
     let whiteBishop1 = new Bishop(1)
     let whiteBishop2 = new Bishop(1)
 
@@ -206,12 +220,23 @@ export function setupPieces(playerOneType, playerTwoType) {
     let whitePawn8 = new Pawn(1)
 
     //black pieces
-    let blackKing = new King(0)
+    let blackKing
+    if(playerTwoType === 'Conqueror') {
+        blackKing = new King(0, 'Conqueror')
+    }else blackKing = new King(0)
+
     let blackQueen = new Queen(0)
     let blackRook1 = new Rook(0)
     let blackRook2 = new Rook(0)
-    let blackKnight1 = new Knight(0, 'Knight')
-    let blackKnight2 = new Knight(0)
+    let blackKnight1
+    let blackKnight2
+    if(playerTwoType === 'Knight') {
+        blackKnight1 = new Knight(0, 'Knight')
+        blackKnight2 = new Knight(0, 'Knight')
+    }else {
+        blackKnight1 = new Knight(0)
+        blackKnight1 = new Knight(0)
+    }
     let blackBishop1 = new Bishop(0)
     let blackBishop2 = new Bishop(0)
 

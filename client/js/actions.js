@@ -9,6 +9,7 @@ export const start_game = 'starting game'
 export const update_board = 'update board'
 export const in_check = 'player in check'
 export const game_over = 'game over'
+export const cancel_search = 'cancel search'
 
 export function initializeBoard(board) {
     return {
@@ -87,5 +88,11 @@ export function gameOver(winner) {
     return {
         type: game_over,
         payload: winner
+    }
+}
+
+export function cancelSearch() {
+    return {
+        type: cancel_search
     }
 }

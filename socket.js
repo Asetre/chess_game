@@ -3,8 +3,12 @@ const shortid = require('shortid')
 let findQue = []
 module.exports = function(io) {
     io.on('connection', socket => {
-        socket.on('find game', socketId => {
-            findQue.push(socketId)
+        socket.on('find game', data => {
+            let player = {
+                id: data.id,
+                selectedClass: data.selectedClass
+            }
+            findQue.push(player)
             matchPlayers(io)
         })
 
@@ -21,6 +25,12 @@ module.exports = function(io) {
             io.to(data.opponent).emit('update board', info)
         })
 
+        socket.on('cancel search', socketId => {
+            let i = findQue.findIndex(player => player.id == socket.id)
+            findQue.splice(i, 1)
+            io.to(socketId).emit('search cancelled')
+        })
+
     })
 }
 
@@ -33,11 +43,15 @@ function matchPlayers(io) {
 
         io.to(playerOne).emit('game found', {
             team: 1,
-            opponent: playerTwo
+            opponent: playerTwo.id,
+            yourSelectedClass: playerOne.selectedClass,
+            opponentSelectedClass: playerTwo.selectedClass
         })
         io.to(playerTwo).emit('game found', {
             team: 0,
-            opponent: playerOne
+            opponent: playerOne.id,
+            yourSelectedClass: playerTwo.selectedClass,
+            opponentSelectedClass: playerOne.selectedClass
         })
         //Update the room que
         findQue.splice(0, 2)

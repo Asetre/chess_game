@@ -35,7 +35,7 @@ export default function reducer(state=initialBoardState, action) {
         return Object.assign({}, state, {playerTurn: payload})
 
         case actions.user_login:
-        return Object.assign({}, state, {user: payload})
+        return Object.assign({}, state, {user: payload, status: 'dashboard'})
 
         case actions.find_game:
         return Object.assign({}, state, {status: 'looking for game'})
@@ -51,6 +51,9 @@ export default function reducer(state=initialBoardState, action) {
 
         case actions.game_over:
         return Object.assign({}, state, {board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: null, playerTeam: null, playerPieces: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: null})
+
+        case actions.cancel_search:
+        return Object.assign({}, state, {status: 'dashboard'})
 
         default:
         return state
