@@ -1,8 +1,14 @@
 const shortid = require('shortid')
+const User = require('./models/users.js')
 
 let findQue = []
+let users = {}
 module.exports = function(io) {
     io.on('connection', socket => {
+        socket.on('login', data => {
+            users[data.username] = data.socketId
+        })
+
         socket.on('find game', data => {
             let player = {
                 id: data.id,
@@ -32,7 +38,43 @@ module.exports = function(io) {
         })
 
         socket.on('game over', data => {
-            data.winner
+            let opponent
+            //find the opponent
+            let key
+            for(key in users) {
+                if(users[key] == data.opponent) {
+                    opponent = key
+                    break
+                }
+            }
+            //check to see if the emitter is the winner
+            let winner
+            data.winner === data.userTeam ? winner = data.user.local.username : opponent
+
+            let info = {
+                winner: winner,
+                loser: opponent
+            }
+
+            let findWinner = User.findOne({"local.username": winner})
+            let findLoser = User.findOne({"local.username": opponent})
+
+            Promise.all([findWinner, findLoser])
+            .then(users => {
+                let winUser = users[0]
+                let loseUser = users[1]
+                winUser.wins++
+                loseUser.losses++
+                winUser.save()
+                return loseUser.save()
+            })
+            .then(() => {
+                io.to(data.userSocketId).emit('game over', info)
+                io.to(users[opponent]).emit('game over', info)
+            })
+            .catch(err => {
+                console.log(err)
+            })
         })
 
     })

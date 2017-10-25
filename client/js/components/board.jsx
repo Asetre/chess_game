@@ -27,6 +27,10 @@ class Board extends React.Component {
                 return props.playerInCheck(inCheck)
             }
         })
+        socket.on('game over', data => {
+            console.log('game over')
+            console.log(data)
+        })
     }
 
     render() {

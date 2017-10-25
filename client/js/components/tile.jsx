@@ -53,12 +53,16 @@ class Tile extends React.Component {
                     props.playerInCheck(inCheck)
                 }
                 let isGameOver = Engine.isGameOver()
-                /*
+                console.log(isGameOver)
                 if(isGameOver) {
                     socket.emit('game over', {
-                        winner: isGameOver
+                        winner: isGameOver,
+                        user: props.user,
+                        opponent: props.opponent,
+                        userTeam: props.team,
+                        userSocketId: socket.id
                     })
-                } */
+                }
             }else return props.invalidMove()
         }
     }

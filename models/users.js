@@ -12,7 +12,9 @@ const userSchema = new Schema({
         token: {type: String},
         email: {type: String},
         name: {type: String}
-    }
+    },
+    wins: {type: Number},
+    losses: {type: Number}
 });
 
 userSchema.statics.hashPassword = function(password) {

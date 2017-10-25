@@ -24,6 +24,11 @@ class Login extends React.Component {
         .then(res => {
             if(res.data.redirect) {
                 this.setState({user: res.data.user, redirect: true})
+                let info = {
+                    username: username,
+                    socketId: socket.id
+                }
+                socket.emit('login', info)
             }
         })
         .catch(err => {

@@ -5918,6 +5918,11 @@ var Login = function (_React$Component) {
             }).then(function (res) {
                 if (res.data.redirect) {
                     _this2.setState({ user: res.data.user, redirect: true });
+                    var info = {
+                        username: username,
+                        socketId: socket.id
+                    };
+                    socket.emit('login', info);
                 }
             }).catch(function (err) {
                 console.log(err);
@@ -6334,6 +6339,11 @@ var Signup = function (_React$Component) {
             }).then(function (res) {
                 if (res.data.redirect) {
                     _this2.setState({ redirect: true, user: res.data.user });
+                    var info = {
+                        username: username,
+                        socketId: socket.id
+                    };
+                    socket.emit('login', info);
                 } else if (res.data.err === 'Validation error') return _this2.setState({ err: res.data.msg });
             }).catch(function (err) {
                 console.log(err);
@@ -22257,6 +22267,10 @@ var Board = function (_React$Component) {
                     return props.playerInCheck(inCheck);
                 }
             });
+            socket.on('game over', function (data) {
+                console.log('game over');
+                console.log(data);
+            });
         }
     }, {
         key: 'render',
@@ -22399,12 +22413,16 @@ var Tile = function (_React$Component) {
                         props.playerInCheck(inCheck);
                     }
                     var isGameOver = Engine.isGameOver();
-                    /*
-                    if(isGameOver) {
+                    console.log(isGameOver);
+                    if (isGameOver) {
                         socket.emit('game over', {
-                            winner: isGameOver
-                        })
-                    } */
+                            winner: isGameOver,
+                            user: props.user,
+                            opponent: props.opponent,
+                            userTeam: props.team,
+                            userSocketId: socket.id
+                        });
+                    }
                 } else return props.invalidMove();
             }
         }

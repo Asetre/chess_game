@@ -23,6 +23,11 @@ class Signup extends React.Component {
         .then(res => {
             if(res.data.redirect) {
                 this.setState({redirect: true, user: res.data.user})
+                let info = {
+                    username: username,
+                    socketId: socket.id
+                }
+                socket.emit('login', info)
             }
             else if(res.data.err === 'Validation error') return this.setState({err: res.data.msg})
         })

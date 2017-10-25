@@ -30,7 +30,9 @@ module.exports = function(router) {
                 local: {
                     username: username,
                     password: User.hashPassword(password)
-                }
+                },
+                wins: 0,
+                losses: 0
             })
             .then(usr => {
                 req.login(usr, err => {
