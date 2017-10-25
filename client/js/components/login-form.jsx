@@ -42,6 +42,7 @@ class Login extends React.Component {
         }
         return(
             <div className="landing">
+                <h1>Chess Battles</h1>
                 <div className="login-container">
                     <h2>Login</h2>
                     <form onSubmit={this.handleSubmit}>

@@ -4,16 +4,11 @@ import {connect} from 'react-redux'
 import * as actions from '../actions.js'
 import * as Engine from '../chess_engine.js'
 
-socket.on('update', data => {
-    console.log(data)
-})
-
 class Tile extends React.Component {
     constructor(props){
         super(props)
         this.tileClicked = this.tileClicked.bind(this)
     }
-
 
     tileClicked() {
         let props = this.props
@@ -53,8 +48,7 @@ class Tile extends React.Component {
                     props.playerInCheck(inCheck)
                 }
                 let isGameOver = Engine.isGameOver()
-                console.log(isGameOver)
-                if(isGameOver) {
+                if(isGameOver || isGameOver === 0) {
                     socket.emit('game over', {
                         winner: isGameOver,
                         user: props.user,

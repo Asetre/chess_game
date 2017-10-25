@@ -10,6 +10,7 @@ export const update_board = 'update board'
 export const in_check = 'player in check'
 export const game_over = 'game over'
 export const cancel_search = 'cancel search'
+export const redirect_dashboard = 'redirect to dashboard'
 
 export function initializeBoard(board) {
     return {
@@ -84,15 +85,21 @@ export function playerInCheck(data) {
     }
 }
 
-export function gameOver(winner) {
+export function gameOver(winner, loser) {
     return {
         type: game_over,
-        payload: winner
+        payload: {winner: winner, loser: loser}
     }
 }
 
 export function cancelSearch() {
     return {
         type: cancel_search
+    }
+}
+
+export function redirectDashboard() {
+    return {
+        type: redirect_dashboard
     }
 }

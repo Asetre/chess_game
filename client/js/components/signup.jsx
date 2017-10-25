@@ -45,6 +45,7 @@ class Signup extends React.Component {
         return(
             <div className="landing">
                 <div className="signup-container">
+                    <h2>Signup</h2>
                     <div className="signup-error-container">
                         <ErrorMsg msg={this.state.err} />
                     </div>

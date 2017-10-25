@@ -41,8 +41,8 @@ class Dashboard extends React.Component {
 
     render() {
         let props = this.props
-        let user = props.user.local
-        if(props.redirect) {
+        let user = props.user
+        if(props.status === 'idle') {
             return <Redirect to="/board"></Redirect>
         }
 
@@ -71,7 +71,7 @@ class Dashboard extends React.Component {
 
         return (
             <div className="dashboard">
-                <h2>{user.username}</h2>
+                <h2>{user.local.username}</h2>
                 <div className="user-info">
                     <ul>
                         <li>Wins</li>

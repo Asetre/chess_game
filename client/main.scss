@@ -316,4 +316,20 @@ a {
         max-height: 52px;
         max-width: 52px;
     }
+    /*-------------game over screen ---------------*/
+    .game-over-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $bg;
+        height: $full;
+        padding: 30px 10px;
+    }
+    .game-over-screen>h2 {
+        margin-bottom: 20px;
+    }
+    .game-over-screen>button {
+        width: 200px;
+        font-size: 20px;
+    }
 }

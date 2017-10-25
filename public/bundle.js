@@ -918,6 +918,7 @@ exports.updateBoard = updateBoard;
 exports.playerInCheck = playerInCheck;
 exports.gameOver = gameOver;
 exports.cancelSearch = cancelSearch;
+exports.redirectDashboard = redirectDashboard;
 var init_board = exports.init_board = 'initialize board';
 var find_moves = exports.find_moves = 'find validMoves';
 var invalid_move = exports.invalid_move = 'invalid move';
@@ -930,6 +931,7 @@ var update_board = exports.update_board = 'update board';
 var in_check = exports.in_check = 'player in check';
 var game_over = exports.game_over = 'game over';
 var cancel_search = exports.cancel_search = 'cancel search';
+var redirect_dashboard = exports.redirect_dashboard = 'redirect to dashboard';
 
 function initializeBoard(board) {
     return {
@@ -1004,16 +1006,22 @@ function playerInCheck(data) {
     };
 }
 
-function gameOver(winner) {
+function gameOver(winner, loser) {
     return {
         type: game_over,
-        payload: winner
+        payload: { winner: winner, loser: loser }
     };
 }
 
 function cancelSearch() {
     return {
         type: cancel_search
+    };
+}
+
+function redirectDashboard() {
+    return {
+        type: redirect_dashboard
     };
 }
 
@@ -1079,140 +1087,6 @@ module.exports = invariant;
 
 /***/ }),
 /* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-exports.__esModule = true;
-var addLeadingSlash = exports.addLeadingSlash = function addLeadingSlash(path) {
-  return path.charAt(0) === '/' ? path : '/' + path;
-};
-
-var stripLeadingSlash = exports.stripLeadingSlash = function stripLeadingSlash(path) {
-  return path.charAt(0) === '/' ? path.substr(1) : path;
-};
-
-var hasBasename = exports.hasBasename = function hasBasename(path, prefix) {
-  return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path);
-};
-
-var stripBasename = exports.stripBasename = function stripBasename(path, prefix) {
-  return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
-};
-
-var stripTrailingSlash = exports.stripTrailingSlash = function stripTrailingSlash(path) {
-  return path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path;
-};
-
-var parsePath = exports.parsePath = function parsePath(path) {
-  var pathname = path || '/';
-  var search = '';
-  var hash = '';
-
-  var hashIndex = pathname.indexOf('#');
-  if (hashIndex !== -1) {
-    hash = pathname.substr(hashIndex);
-    pathname = pathname.substr(0, hashIndex);
-  }
-
-  var searchIndex = pathname.indexOf('?');
-  if (searchIndex !== -1) {
-    search = pathname.substr(searchIndex);
-    pathname = pathname.substr(0, searchIndex);
-  }
-
-  return {
-    pathname: pathname,
-    search: search === '?' ? '' : search,
-    hash: hash === '#' ? '' : hash
-  };
-};
-
-var createPath = exports.createPath = function createPath(location) {
-  var pathname = location.pathname,
-      search = location.search,
-      hash = location.hash;
-
-  var path = pathname || '/';
-
-  if (search && search !== '?') path += search.charAt(0) === '?' ? search : '?' + search;
-
-  if (hash && hash !== '#') path += hash.charAt(0) === '#' ? hash : '#' + hash;
-
-  return path;
-};
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var addLeadingSlash = exports.addLeadingSlash = function addLeadingSlash(path) {
-  return path.charAt(0) === '/' ? path : '/' + path;
-};
-
-var stripLeadingSlash = exports.stripLeadingSlash = function stripLeadingSlash(path) {
-  return path.charAt(0) === '/' ? path.substr(1) : path;
-};
-
-var hasBasename = exports.hasBasename = function hasBasename(path, prefix) {
-  return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path);
-};
-
-var stripBasename = exports.stripBasename = function stripBasename(path, prefix) {
-  return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
-};
-
-var stripTrailingSlash = exports.stripTrailingSlash = function stripTrailingSlash(path) {
-  return path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path;
-};
-
-var parsePath = exports.parsePath = function parsePath(path) {
-  var pathname = path || '/';
-  var search = '';
-  var hash = '';
-
-  var hashIndex = pathname.indexOf('#');
-  if (hashIndex !== -1) {
-    hash = pathname.substr(hashIndex);
-    pathname = pathname.substr(0, hashIndex);
-  }
-
-  var searchIndex = pathname.indexOf('?');
-  if (searchIndex !== -1) {
-    search = pathname.substr(searchIndex);
-    pathname = pathname.substr(0, searchIndex);
-  }
-
-  return {
-    pathname: pathname,
-    search: search === '?' ? '' : search,
-    hash: hash === '#' ? '' : hash
-  };
-};
-
-var createPath = exports.createPath = function createPath(location) {
-  var pathname = location.pathname,
-      search = location.search,
-      hash = location.hash;
-
-  var path = pathname || '/';
-
-  if (search && search !== '?') path += search.charAt(0) === '?' ? search : '?' + search;
-
-  if (hash && hash !== '#') path += hash.charAt(0) === '#' ? hash : '#' + hash;
-
-  return path;
-};
-
-/***/ }),
-/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1290,6 +1164,140 @@ exports.StaticRouter = _StaticRouter3.default;
 exports.Switch = _Switch3.default;
 exports.matchPath = _matchPath3.default;
 exports.withRouter = _withRouter3.default;
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+var addLeadingSlash = exports.addLeadingSlash = function addLeadingSlash(path) {
+  return path.charAt(0) === '/' ? path : '/' + path;
+};
+
+var stripLeadingSlash = exports.stripLeadingSlash = function stripLeadingSlash(path) {
+  return path.charAt(0) === '/' ? path.substr(1) : path;
+};
+
+var hasBasename = exports.hasBasename = function hasBasename(path, prefix) {
+  return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path);
+};
+
+var stripBasename = exports.stripBasename = function stripBasename(path, prefix) {
+  return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
+};
+
+var stripTrailingSlash = exports.stripTrailingSlash = function stripTrailingSlash(path) {
+  return path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path;
+};
+
+var parsePath = exports.parsePath = function parsePath(path) {
+  var pathname = path || '/';
+  var search = '';
+  var hash = '';
+
+  var hashIndex = pathname.indexOf('#');
+  if (hashIndex !== -1) {
+    hash = pathname.substr(hashIndex);
+    pathname = pathname.substr(0, hashIndex);
+  }
+
+  var searchIndex = pathname.indexOf('?');
+  if (searchIndex !== -1) {
+    search = pathname.substr(searchIndex);
+    pathname = pathname.substr(0, searchIndex);
+  }
+
+  return {
+    pathname: pathname,
+    search: search === '?' ? '' : search,
+    hash: hash === '#' ? '' : hash
+  };
+};
+
+var createPath = exports.createPath = function createPath(location) {
+  var pathname = location.pathname,
+      search = location.search,
+      hash = location.hash;
+
+  var path = pathname || '/';
+
+  if (search && search !== '?') path += search.charAt(0) === '?' ? search : '?' + search;
+
+  if (hash && hash !== '#') path += hash.charAt(0) === '#' ? hash : '#' + hash;
+
+  return path;
+};
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var addLeadingSlash = exports.addLeadingSlash = function addLeadingSlash(path) {
+  return path.charAt(0) === '/' ? path : '/' + path;
+};
+
+var stripLeadingSlash = exports.stripLeadingSlash = function stripLeadingSlash(path) {
+  return path.charAt(0) === '/' ? path.substr(1) : path;
+};
+
+var hasBasename = exports.hasBasename = function hasBasename(path, prefix) {
+  return new RegExp('^' + prefix + '(\\/|\\?|#|$)', 'i').test(path);
+};
+
+var stripBasename = exports.stripBasename = function stripBasename(path, prefix) {
+  return hasBasename(path, prefix) ? path.substr(prefix.length) : path;
+};
+
+var stripTrailingSlash = exports.stripTrailingSlash = function stripTrailingSlash(path) {
+  return path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path;
+};
+
+var parsePath = exports.parsePath = function parsePath(path) {
+  var pathname = path || '/';
+  var search = '';
+  var hash = '';
+
+  var hashIndex = pathname.indexOf('#');
+  if (hashIndex !== -1) {
+    hash = pathname.substr(hashIndex);
+    pathname = pathname.substr(0, hashIndex);
+  }
+
+  var searchIndex = pathname.indexOf('?');
+  if (searchIndex !== -1) {
+    search = pathname.substr(searchIndex);
+    pathname = pathname.substr(0, searchIndex);
+  }
+
+  return {
+    pathname: pathname,
+    search: search === '?' ? '' : search,
+    hash: hash === '#' ? '' : hash
+  };
+};
+
+var createPath = exports.createPath = function createPath(location) {
+  var pathname = location.pathname,
+      search = location.search,
+      hash = location.hash;
+
+  var path = pathname || '/';
+
+  if (search && search !== '?') path += search.charAt(0) === '?' ? search : '?' + search;
+
+  if (hash && hash !== '#') path += hash.charAt(0) === '#' ? hash : '#' + hash;
+
+  return path;
+};
 
 /***/ }),
 /* 14 */
@@ -1400,7 +1408,7 @@ var _valueEqual = __webpack_require__(51);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
-var _PathUtils = __webpack_require__(12);
+var _PathUtils = __webpack_require__(13);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1850,7 +1858,7 @@ var _valueEqual = __webpack_require__(51);
 
 var _valueEqual2 = _interopRequireDefault(_valueEqual);
 
-var _PathUtils = __webpack_require__(11);
+var _PathUtils = __webpack_require__(12);
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -5868,7 +5876,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(13);
+var _reactRouterDom = __webpack_require__(11);
 
 var _reactRedux = __webpack_require__(8);
 
@@ -5938,6 +5946,11 @@ var Login = function (_React$Component) {
             return _react2.default.createElement(
                 'div',
                 { className: 'landing' },
+                _react2.default.createElement(
+                    'h1',
+                    null,
+                    'Chess Battles'
+                ),
                 _react2.default.createElement(
                     'div',
                     { className: 'login-container' },
@@ -6286,7 +6299,7 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouterDom = __webpack_require__(13);
+var _reactRouterDom = __webpack_require__(11);
 
 var _axios = __webpack_require__(73);
 
@@ -6365,6 +6378,11 @@ var Signup = function (_React$Component) {
                     'div',
                     { className: 'signup-container' },
                     _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Signup'
+                    ),
+                    _react2.default.createElement(
                         'div',
                         { className: 'signup-error-container' },
                         _react2.default.createElement(_errorMsg2.default, { msg: this.state.err })
@@ -6420,7 +6438,7 @@ var _reactDom = __webpack_require__(85);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactRouterDom = __webpack_require__(13);
+var _reactRouterDom = __webpack_require__(11);
 
 var _index = __webpack_require__(131);
 
@@ -15921,7 +15939,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(25);
 
-var _PathUtils = __webpack_require__(11);
+var _PathUtils = __webpack_require__(12);
 
 var _createTransitionManager = __webpack_require__(26);
 
@@ -16983,7 +17001,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(25);
 
-var _PathUtils = __webpack_require__(11);
+var _PathUtils = __webpack_require__(12);
 
 var _createTransitionManager = __webpack_require__(26);
 
@@ -17491,7 +17509,7 @@ var _warning = __webpack_require__(2);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _PathUtils = __webpack_require__(11);
+var _PathUtils = __webpack_require__(12);
 
 var _LocationUtils = __webpack_require__(25);
 
@@ -18519,7 +18537,7 @@ Object.defineProperty(exports, 'locationsAreEqual', {
   }
 });
 
-var _PathUtils = __webpack_require__(12);
+var _PathUtils = __webpack_require__(13);
 
 Object.defineProperty(exports, 'parsePath', {
   enumerable: true,
@@ -18575,7 +18593,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(16);
 
-var _PathUtils = __webpack_require__(12);
+var _PathUtils = __webpack_require__(13);
 
 var _createTransitionManager = __webpack_require__(33);
 
@@ -18899,7 +18917,7 @@ var _invariant2 = _interopRequireDefault(_invariant);
 
 var _LocationUtils = __webpack_require__(16);
 
-var _PathUtils = __webpack_require__(12);
+var _PathUtils = __webpack_require__(13);
 
 var _createTransitionManager = __webpack_require__(33);
 
@@ -19234,7 +19252,7 @@ var _warning = __webpack_require__(2);
 
 var _warning2 = _interopRequireDefault(_warning);
 
-var _PathUtils = __webpack_require__(12);
+var _PathUtils = __webpack_require__(13);
 
 var _LocationUtils = __webpack_require__(16);
 
@@ -19456,7 +19474,7 @@ var _propTypes = __webpack_require__(4);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _PathUtils = __webpack_require__(11);
+var _PathUtils = __webpack_require__(12);
 
 var _Router = __webpack_require__(28);
 
@@ -22145,7 +22163,9 @@ var initialBoardState = exports.initialBoardState = {
     redirect: false,
     inCheck: false,
     inCheckKingPos: null,
-    winner: null
+    winner: null,
+    loser: null,
+    gameOver: false
 };
 
 function reducer() {
@@ -22176,7 +22196,7 @@ function reducer() {
             return Object.assign({}, state, { status: 'looking for game' });
 
         case actions.start_game:
-            return Object.assign({}, state, { playerTeam: payload.team, opponent: payload.opponent, status: 'idle', redirect: true, playerOneClass: payload.playerOneClass, playerTwoClass: payload.playerTwoClass });
+            return Object.assign({}, state, { playerTeam: payload.team, opponent: payload.opponent, status: 'idle', playerOneClass: payload.playerOneClass, playerTwoClass: payload.playerTwoClass });
 
         case actions.update_board:
             return Object.assign({}, state, { playerTurn: payload.turn, board: payload.board });
@@ -22185,10 +22205,13 @@ function reducer() {
             return Object.assign({}, state, { inCheck: true, inCheckKingPos: payload.position });
 
         case actions.game_over:
-            return Object.assign({}, state, { board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: null, playerTeam: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: null });
+            return Object.assign({}, state, { board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: 'game over', playerTeam: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: payload.winner, loser: payload.loser });
 
         case actions.cancel_search:
             return Object.assign({}, state, { status: 'dashboard' });
+
+        case actions.redirect_dashboard:
+            return Object.assign({}, state, { status: 'dashboard', redirect: false, winner: null, loser: null });
 
         default:
             return state;
@@ -22222,6 +22245,8 @@ var actions = _interopRequireWildcard(_actions);
 
 var _reactRedux = __webpack_require__(8);
 
+var _reactRouterDom = __webpack_require__(11);
+
 var _tile = __webpack_require__(165);
 
 var _tile2 = _interopRequireDefault(_tile);
@@ -22248,6 +22273,7 @@ var Board = function (_React$Component) {
         Engine.setupPieces(props.playerOneClass, props.playerTwoClass);
         var board = Engine.board;
         props.initB(board);
+        _this.returnToMenu = _this.returnToMenu.bind(_this);
         return _this;
     }
 
@@ -22268,13 +22294,58 @@ var Board = function (_React$Component) {
                 }
             });
             socket.on('game over', function (data) {
-                console.log('game over');
-                console.log(data);
+                props.gameOver(data.winner, data.loser);
             });
+        }
+    }, {
+        key: 'returnToMenu',
+        value: function returnToMenu(e) {
+            e.preventDefault();
+            this.props.returnToMenu();
         }
     }, {
         key: 'render',
         value: function render() {
+            if (!this.props.user) return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' });
+            if (this.props.status === 'dashboard') return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/dashboard' });
+
+            if (this.props.status === 'game over') {
+                return _react2.default.createElement(
+                    'div',
+                    { className: 'game-over-screen' },
+                    _react2.default.createElement(
+                        'h2',
+                        null,
+                        'Game over'
+                    ),
+                    _react2.default.createElement(
+                        'h4',
+                        null,
+                        'Winner'
+                    ),
+                    _react2.default.createElement(
+                        'h3',
+                        { className: 'game-winner' },
+                        this.props.winner
+                    ),
+                    _react2.default.createElement(
+                        'h4',
+                        null,
+                        'Loser'
+                    ),
+                    _react2.default.createElement(
+                        'h3',
+                        { className: 'game-loser' },
+                        this.props.loser
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.returnToMenu },
+                        'Menu'
+                    )
+                );
+            }
+
             var tiles = [];
             this.props.board.forEach(function (tile, index) {
                 tiles.push(_react2.default.createElement(_tile2.default, { tile: tile, index: index, key: index }));
@@ -22297,7 +22368,10 @@ var mapStateToProps = function mapStateToProps(state) {
         status: state.status,
         user: state.user,
         playerOneClass: state.playerOneClass,
-        playerTwoClass: state.playerTwoClass
+        playerTwoClass: state.playerTwoClass,
+        winner: state.winner,
+        loser: state.loser,
+        redirect: state.redirect
     };
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -22310,6 +22384,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         },
         playerInCheck: function playerInCheck(data) {
             dispatch(actions.playerInCheck(data));
+        },
+        gameOver: function gameOver(winner, loser) {
+            dispatch(actions.gameOver(winner, loser));
+        },
+        returnToMenu: function returnToMenu() {
+            dispatch(actions.redirectDashboard());
         }
     };
 };
@@ -22356,10 +22436,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-socket.on('update', function (data) {
-    console.log(data);
-});
 
 var Tile = function (_React$Component) {
     _inherits(Tile, _React$Component);
@@ -22413,8 +22489,7 @@ var Tile = function (_React$Component) {
                         props.playerInCheck(inCheck);
                     }
                     var isGameOver = Engine.isGameOver();
-                    console.log(isGameOver);
-                    if (isGameOver) {
+                    if (isGameOver || isGameOver === 0) {
                         socket.emit('game over', {
                             winner: isGameOver,
                             user: props.user,
@@ -23633,7 +23708,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = __webpack_require__(8);
 
-var _reactRouterDom = __webpack_require__(13);
+var _reactRouterDom = __webpack_require__(11);
 
 var _actions = __webpack_require__(9);
 
@@ -23699,8 +23774,8 @@ var Dashboard = function (_React$Component) {
         key: 'render',
         value: function render() {
             var props = this.props;
-            var user = props.user.local;
-            if (props.redirect) {
+            var user = props.user;
+            if (props.status === 'idle') {
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/board' });
             }
 
@@ -23745,7 +23820,7 @@ var Dashboard = function (_React$Component) {
                 _react2.default.createElement(
                     'h2',
                     null,
-                    user.username
+                    user.local.username
                 ),
                 _react2.default.createElement(
                     'div',
