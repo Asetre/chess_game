@@ -26,13 +26,6 @@ class Board extends React.Component {
             if(inCheck) {
                 return props.playerInCheck(inCheck)
             }
-            //let isGameOver = Engine.isGameOver()
-            //if(isGameOver) {
-            //    socket.emit('game over', {
-            //        winner: isGameOver,
-            //        user: props
-            //    })
-            //}
         })
     }
 

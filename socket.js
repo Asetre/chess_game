@@ -31,6 +31,10 @@ module.exports = function(io) {
             io.to(socketId).emit('search cancelled')
         })
 
+        socket.on('game over', data => {
+            data.winner
+        })
+
     })
 }
 

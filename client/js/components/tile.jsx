@@ -50,8 +50,15 @@ class Tile extends React.Component {
                 props.changeTurn(newTurn)
                 let inCheck = Engine.inCheck()
                 if(inCheck) {
-                    return props.playerInCheck(inCheck)
+                    props.playerInCheck(inCheck)
                 }
+                let isGameOver = Engine.isGameOver()
+                /*
+                if(isGameOver) {
+                    socket.emit('game over', {
+                        winner: isGameOver
+                    })
+                } */
             }else return props.invalidMove()
         }
     }
@@ -84,7 +91,8 @@ const mapStateToProps = (state, ownProps) => {
         highlight: highlight,
         team: state.playerTeam,
         opponent: state.opponent,
-        inCheck: inCheckHighlight
+        inCheck: inCheckHighlight,
+        user: state.user
     }
 }
 
@@ -102,6 +110,9 @@ const mapDispatchToProps = dispatch => {
         changeTurn: newTurn => {
             dispatch(actions.changePlayerTurn(newTurn))
         },
+        playerInCheck: data => {
+            dispatch(actions.playerInCheck(data))
+        }
     }
 }
 

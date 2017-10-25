@@ -984,7 +984,6 @@ function findingGame() {
 }
 
 function startGame(team, opponent, pOneClass, pTwoClass) {
-    console.log(pOneClass, pTwoClass);
     return {
         type: start_game,
         payload: { team: team, opponent: opponent, playerOneClass: pOneClass, playerTwoClass: pTwoClass }
@@ -5342,7 +5341,6 @@ function inCheck() {
 }
 
 function setupPieces(playerOneType, playerTwoType) {
-    console.log(playerOneType, playerTwoType);
     //accepts second argument as type(class)
     //todo: add types
     //currently only default setup
@@ -22258,13 +22256,6 @@ var Board = function (_React$Component) {
                 if (inCheck) {
                     return props.playerInCheck(inCheck);
                 }
-                //let isGameOver = Engine.isGameOver()
-                //if(isGameOver) {
-                //    socket.emit('game over', {
-                //        winner: isGameOver,
-                //        user: props
-                //    })
-                //}
             });
         }
     }, {
@@ -22405,8 +22396,15 @@ var Tile = function (_React$Component) {
                     props.changeTurn(newTurn);
                     var inCheck = Engine.inCheck();
                     if (inCheck) {
-                        return props.playerInCheck(inCheck);
+                        props.playerInCheck(inCheck);
                     }
+                    var isGameOver = Engine.isGameOver();
+                    /*
+                    if(isGameOver) {
+                        socket.emit('game over', {
+                            winner: isGameOver
+                        })
+                    } */
                 } else return props.invalidMove();
             }
         }
@@ -22444,7 +22442,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
         highlight: highlight,
         team: state.playerTeam,
         opponent: state.opponent,
-        inCheck: inCheckHighlight
+        inCheck: inCheckHighlight,
+        user: state.user
     };
 };
 
@@ -22461,6 +22460,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         },
         changeTurn: function changeTurn(newTurn) {
             dispatch(actions.changePlayerTurn(newTurn));
+        },
+        playerInCheck: function playerInCheck(data) {
+            dispatch(actions.playerInCheck(data));
         }
     };
 };
