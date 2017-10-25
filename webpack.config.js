@@ -39,13 +39,7 @@ var config = {
         new ExtractTextPlugin({
             filename: 'main.css'
         })
-    ],
-    resolveLoader: {
-        modules: [
-            'node_modules',
-            path.join(__dirname, '../node_modules'),
-        ],
-    }
+    ]
 }
 
 module.exports = config
