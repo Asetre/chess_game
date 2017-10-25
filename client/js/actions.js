@@ -63,10 +63,10 @@ export function findingGame() {
     }
 }
 
-export function startGame(team, opponent) {
+export function startGame(team, opponent, pOneClass, pTwoClass) {
     return {
         type: start_game,
-        payload: {team: team, opponent: opponent}
+        payload: {team: team, opponent: opponent, playerOneClass: pOneClass, playerTwoClass: pTwoClass}
     }
 }
 

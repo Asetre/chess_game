@@ -983,10 +983,11 @@ function findingGame() {
     };
 }
 
-function startGame(team, opponent) {
+function startGame(team, opponent, pOneClass, pTwoClass) {
+    console.log(pOneClass, pTwoClass);
     return {
         type: start_game,
-        payload: { team: team, opponent: opponent }
+        payload: { team: team, opponent: opponent, playerOneClass: pOneClass, playerTwoClass: pTwoClass }
     };
 }
 
@@ -5341,6 +5342,7 @@ function inCheck() {
 }
 
 function setupPieces(playerOneType, playerTwoType) {
+    console.log(playerOneType, playerTwoType);
     //accepts second argument as type(class)
     //todo: add types
     //currently only default setup
@@ -5364,10 +5366,8 @@ function setupPieces(playerOneType, playerTwoType) {
         whiteKnight1 = new Knight(1);
         whiteKnight2 = new Knight(1);
     }
-
     var whiteBishop1 = new Bishop(1);
     var whiteBishop2 = new Bishop(1);
-
     var whitePawn1 = new Pawn(1);
     var whitePawn2 = new Pawn(1);
     var whitePawn3 = new Pawn(1);
@@ -5393,7 +5393,7 @@ function setupPieces(playerOneType, playerTwoType) {
         blackKnight2 = new Knight(0, 'Knight');
     } else {
         blackKnight1 = new Knight(0);
-        blackKnight1 = new Knight(0);
+        blackKnight2 = new Knight(0);
     }
     var blackBishop1 = new Bishop(0);
     var blackBishop2 = new Bishop(0);
@@ -22130,7 +22130,8 @@ var initialBoardState = exports.initialBoardState = {
     selectedPiece: null,
     status: null,
     playerTeam: null,
-    playerPieces: null,
+    playerOneClass: null,
+    playerTwoClass: null,
     user: null,
     opponent: null,
     redirect: false,
@@ -22167,7 +22168,7 @@ function reducer() {
             return Object.assign({}, state, { status: 'looking for game' });
 
         case actions.start_game:
-            return Object.assign({}, state, { playerTeam: payload.team, opponent: payload.opponent, status: 'idle', redirect: true });
+            return Object.assign({}, state, { playerTeam: payload.team, opponent: payload.opponent, status: 'idle', redirect: true, playerOneClass: payload.playerOneClass, playerTwoClass: payload.playerTwoClass });
 
         case actions.update_board:
             return Object.assign({}, state, { playerTurn: payload.turn, board: payload.board });
@@ -22176,7 +22177,7 @@ function reducer() {
             return Object.assign({}, state, { inCheck: true, inCheckKingPos: payload.position });
 
         case actions.game_over:
-            return Object.assign({}, state, { board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: null, playerTeam: null, playerPieces: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: null });
+            return Object.assign({}, state, { board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: null, playerTeam: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: null });
 
         case actions.cancel_search:
             return Object.assign({}, state, { status: 'dashboard' });
@@ -22236,10 +22237,9 @@ var Board = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
         Engine.InitializeBoard();
-        Engine.setupPieces();
+        Engine.setupPieces(props.playerOneClass, props.playerTwoClass);
         var board = Engine.board;
         props.initB(board);
-        console.log('constructed board');
         return _this;
     }
 
@@ -22258,13 +22258,13 @@ var Board = function (_React$Component) {
                 if (inCheck) {
                     return props.playerInCheck(inCheck);
                 }
-                var isGameOver = Engine.isGameOver();
-                if (isGameOver) {
-                    socket.emit('game over', {
-                        winner: isGameOver,
-                        user: props
-                    });
-                }
+                //let isGameOver = Engine.isGameOver()
+                //if(isGameOver) {
+                //    socket.emit('game over', {
+                //        winner: isGameOver,
+                //        user: props
+                //    })
+                //}
             });
         }
     }, {
@@ -22290,7 +22290,9 @@ var mapStateToProps = function mapStateToProps(state) {
     return {
         board: state.board,
         status: state.status,
-        user: state.user
+        user: state.user,
+        playerOneClass: state.playerOneClass,
+        playerTwoClass: state.playerTwoClass
     };
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -22401,6 +22403,10 @@ var Tile = function (_React$Component) {
                     //check if any Kings in check
                     //dispatch action
                     props.changeTurn(newTurn);
+                    var inCheck = Engine.inCheck();
+                    if (inCheck) {
+                        return props.playerInCheck(inCheck);
+                    }
                 } else return props.invalidMove();
             }
         }
@@ -23643,7 +23649,7 @@ var Dashboard = function (_React$Component) {
 
             var props = this.props;
             socket.on('game found', function (data) {
-                props.startGame(data.team, data.opponent);
+                props.startGame(data.team, data.opponent, data.playerOneSelectedClass, data.playerTwoSelectedClass);
             });
 
             socket.on('search cancelled', function () {
@@ -23754,6 +23760,11 @@ var Dashboard = function (_React$Component) {
                     { id: 'type-select' },
                     _react2.default.createElement(
                         'option',
+                        { value: 'null' },
+                        '--Select a class---'
+                    ),
+                    _react2.default.createElement(
+                        'option',
                         { value: 'Conqueror' },
                         'Conqueror'
                     ),
@@ -23789,8 +23800,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
         findGame: function findGame() {
             dispatch(actions.findingGame());
         },
-        startGame: function startGame(team, opponent) {
-            dispatch(actions.startGame(team, opponent));
+        startGame: function startGame(team, opponent, p1, p2) {
+            dispatch(actions.startGame(team, opponent, p1, p2));
         },
         cancelSearch: function cancelSearch() {
             dispatch(actions.cancelSearch());

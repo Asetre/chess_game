@@ -48,6 +48,10 @@ class Tile extends React.Component {
                 //check if any Kings in check
                 //dispatch action
                 props.changeTurn(newTurn)
+                let inCheck = Engine.inCheck()
+                if(inCheck) {
+                    return props.playerInCheck(inCheck)
+                }
             }else return props.invalidMove()
         }
     }

@@ -206,10 +206,8 @@ export function setupPieces(playerOneType, playerTwoType) {
         whiteKnight1 = new Knight(1)
         whiteKnight2 = new Knight(1)
     }
-
     let whiteBishop1 = new Bishop(1)
     let whiteBishop2 = new Bishop(1)
-
     let whitePawn1 = new Pawn(1)
     let whitePawn2 = new Pawn(1)
     let whitePawn3 = new Pawn(1)
@@ -235,7 +233,7 @@ export function setupPieces(playerOneType, playerTwoType) {
         blackKnight2 = new Knight(0, 'Knight')
     }else {
         blackKnight1 = new Knight(0)
-        blackKnight1 = new Knight(0)
+        blackKnight2 = new Knight(0)
     }
     let blackBishop1 = new Bishop(0)
     let blackBishop2 = new Bishop(0)

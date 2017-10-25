@@ -7,7 +7,8 @@ export let initialBoardState = {
     selectedPiece: null,
     status: null,
     playerTeam: null,
-    playerPieces: null,
+    playerOneClass: null,
+    playerTwoClass: null,
     user: null,
     opponent: null,
     redirect: false,
@@ -41,7 +42,7 @@ export default function reducer(state=initialBoardState, action) {
         return Object.assign({}, state, {status: 'looking for game'})
 
         case actions.start_game:
-        return Object.assign({}, state, {playerTeam: payload.team, opponent: payload.opponent, status: 'idle', redirect: true})
+        return Object.assign({}, state, {playerTeam: payload.team, opponent: payload.opponent, status: 'idle', redirect: true, playerOneClass: payload.playerOneClass, playerTwoClass: payload.playerTwoClass})
 
         case actions.update_board:
         return Object.assign({}, state, {playerTurn: payload.turn, board: payload.board})
@@ -50,7 +51,7 @@ export default function reducer(state=initialBoardState, action) {
         return Object.assign({}, state, {inCheck: true, inCheckKingPos: payload.position})
 
         case actions.game_over:
-        return Object.assign({}, state, {board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: null, playerTeam: null, playerPieces: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: null})
+        return Object.assign({}, state, {board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: null, playerTeam: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: null})
 
         case actions.cancel_search:
         return Object.assign({}, state, {status: 'dashboard'})

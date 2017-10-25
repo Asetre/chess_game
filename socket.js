@@ -41,17 +41,17 @@ function matchPlayers(io) {
         let playerOne = findQue[0]
         let playerTwo = findQue[1]
 
-        io.to(playerOne).emit('game found', {
+        io.to(playerOne.id).emit('game found', {
             team: 1,
             opponent: playerTwo.id,
-            yourSelectedClass: playerOne.selectedClass,
-            opponentSelectedClass: playerTwo.selectedClass
+            playerOneSelectedClass: playerOne.selectedClass,
+            playerTwoSelectedClass: playerTwo.selectedClass
         })
-        io.to(playerTwo).emit('game found', {
+        io.to(playerTwo.id).emit('game found', {
             team: 0,
             opponent: playerOne.id,
-            yourSelectedClass: playerTwo.selectedClass,
-            opponentSelectedClass: playerOne.selectedClass
+            playerOneSelectedClass: playerOne.selectedClass,
+            playerTwoSelectedClass: playerTwo.selectedClass
         })
         //Update the room que
         findQue.splice(0, 2)
