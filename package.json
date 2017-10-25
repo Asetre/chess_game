@@ -2,8 +2,8 @@
   "name": "chessgamev2",
   "version": "1.0.0",
   "engines": {
-   "node": "8.7.0",
-   "npm": "5.5.1"
+    "node": "8.7.0",
+    "npm": "5.5.1"
   },
   "description": "",
   "main": "index.js",
