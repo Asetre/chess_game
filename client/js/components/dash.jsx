@@ -13,7 +13,7 @@ class Dashboard extends React.Component {
     componentDidMount() {
         let props = this.props
         socket.on('game found', function(data) {
-            props.startGame(data.team, data.opponent, data.playerOneSelectedClass, data.playerTwoSelectedClass)
+            props.startGame(data.team, data.opponent, data.playerOneSelectedClass, data.playerTwoSelectedClass, data.opponentInfo)
         })
 
         socket.on('search cancelled', () => {
@@ -106,8 +106,8 @@ const mapDispatchToProps = dispatch => {
         findGame: () => {
             dispatch(actions.findingGame())
         },
-        startGame: (team, opponent, p1, p2) => {
-            dispatch(actions.startGame(team, opponent, p1, p2))
+        startGame: (team, opponent, p1, p2, opponentInfo) => {
+            dispatch(actions.startGame(team, opponent, p1, p2, opponentInfo))
         },
         cancelSearch: () => {
             dispatch(actions.cancelSearch())

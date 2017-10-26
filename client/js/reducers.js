@@ -16,7 +16,8 @@ export let initialBoardState = {
     inCheckKingPos: null,
     winner: null,
     loser: null,
-    gameOver: false
+    gameOver: false,
+    opponentInfo: null
 }
 
 export default function reducer(state=initialBoardState, action) {
@@ -44,7 +45,7 @@ export default function reducer(state=initialBoardState, action) {
         return Object.assign({}, state, {status: 'looking for game'})
 
         case actions.start_game:
-        return Object.assign({}, state, {playerTeam: payload.team, opponent: payload.opponent, status: 'idle', playerOneClass: payload.playerOneClass, playerTwoClass: payload.playerTwoClass})
+        return Object.assign({}, state, {playerTeam: payload.team, opponent: payload.opponent, status: 'idle', playerOneClass: payload.playerOneClass, playerTwoClass: payload.playerTwoClass, opponentInfo: payload.opponentInfo})
 
         case actions.update_board:
         return Object.assign({}, state, {playerTurn: payload.turn, board: payload.board})

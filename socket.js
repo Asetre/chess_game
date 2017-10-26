@@ -56,6 +56,9 @@ module.exports = function(io) {
                 loser: opponent
             }
 
+            io.to(data.userSocketId).emit('game over', info)
+            io.to(users[opponent]).emit('game over', info)
+
             let findWinner = User.findOne({"local.username": winner})
             let findLoser = User.findOne({"local.username": opponent})
 
@@ -68,15 +71,10 @@ module.exports = function(io) {
                 winUser.save()
                 return loseUser.save()
             })
-            .then(() => {
-                io.to(data.userSocketId).emit('game over', info)
-                io.to(users[opponent]).emit('game over', info)
-            })
             .catch(err => {
                 console.log(err)
             })
         })
-
     })
 }
 
@@ -86,20 +84,50 @@ function matchPlayers(io) {
         //Save players
         let playerOne = findQue[0]
         let playerTwo = findQue[1]
+        let playerOneUsername
+        let playerTwoUsername
+        //find player one username
+        let key
+        for(key in users) {
+            if(users[key] === playerOne.id) playerOneUsername = key
+            if(users[key] === playerTwo.id) playerTwoUsername = key
+        }
+        //Get the user info
+        let findOne = User.findOne({"local.username": playerOneUsername})
+        let findTwo = User.findOne({"local.username": playerTwoUsername})
 
-        io.to(playerOne.id).emit('game found', {
-            team: 1,
-            opponent: playerTwo.id,
-            playerOneSelectedClass: playerOne.selectedClass,
-            playerTwoSelectedClass: playerTwo.selectedClass
+        Promise.all([findOne, findTwo])
+        .then( data => {
+            let userOne = data[0]
+            let userTwo = data[1]
+            let userInfoOne = {
+                username: userOne.local.username,
+                wins: userOne.wins,
+                losses: userOne.losses
+            }
+            let userInfoTwo = {
+                username: userTwo.local.username,
+                wins: userTwo.wins,
+                losses: userTwo.losses
+            }
+
+            io.to(playerOne.id).emit('game found', {
+                team: 1,
+                opponent: playerTwo.id,
+                playerOneSelectedClass: playerOne.selectedClass,
+                playerTwoSelectedClass: playerTwo.selectedClass,
+                opponentInfo: userInfoTwo
+            })
+            io.to(playerTwo.id).emit('game found', {
+                team: 0,
+                opponent: playerOne.id,
+                playerOneSelectedClass: playerOne.selectedClass,
+                playerTwoSelectedClass: playerTwo.selectedClass,
+                opponentInfo: userInfoOne
+            })
+            //Update the room que
+            findQue.splice(0, 2)
         })
-        io.to(playerTwo.id).emit('game found', {
-            team: 0,
-            opponent: playerOne.id,
-            playerOneSelectedClass: playerOne.selectedClass,
-            playerTwoSelectedClass: playerTwo.selectedClass
-        })
-        //Update the room que
-        findQue.splice(0, 2)
+
     }
 }
