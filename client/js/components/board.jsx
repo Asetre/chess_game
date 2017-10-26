@@ -27,7 +27,9 @@ class Board extends React.Component {
             props.updateBoard(newData)
             let inCheck = Engine.inCheck()
             if(inCheck) {
-                return props.playerInCheck(inCheck)
+                props.playerInCheck(inCheck)
+            }else {
+                props.playerInCheck([])
             }
         })
         socket.on('game over', data => {
@@ -57,7 +59,7 @@ class Board extends React.Component {
             opponent: props.opponentInfo,
             userTeam: props.team,
             userSocketId: socket.id,
-            opponentSocketId: props.opponent    
+            opponentSocketId: props.opponent
         })
     }
 

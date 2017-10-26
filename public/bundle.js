@@ -5325,6 +5325,7 @@ function inCheck() {
     var blackKingPos = void 0;
     var whiteKingPos = void 0;
     var inCheck = false;
+    var inCheckTiles = [];
     board.forEach(function (tile, index) {
         if (tile.piece) {
             if (tile.piece.name === 'whiteKing' || tile.piece.name === 'blackKing') {
@@ -5344,7 +5345,15 @@ function inCheck() {
             });
         }
     });
-    if (allMoves.indexOf(blackKingPos) != -1) return inCheck = { team: 0, position: blackKingPos };else if (allMoves.indexOf(whiteKingPos) != -1) return inCheck = { team: 1, position: whiteKingPos };else return false;
+    if (allMoves.indexOf(blackKingPos) !== -1) {
+        inCheck = true;
+        inCheckTiles.push(blackKingPos);
+    }
+    if (allMoves.indexOf(whiteKingPos) !== -1) {
+        inCheck = true;
+        inCheckTiles.push(whiteKingPos);
+    }
+    if (inCheck) return inCheckTiles;else return false;
 }
 
 function setupPieces(playerOneType, playerTwoType) {
@@ -22161,7 +22170,7 @@ var initialBoardState = exports.initialBoardState = {
     opponent: null,
     redirect: false,
     inCheck: false,
-    inCheckKingPos: null,
+    inCheckTiles: null,
     winner: null,
     loser: null,
     gameOver: false,
@@ -22202,7 +22211,7 @@ function reducer() {
             return Object.assign({}, state, { playerTurn: payload.turn, board: payload.board });
 
         case actions.in_check:
-            return Object.assign({}, state, { inCheck: true, inCheckKingPos: payload.position });
+            return Object.assign({}, state, { inCheck: true, inCheckTiles: payload });
 
         case actions.game_over:
             return Object.assign({}, state, { board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: 'game over', playerTeam: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: payload.winner, loser: payload.loser });
@@ -22291,7 +22300,9 @@ var Board = function (_React$Component) {
                 props.updateBoard(newData);
                 var inCheck = Engine.inCheck();
                 if (inCheck) {
-                    return props.playerInCheck(inCheck);
+                    props.playerInCheck(inCheck);
+                } else {
+                    props.playerInCheck([]);
                 }
             });
             socket.on('game over', function (data) {
@@ -22649,7 +22660,7 @@ var Tile = function (_React$Component) {
 var mapStateToProps = function mapStateToProps(state, ownProps) {
     var highlight = void 0;
     var inCheckHighlight = void 0;
-    if (state.inCheck && state.inCheckKingPos === ownProps.index) {
+    if (state.inCheck && state.inCheckTiles.indexOf(ownProps.index) !== -1) {
         inCheckHighlight = 'in-check';
     }
     if (state.validMoves.indexOf(ownProps.index) !== -1) {

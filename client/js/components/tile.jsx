@@ -75,7 +75,7 @@ class Tile extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     let highlight
     let inCheckHighlight
-    if(state.inCheck && state.inCheckKingPos === ownProps.index) {
+    if(state.inCheck && state.inCheckTiles.indexOf(ownProps.index) !== -1) {
         inCheckHighlight = 'in-check'
     }
     if(state.validMoves.indexOf(ownProps.index) !== -1) {

@@ -159,6 +159,7 @@ export function inCheck() {
     let blackKingPos
     let whiteKingPos
     let inCheck = false
+    let inCheckTiles = []
     board.forEach((tile, index) => {
         if(tile.piece) {
             if(tile.piece.name === 'whiteKing' || tile.piece.name  === 'blackKing') {
@@ -176,8 +177,15 @@ export function inCheck() {
             board[index].piece.findValidMoves().forEach(move => allMoves.push(move))
         }
     })
-    if(allMoves.indexOf(blackKingPos) != -1) return inCheck = {team: 0, position: blackKingPos}
-    else if(allMoves.indexOf(whiteKingPos) != -1) return inCheck = {team: 1, position: whiteKingPos}
+    if(allMoves.indexOf(blackKingPos) !== -1) {
+        inCheck = true
+        inCheckTiles.push(blackKingPos)
+    }
+    if(allMoves.indexOf(whiteKingPos) !== -1){
+        inCheck = true
+        inCheckTiles.push(whiteKingPos)
+    }
+    if(inCheck) return inCheckTiles
     else return false
 }
 

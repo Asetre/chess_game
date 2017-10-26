@@ -13,7 +13,7 @@ export let initialBoardState = {
     opponent: null,
     redirect: false,
     inCheck: false,
-    inCheckKingPos: null,
+    inCheckTiles: null,
     winner: null,
     loser: null,
     gameOver: false,
@@ -51,7 +51,7 @@ export default function reducer(state=initialBoardState, action) {
         return Object.assign({}, state, {playerTurn: payload.turn, board: payload.board})
 
         case actions.in_check:
-        return Object.assign({}, state, {inCheck: true, inCheckKingPos: payload.position})
+        return Object.assign({}, state, {inCheck: true, inCheckTiles: payload})
 
         case actions.game_over:
         return Object.assign({}, state, {board: [], validMoves: [], playerTurn: 1, selectedPiece: null, status: 'game over', playerTeam: null, opponent: null, redirect: false, inCheck: false, inCheckKingPos: null, winner: payload.winner, loser: payload.loser})
