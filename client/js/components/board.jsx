@@ -50,25 +50,23 @@ class Board extends React.Component {
     quitGame(e) {
         e.preventDefault()
         let props = this.props
-        let winner
-        props.team === 1 ? winner = 0 : winner = 1
+        let winner = props.team === 1 ? 0 : 1
         socket.emit('game over', {
             winner: winner,
             user: props.user,
-            opponent: props.opponent,
+            opponent: props.opponentInfo,
             userTeam: props.team,
-            userSocketId: socket.id
+            userSocketId: socket.id,
+            opponentSocketId: props.opponent    
         })
     }
 
     render() {
         let white
         let black
-        let whiteHighlight
-        let blackHighlight
 
-        this.props.turn === 1 ? whiteHighlight = 'turn-show' : whiteHighlight = null
-        this.props.turn === 0 ? blackHighlight = 'turn-show' : blackHighlight = null
+        let whiteHighlight = this.props.turn === 1 ? 'turn-show' : null
+        let blackHighlight = this.props.turn === 0 ? 'turn-show' : null
 
         //Update our user object to match the format of the opponent info
         let updatedInfo = {

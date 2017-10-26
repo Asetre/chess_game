@@ -134,6 +134,11 @@ a {
         height: 145px;
     }
 }
+
+@keyframes typeSelect {
+    from {background-color: #ffffff;}
+    to {background-color: #ffae2d;}
+}
 /*---------------------------------------------------------------*/
 //Mobile View
 /*---------------------------------------------------------------*/
@@ -221,11 +226,18 @@ a {
         background-color: $success;
     }
     #type-select {
+        color: #2d0072;
         font-size: 20px;
         width: 200px;
         margin: 0 auto;
         border: 1px solid #ffffff;
         margin-bottom: 25px;
+        border: none;
+        animation-name: typeSelect;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in;
     }
 
     /*---------Loading screen -----------*/

@@ -22317,14 +22317,14 @@ var Board = function (_React$Component) {
         value: function quitGame(e) {
             e.preventDefault();
             var props = this.props;
-            var winner = void 0;
-            props.team === 1 ? winner = 0 : winner = 1;
+            var winner = props.team === 1 ? 0 : 1;
             socket.emit('game over', {
                 winner: winner,
                 user: props.user,
-                opponent: props.opponent,
+                opponent: props.opponentInfo,
                 userTeam: props.team,
-                userSocketId: socket.id
+                userSocketId: socket.id,
+                opponentSocketId: props.opponent
             });
         }
     }, {
@@ -22332,11 +22332,9 @@ var Board = function (_React$Component) {
         value: function render() {
             var white = void 0;
             var black = void 0;
-            var whiteHighlight = void 0;
-            var blackHighlight = void 0;
 
-            this.props.turn === 1 ? whiteHighlight = 'turn-show' : whiteHighlight = null;
-            this.props.turn === 0 ? blackHighlight = 'turn-show' : blackHighlight = null;
+            var whiteHighlight = this.props.turn === 1 ? 'turn-show' : null;
+            var blackHighlight = this.props.turn === 0 ? 'turn-show' : null;
 
             //Update our user object to match the format of the opponent info
             var updatedInfo = {
@@ -22623,8 +22621,9 @@ var Tile = function (_React$Component) {
                         socket.emit('game over', {
                             winner: isGameOver,
                             user: props.user,
-                            opponent: props.opponent,
+                            opponent: props.opponentInfo,
                             userTeam: props.team,
+                            opponentSocketId: props.opponent,
                             userSocketId: socket.id
                         });
                     }
@@ -22666,7 +22665,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
         team: state.playerTeam,
         opponent: state.opponent,
         inCheck: inCheckHighlight,
-        user: state.user
+        user: state.user,
+        opponentInfo: state.opponentInfo
     };
 };
 
@@ -23990,7 +23990,7 @@ var Dashboard = function (_React$Component) {
                     _react2.default.createElement(
                         'option',
                         { value: 'null' },
-                        '--Select a class---'
+                        'Slect a class...'
                     ),
                     _react2.default.createElement(
                         'option',

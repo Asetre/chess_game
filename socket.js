@@ -38,29 +38,21 @@ module.exports = function(io) {
         })
 
         socket.on('game over', data => {
-            let opponent
-            //find the opponent
-            let key
-            for(key in users) {
-                if(users[key] == data.opponent) {
-                    opponent = key
-                    break
-                }
-            }
+            let opponentTeam = data.userTeam === 1 ? 0 : 1
             //check to see if the emitter is the winner
-            let winner
-            data.winner === data.userTeam ? winner = data.user.local.username : opponent
+            let winner = data.winner === data.userTeam ? data.user.local.username : data.opponent.username
+            let loser = data.winner === opponentTeam ? data.user.local.username : data.opponent.username
 
             let info = {
                 winner: winner,
-                loser: opponent
+                loser: loser
             }
 
             io.to(data.userSocketId).emit('game over', info)
-            io.to(users[opponent]).emit('game over', info)
+            io.to(data.opponentSocketId).emit('game over', info)
 
             let findWinner = User.findOne({"local.username": winner})
-            let findLoser = User.findOne({"local.username": opponent})
+            let findLoser = User.findOne({"local.username": loser})
 
             Promise.all([findWinner, findLoser])
             .then(users => {

@@ -86,7 +86,7 @@ class Dashboard extends React.Component {
 
                 <h4>Choose your class</h4>
                 <select id="type-select">
-                    <option value="null">--Select a class---</option>
+                    <option value="null">Slect a class...</option>
                     <option value="Conqueror">Conqueror</option>
                     <option value="Knight">Knight</option>
                 </select>

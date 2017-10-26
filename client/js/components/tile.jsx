@@ -52,8 +52,9 @@ class Tile extends React.Component {
                     socket.emit('game over', {
                         winner: isGameOver,
                         user: props.user,
-                        opponent: props.opponent,
+                        opponent: props.opponentInfo,
                         userTeam: props.team,
+                        opponentSocketId: props.opponent,
                         userSocketId: socket.id
                     })
                 }
@@ -90,7 +91,8 @@ const mapStateToProps = (state, ownProps) => {
         team: state.playerTeam,
         opponent: state.opponent,
         inCheck: inCheckHighlight,
-        user: state.user
+        user: state.user,
+        opponentInfo: state.opponentInfo
     }
 }
 
