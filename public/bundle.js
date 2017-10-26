@@ -22274,6 +22274,7 @@ var Board = function (_React$Component) {
         var board = Engine.board;
         props.initB(board);
         _this.returnToMenu = _this.returnToMenu.bind(_this);
+        _this.quitGame = _this.quitGame.bind(_this);
         return _this;
     }
 
@@ -22310,6 +22311,21 @@ var Board = function (_React$Component) {
         value: function returnToMenu(e) {
             e.preventDefault();
             this.props.returnToMenu();
+        }
+    }, {
+        key: 'quitGame',
+        value: function quitGame(e) {
+            e.preventDefault();
+            var props = this.props;
+            var winner = void 0;
+            props.team === 1 ? winner = 0 : winner = 1;
+            socket.emit('game over', {
+                winner: winner,
+                user: props.user,
+                opponent: props.opponent,
+                userTeam: props.team,
+                userSocketId: socket.id
+            });
         }
     }, {
         key: 'render',
@@ -22408,24 +22424,26 @@ var Board = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'h3',
-                            null,
-                            this.props.playerOneClass
+                            { className: 'board-class' },
+                            '(',
+                            this.props.playerOneClass,
+                            ')'
                         ),
                         _react2.default.createElement(
                             'h3',
-                            null,
+                            { className: 'board-wl' },
                             'wins: ',
                             black.wins
                         ),
                         _react2.default.createElement(
                             'h3',
-                            null,
+                            { className: 'board-wl' },
                             'losses: ',
                             black.losses
                         )
                     ),
                     _react2.default.createElement(
-                        'h6',
+                        'h4',
                         null,
                         'vs'
                     ),
@@ -22439,21 +22457,28 @@ var Board = function (_React$Component) {
                         ),
                         _react2.default.createElement(
                             'h3',
-                            null,
-                            this.props.playerTwoClass
+                            { className: 'board-class' },
+                            '(',
+                            this.props.playerTwoClass,
+                            ')'
                         ),
                         _react2.default.createElement(
                             'h3',
-                            null,
+                            { className: 'board-wl' },
                             'wins: ',
                             white.wins
                         ),
                         _react2.default.createElement(
                             'h3',
-                            null,
+                            { className: 'board-wl' },
                             'losses: ',
                             white.losses
                         )
+                    ),
+                    _react2.default.createElement(
+                        'button',
+                        { onClick: this.quitGame },
+                        'Quit game'
                     )
                 )
             );
@@ -22475,7 +22500,8 @@ var mapStateToProps = function mapStateToProps(state) {
         redirect: state.redirect,
         opponentInfo: state.opponentInfo,
         team: state.playerTeam,
-        turn: state.playerTurn
+        turn: state.playerTurn,
+        opponent: state.opponent
     };
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -23942,17 +23968,14 @@ var Dashboard = function (_React$Component) {
                         _react2.default.createElement(
                             'li',
                             null,
-                            'Wins'
+                            'Wins: ',
+                            props.user.wins
                         ),
                         _react2.default.createElement(
                             'li',
                             null,
-                            'Loss'
-                        ),
-                        _react2.default.createElement(
-                            'li',
-                            null,
-                            'MoreInfo'
+                            'Loss: ',
+                            props.user.losses
                         )
                     )
                 ),

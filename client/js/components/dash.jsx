@@ -79,9 +79,8 @@ class Dashboard extends React.Component {
                 <h2>{user.local.username}</h2>
                 <div className="user-info">
                     <ul>
-                        <li>Wins</li>
-                        <li>Loss</li>
-                        <li>MoreInfo</li>
+                        <li>Wins: {props.user.wins}</li>
+                        <li>Loss: {props.user.losses}</li>
                     </ul>
                 </div>
 

@@ -14,6 +14,7 @@ class Board extends React.Component {
         let board = Engine.board
         props.initB(board)
         this.returnToMenu = this.returnToMenu.bind(this)
+        this.quitGame = this.quitGame.bind(this)
     }
     componentDidMount() {
         let props = this.props
@@ -44,6 +45,20 @@ class Board extends React.Component {
     returnToMenu(e) {
         e.preventDefault()
         this.props.returnToMenu()
+    }
+
+    quitGame(e) {
+        e.preventDefault()
+        let props = this.props
+        let winner
+        props.team === 1 ? winner = 0 : winner = 1
+        socket.emit('game over', {
+            winner: winner,
+            user: props.user,
+            opponent: props.opponent,
+            userTeam: props.team,
+            userSocketId: socket.id
+        })
     }
 
     render() {
@@ -101,17 +116,18 @@ class Board extends React.Component {
                 <div className="board-users-info-container">
                     <div className="game-user-container">
                     <h3 className={blackHighlight + " board-username"}>{black.username}</h3>
-                    <h3>{this.props.playerOneClass}</h3>
-                    <h3>wins: {black.wins}</h3>
-                    <h3>losses: {black.losses}</h3>
+                    <h3 className="board-class">({this.props.playerOneClass})</h3>
+                    <h3 className="board-wl">wins: {black.wins}</h3>
+                    <h3 className="board-wl">losses: {black.losses}</h3>
                     </div>
-                    <h6>vs</h6>
+                    <h4>vs</h4>
                     <div className="game-user-container">
                     <h3 className={whiteHighlight + " board-username"}>{white.username}</h3>
-                    <h3>{this.props.playerTwoClass}</h3>
-                    <h3>wins: {white.wins}</h3>
-                    <h3>losses: {white.losses}</h3>
+                    <h3 className="board-class">({this.props.playerTwoClass})</h3>
+                    <h3 className="board-wl">wins: {white.wins}</h3>
+                    <h3 className="board-wl">losses: {white.losses}</h3>
                     </div>
+                    <button onClick={this.quitGame}>Quit game</button>
                 </div>
             </div>
         )
@@ -130,7 +146,8 @@ const mapStateToProps = state => {
         redirect: state.redirect,
         opponentInfo: state.opponentInfo,
         team: state.playerTeam,
-        turn: state.playerTurn
+        turn: state.playerTurn,
+        opponent: state.opponent
     }
 }
 const mapDispatchToProps = dispatch => {

@@ -268,9 +268,12 @@ a {
     background-color: #828282;
     height: 100vh; }
   .board-users-info-container {
-    padding-top: 20px; }
+    padding: 20px; }
+  .board-users-info-container > h4 {
+    margin-left: 30px; }
   .game-user-container {
-    display: flex; }
+    display: flex;
+    align-items: center; }
   .game-user-container > h3 {
     margin-right: 20px; }
   .board-username {
@@ -280,6 +283,8 @@ a {
     animation-duration: .5s;
     animation-iteration-count: infinite;
     animation-direction: alternate; }
+  .board-wl {
+    font-size: 15px; }
   /*-------------game over screen ---------------*/
   .game-over-screen {
     display: flex;
@@ -309,4 +314,7 @@ a {
     animation-direction: alternate; }
   .game-loser {
     font-size: 24px;
-    margin-bottom: 25px; } }
+    margin-bottom: 25px; }
+  .board-class {
+    color: #30e6ff;
+    font-size: 16px; } }
