@@ -11,6 +11,7 @@ export const in_check = 'player in check'
 export const game_over = 'game over'
 export const cancel_search = 'cancel search'
 export const redirect_dashboard = 'redirect to dashboard'
+export const add_err = 'add error'
 
 export function initializeBoard(board) {
     return {
@@ -101,5 +102,12 @@ export function cancelSearch() {
 export function redirectDashboard() {
     return {
         type: redirect_dashboard
+    }
+}
+
+export function addError(err) {
+    return {
+        type: add_err,
+        payload: err
     }
 }

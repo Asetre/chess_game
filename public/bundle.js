@@ -919,6 +919,7 @@ exports.playerInCheck = playerInCheck;
 exports.gameOver = gameOver;
 exports.cancelSearch = cancelSearch;
 exports.redirectDashboard = redirectDashboard;
+exports.addError = addError;
 var init_board = exports.init_board = 'initialize board';
 var find_moves = exports.find_moves = 'find validMoves';
 var invalid_move = exports.invalid_move = 'invalid move';
@@ -932,6 +933,7 @@ var in_check = exports.in_check = 'player in check';
 var game_over = exports.game_over = 'game over';
 var cancel_search = exports.cancel_search = 'cancel search';
 var redirect_dashboard = exports.redirect_dashboard = 'redirect to dashboard';
+var add_err = exports.add_err = 'add error';
 
 function initializeBoard(board) {
     return {
@@ -1022,6 +1024,13 @@ function cancelSearch() {
 function redirectDashboard() {
     return {
         type: redirect_dashboard
+    };
+}
+
+function addError(err) {
+    return {
+        type: add_err,
+        payload: err
     };
 }
 
@@ -5941,7 +5950,12 @@ var Login = function (_React$Component) {
                     socket.emit('login', info);
                 }
             }).catch(function (err) {
-                console.log(err);
+                if (err.response) {
+                    if (err.response.status === 401) {
+                        console.log('doing stuff');
+                        _this2.props.addError(err.response);
+                    }
+                }
             });
         }
     }, {
@@ -5951,6 +5965,7 @@ var Login = function (_React$Component) {
                 this.props.login(this.state.user);
                 return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/dashboard' });
             }
+            var display = this.props.error ? 'show' : null;
             return _react2.default.createElement(
                 'div',
                 { className: 'landing' },
@@ -5966,6 +5981,15 @@ var Login = function (_React$Component) {
                         'h2',
                         null,
                         'Login'
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'err-msg-container' },
+                        _react2.default.createElement(
+                            'h3',
+                            { className: display },
+                            'Invalid username or password'
+                        )
                     ),
                     _react2.default.createElement(
                         'form',
@@ -6009,13 +6033,18 @@ var Login = function (_React$Component) {
 }(_react2.default.Component);
 
 var mapStateToProps = function mapStateToProps(state) {
-    return {};
+    return {
+        error: state.errors
+    };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
         login: function login(user) {
             dispatch(actions.loginUser(user));
+        },
+        addError: function addError(err) {
+            dispatch(actions.addError(err));
         }
     };
 };
@@ -22174,7 +22203,8 @@ var initialBoardState = exports.initialBoardState = {
     winner: null,
     loser: null,
     gameOver: false,
-    opponentInfo: null
+    opponentInfo: null,
+    errors: null
 };
 
 function reducer() {
@@ -22221,6 +22251,9 @@ function reducer() {
 
         case actions.redirect_dashboard:
             return Object.assign({}, state, { status: 'dashboard', redirect: false, winner: null, loser: null });
+
+        case actions.add_err:
+            return Object.assign({}, state, { errors: payload });
 
         default:
             return state;

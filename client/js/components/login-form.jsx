@@ -32,7 +32,12 @@ class Login extends React.Component {
             }
         })
         .catch(err => {
-            console.log(err)
+            if(err.response) {
+                if(err.response.status === 401) {
+                    console.log('doing stuff')
+                    this.props.addError(err.response)
+                }
+            }
         })
     }
     render() {
@@ -40,11 +45,15 @@ class Login extends React.Component {
             this.props.login(this.state.user)
             return <Redirect to="/dashboard"></Redirect>
         }
+        let display = this.props.error ? 'show' : null
         return(
             <div className="landing">
                 <h1>Chess Battles</h1>
                 <div className="login-container">
                     <h2>Login</h2>
+                    <div className="err-msg-container">
+                        <h3 className={display}>Invalid username or password</h3>
+                    </div>
                     <form onSubmit={this.handleSubmit}>
                         <input type="text" name="username" placeholder="username" required/>
                         <input type="password" name="password" placeholder="password" required/>
@@ -61,7 +70,6 @@ class Login extends React.Component {
                             <h3>Signup here</h3>
                         </div>
                     </Link>
-
                 </div>
             </div>
         )
@@ -70,6 +78,7 @@ class Login extends React.Component {
 
 const mapStateToProps = state => {
     return {
+        error: state.errors
     }
 }
 
@@ -77,6 +86,9 @@ const mapDispatchToProps = dispatch => {
     return {
         login: user => {
             dispatch(actions.loginUser(user))
+        },
+        addError: err => {
+            dispatch(actions.addError(err))
         }
     }
 }

@@ -5,7 +5,7 @@ $fontColor: #ffffff;
 $btnBackground: #ff9900;
 $green: #00c656;
 $bg: #828282;
-$err: red;
+$err: #ff5454;
 $cancel: #f92545;
 $success: #00d66b;
 $boardClass: #30e6ff;
@@ -193,6 +193,17 @@ a {
     .signup-btn>h3 {
         text-align: center;
         text-shadow: 1px 1px #d3d3d3;
+    }
+    .err-msg-container{
+        margin-bottom: 15px;
+    }
+    .err-msg-container>h3 {
+        opacity: 0;
+        color: $err;
+        text-align: center;
+    }
+    .show {
+        opacity: 1 !important;
     }
     /*---------------------------------------------------------------*/
     //Dashboard Page

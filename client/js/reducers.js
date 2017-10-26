@@ -17,7 +17,8 @@ export let initialBoardState = {
     winner: null,
     loser: null,
     gameOver: false,
-    opponentInfo: null
+    opponentInfo: null,
+    errors: null
 }
 
 export default function reducer(state=initialBoardState, action) {
@@ -61,6 +62,9 @@ export default function reducer(state=initialBoardState, action) {
 
         case actions.redirect_dashboard:
         return Object.assign({}, state, {status: 'dashboard', redirect: false, winner: null, loser: null})
+
+        case actions.add_err:
+        return Object.assign({}, state, {errors: payload})
 
         default:
         return state

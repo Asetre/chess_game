@@ -159,6 +159,13 @@ a {
   .signup-btn > h3 {
     text-align: center;
     text-shadow: 1px 1px #d3d3d3; }
+  .err-msg-container {
+    margin-bottom: 15px; }
+  .err-msg-container > h3 {
+    opacity: 0;
+    color: #f92545; }
+  .show {
+    opacity: 1 !important; }
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
   .dashboard {
