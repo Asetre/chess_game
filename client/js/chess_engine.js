@@ -101,7 +101,6 @@ export function placePiece(piece, index) {
     piece.position = index
     board[index].piece = piece
 }
-
 //check if tile has a piece
 export function isTileEmpty(index) {
     return board[index].piece ? false : true

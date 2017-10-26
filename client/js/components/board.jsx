@@ -34,6 +34,13 @@ class Board extends React.Component {
         })
     }
 
+    componentWillUnmount() {
+        //remove socket listeners
+        socket.removeAllListeners('update board')
+        socket.removeAllListeners('game over')
+        Engine.resetBoard()
+    }
+
     returnToMenu(e) {
         e.preventDefault()
         this.props.returnToMenu()

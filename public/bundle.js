@@ -5269,7 +5269,6 @@ function placePiece(piece, index) {
     piece.position = index;
     board[index].piece = piece;
 }
-
 //check if tile has a piece
 function isTileEmpty(index) {
     return board[index].piece ? false : true;
@@ -22299,6 +22298,14 @@ var Board = function (_React$Component) {
             });
         }
     }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            //remove socket listeners
+            socket.removeAllListeners('update board');
+            socket.removeAllListeners('game over');
+            Engine.resetBoard();
+        }
+    }, {
         key: 'returnToMenu',
         value: function returnToMenu(e) {
             e.preventDefault();
@@ -23847,6 +23854,13 @@ var Dashboard = function (_React$Component) {
             socket.on('search cancelled', function () {
                 _this2.props.cancelSearch();
             });
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            //remove socket listeners
+            socket.removeAllListeners('search cancelled');
+            socket.removeAllListeners('game found');
         }
     }, {
         key: 'findGame',

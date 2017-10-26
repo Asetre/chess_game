@@ -21,6 +21,11 @@ class Dashboard extends React.Component {
         })
 
     }
+    componentWillUnmount() {
+        //remove socket listeners
+        socket.removeAllListeners('search cancelled')
+        socket.removeAllListeners('game found')
+    }
 
     findGame(e) {
         e.preventDefault()
