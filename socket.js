@@ -84,6 +84,7 @@ function matchPlayers(io) {
             if(users[key] === playerOne.id) playerOneUsername = key
             if(users[key] === playerTwo.id) playerTwoUsername = key
         }
+        console.log(users)
         //Get the user info
         let findOne = User.findOne({"local.username": playerOneUsername})
         let findTwo = User.findOne({"local.username": playerTwoUsername})

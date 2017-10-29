@@ -22,8 +22,11 @@ input[type="submit"], button {
 a {
   text-decoration: none; }
 
+body {
+  background-color: #828282; }
+
 .err-msg {
-  color: red; }
+  color: #ff5454; }
 
 .tile {
   width: 100px;
@@ -118,13 +121,12 @@ a {
 
 /*---------------------------------------------------------------*/
 /*---------------------------------------------------------------*/
-@media (max-width: 420px) {
+@media (max-width: 740px) {
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
   .landing {
     height: 100vh;
     width: 100%;
-    background-color: #828282;
     padding: 110px 50px; }
   .landing > h1 {
     text-align: center;
@@ -155,7 +157,8 @@ a {
     height: 50px;
     display: flex;
     justify-content: center;
-    flex-direction: column; }
+    flex-direction: column;
+    margin-bottom: 50px; }
   .signup-btn > h3 {
     text-align: center;
     text-shadow: 1px 1px #d3d3d3; }
@@ -163,13 +166,13 @@ a {
     margin-bottom: 15px; }
   .err-msg-container > h3 {
     opacity: 0;
-    color: #f92545; }
+    color: #ff5454;
+    text-align: center; }
   .show {
     opacity: 1 !important; }
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
   .dashboard {
-    background-color: #828282;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -217,9 +220,13 @@ a {
     width: 200px;
     margin-bottom: 40px; }
   .finding-game-load-screen > button {
+    padding-bottom: 32px;
+    line-height: 5px;
     width: 200px;
+    margin-bottom: 100px;
     font-size: 20px;
-    background-color: #f92545; }
+    background-color: #f92545;
+    padding: 25px; }
   .first-l {
     width: 200px;
     height: 200px;
