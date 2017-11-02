@@ -382,6 +382,45 @@ img {
     }
     .board-wl {
     }
+    /*-------------game over screen ---------------*/
+    .game-over-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: $bg;
+        height: $full;
+        padding: 30px 10px;
+    }
+    .game-over-screen>h2 {
+        margin-bottom: 20px;
+    }
+    .game-over-screen>button {
+        width: 200px;
+        font-size: 20px;
+    }
+    .game-over-screen>h4 {
+        margin-bottom: 20px
+    }
+    .winner-animation-container {
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .game-winner {
+        font-size: 30px;
+        margin-bottom: 20px;
+        animation-name: winner;
+        animation-duration: 1s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+    .game-loser {
+        font-size:24px;
+        margin-bottom: 25px;
+    }
+
 }
 
 @media (max-width: 420px){
