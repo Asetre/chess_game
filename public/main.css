@@ -25,24 +25,17 @@ a {
 body {
   background-color: #828282; }
 
+img {
+  width: 100%;
+  height: 100%; }
+
 .err-msg {
   color: #ff5454; }
 
 .tile {
-  width: 100px;
-  height: 100px;
-  float: left; }
+  width: 12.5%;
+  display: inline-block; }
 
-.board {
-  width: 805px; }
-
-.board::after {
-  content: " ";
-  display: block;
-  height: 0;
-  clear: both; }
-
-/*Tile alternating background */
 .tile:nth-child(-2n+8),
 .tile:nth-child(8) ~ .tile:nth-child(-2n+15),
 .tile:nth-child(16) ~ .tile:nth-child(-2n+24),
@@ -121,7 +114,196 @@ body {
 
 /*---------------------------------------------------------------*/
 /*---------------------------------------------------------------*/
-@media (max-width: 740px) {
+@media (min-width: 420px) {
+  /*---------------------------------------------------------------*/
+  /*---------------------------------------------------------------*/
+  .landing {
+    height: 100vh;
+    width: 100%;
+    padding: 110px 50px; }
+  .landing > h1 {
+    text-align: center;
+    margin-bottom: 20px; }
+  .login-container > h2 {
+    text-align: center;
+    font-weight: 200;
+    margin-bottom: 20px; }
+  .login-container > form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+  .login-container > form > input {
+    font-size: 24px;
+    font-family: 'Nunito';
+    font-weight: 200;
+    font-style: italic;
+    margin-bottom: 20px;
+    padding: 5px 15px;
+    width: 100%;
+    max-width: 500px; }
+  .login-container > form > input[type="submit"] {
+    font-weight: 400;
+    font-style: normal;
+    width: 100%;
+    max-width: 500px; }
+  .auth-containers {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px; }
+  .signup-btn {
+    background-color: #00c656;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto; }
+  .signup-btn > h3 {
+    text-align: center;
+    text-shadow: 1px 1px #d3d3d3; }
+  .err-msg-container {
+    margin-bottom: 15px; }
+  .err-msg-container > h3 {
+    opacity: 0;
+    color: #ff5454;
+    text-align: center; }
+  .show {
+    opacity: 1 !important; }
+  /*---------------------------------------------------------------*/
+  /*---------------------------------------------------------------*/
+  .signup-container {
+    text-align: center; }
+  .signup-container h2 {
+    margin-bottom: 30px; }
+  .signup-error-conainer {
+    height: 100px; }
+  .signup-container form {
+    display: flex;
+    flex-direction: column; }
+  .signup-container input {
+    font-size: 24px;
+    font-family: 'Nunito';
+    font-weight: 200;
+    font-style: italic;
+    margin-bottom: 20px;
+    padding: 5px 15px;
+    width: 100%;
+    align-self: center;
+    max-width: 500px; }
+  /*---------------------------------------------------------------*/
+  /*---------------------------------------------------------------*/
+  .dashboard {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    text-align: center; }
+  .dashboard > h2 {
+    margin: 45px 0; }
+  .dashboard > h4 {
+    margin-bottom: 10px;
+    font-weight: 200px;
+    font-style: italic;
+    color: #005482; }
+  .user-info {
+    margin-bottom: 35px; }
+  .find-game-btn {
+    width: 200px;
+    font-size: 20px;
+    align-self: center;
+    background-color: #00d66b; }
+  #type-select {
+    color: #2d0072;
+    font-size: 20px;
+    width: 200px;
+    margin: 0 auto;
+    border: 1px solid #ffffff;
+    margin-bottom: 25px;
+    border: none;
+    animation-name: typeSelect;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in; }
+  /*---------Loading screen -----------*/
+  .finding-game-load-screen {
+    height: 100vh;
+    background-color: #828282;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+  .finding-game-load-screen > h2 {
+    font-weight: 200;
+    font-style: italic;
+    margin-top: 80px;
+    margin-bottom: 50px; }
+  .loader-container {
+    width: 200px;
+    margin-bottom: 40px; }
+  .finding-game-load-screen > button {
+    padding-bottom: 32px;
+    line-height: 5px;
+    width: 200px;
+    margin-bottom: 100px;
+    font-size: 20px;
+    background-color: #f92545;
+    padding: 25px; }
+  .first-l {
+    width: 200px;
+    height: 200px;
+    border-radius: 200px/200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation-name: fade;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-delay: 1.5s;
+    animation-direction: alternate;
+    animation-timing-function: ease-out; }
+  .second-l {
+    width: 150px;
+    height: 150px;
+    border-radius: 150px/150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation-name: fade;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-delay: 1s;
+    animation-direction: alternate;
+    animation-timing-function: ease-out; }
+  .main-l {
+    width: 100px;
+    height: 100px;
+    background-color: #000000;
+    border-radius: 100px/100px;
+    animation-name: pulse;
+    animation-duration: 1s;
+    animation-iteration-count: infinite; }
+  /*---------------------------------------------------------------*/
+  /*---------------------------------------------------------------*/
+  .board-view {
+    display: flex; }
+  .board {
+    width: 54.5%;
+    background-color: #ffffff; }
+  .board-users-info-container {
+    width: 30%; }
+  .game-user-container {
+    display: flex;
+    align-items: center; }
+  .game-user-container > h3 {
+    margin-right: 20px; }
+  .turn-show {
+    animation-name: turn;
+    animation-duration: .5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate; }
+  .board-class {
+    color: #30e6ff; } }
+
+@media (max-width: 420px) {
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
   .landing {
@@ -281,16 +463,9 @@ body {
     padding: 5px 15px; }
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
-  img {
-    max-width: 50px;
-    max-height: 50px; }
   .board {
-    max-width: 420px; }
-  .tile {
-    max-height: 52px;
-    max-width: 52px; }
-  .board {
-    background-color: #ffffff; }
+    background-color: #ffffff;
+    width: 100%; }
   .board-view {
     background-color: #828282;
     height: 100vh; }
@@ -304,14 +479,17 @@ body {
   .game-user-container > h3 {
     margin-right: 20px; }
   .board-username {
-    font-size: 30px; }
+    font-size: 26px; }
   .turn-show {
     animation-name: turn;
     animation-duration: .5s;
     animation-iteration-count: infinite;
     animation-direction: alternate; }
+  .board-class {
+    color: #30e6ff;
+    font-size: 14px; }
   .board-wl {
-    font-size: 15px; }
+    font-size: 12.5px; }
   /*-------------game over screen ---------------*/
   .game-over-screen {
     display: flex;
@@ -341,7 +519,4 @@ body {
     animation-direction: alternate; }
   .game-loser {
     font-size: 24px;
-    margin-bottom: 25px; }
-  .board-class {
-    color: #30e6ff;
-    font-size: 16px; } }
+    margin-bottom: 25px; } }

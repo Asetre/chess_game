@@ -5725,8 +5725,8 @@ var Bishop = exports.Bishop = function (_Piece4) {
                 var posBoard = convertBoard(boundsIndex);
                 if (!board[posBoard].piece) possibleMoves.push(posBoard);else if (!this.isSameTeam(board[posBoard].piece.team)) {
                     possibleMoves.push(posBoard);
-                    break;
-                } else break;
+                    if (!this.type) break;
+                } else if (this.type === 'Assasin') {} else break;
             }
             //Check South East
             for (var _boundsIndex11 = convertBounds(board[this.position].rankFile) - 9; !isOffBoard(_boundsIndex11); _boundsIndex11 -= 9) {
@@ -5997,19 +5997,6 @@ var Login = function (_React$Component) {
                         _react2.default.createElement('input', { type: 'text', name: 'username', placeholder: 'username', required: true }),
                         _react2.default.createElement('input', { type: 'password', name: 'password', placeholder: 'password', required: true }),
                         _react2.default.createElement('input', { type: 'submit', value: 'Login' })
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { className: 'auth-containers' },
-                        _react2.default.createElement(
-                            'div',
-                            null,
-                            _react2.default.createElement(
-                                'a',
-                                { href: '#' },
-                                ' Login with Google'
-                            )
-                        )
                     ),
                     _react2.default.createElement(
                         _reactRouterDom.Link,
@@ -22618,10 +22605,22 @@ var Tile = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).call(this, props));
 
         _this.tileClicked = _this.tileClicked.bind(_this);
+        _this.state = { width: null };
         return _this;
     }
 
     _createClass(Tile, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            var _this2 = this;
+
+            this.setState(function (prev) {
+                return {
+                    width: _this2.myTile.offsetWidth
+                };
+            });
+        }
+    }, {
         key: 'tileClicked',
         value: function tileClicked() {
             var props = this.props;
@@ -22677,11 +22676,18 @@ var Tile = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
+            var styles = {
+                height: this.state.width + 'px'
+            };
             var props = this.props;
 
             return _react2.default.createElement(
                 'div',
-                { className: "tile " + props.highlight + ' ' + this.props.inCheck, onClick: this.tileClicked },
+                { ref: function ref(element) {
+                        return _this3.myTile = element;
+                    }, style: styles, className: "tile " + props.highlight + ' ' + this.props.inCheck, onClick: this.tileClicked },
                 _react2.default.createElement(_piece2.default, { piece: props.tile.piece })
             );
         }

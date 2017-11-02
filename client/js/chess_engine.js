@@ -504,7 +504,8 @@ export class Bishop extends Piece{
             if(!board[posBoard].piece) possibleMoves.push(posBoard)
             else if(!this.isSameTeam(board[posBoard].piece.team)) {
                 possibleMoves.push(posBoard)
-                break
+                if(!this.type)break
+            }else if(this.type === 'Assasin') {
             }else break
         }
         //Check South East

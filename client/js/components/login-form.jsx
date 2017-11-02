@@ -59,12 +59,6 @@ class Login extends React.Component {
                         <input type="password" name="password" placeholder="password" required/>
                         <input type="submit" value="Login"/>
                     </form>
-                    <div className="auth-containers">
-                        <div>
-                            <a href="#"> Login with Google</a>
-                        </div>
-                    </div>
-
                     <Link to='signup'>
                         <div className="signup-btn">
                             <h3>Signup here</h3>

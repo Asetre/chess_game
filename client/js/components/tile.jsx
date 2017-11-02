@@ -8,6 +8,15 @@ class Tile extends React.Component {
     constructor(props){
         super(props)
         this.tileClicked = this.tileClicked.bind(this)
+        this.state = {width: null}
+    }
+
+    componentDidMount() {
+        this.setState(prev => {
+            return  {
+                width: this.myTile.offsetWidth
+            }
+        })
     }
 
     tileClicked() {
@@ -63,10 +72,13 @@ class Tile extends React.Component {
     }
 
     render() {
+        let styles = {
+            height: `${this.state.width}px`
+        }
         let props = this.props
 
         return(
-            <div className={"tile " + props.highlight + ' ' + this.props.inCheck} onClick={this.tileClicked}>
+            <div ref={element => this.myTile = element} style={styles} className={"tile " + props.highlight + ' ' + this.props.inCheck} onClick={this.tileClicked}>
                 <Piece piece={props.tile.piece} />
             </div>
         )
