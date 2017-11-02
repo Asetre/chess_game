@@ -56,6 +56,9 @@ img {
     width: 12.5%;
     display: inline-block;
 }
+.board {
+    font-size: 0;
+}
 //Tile alternating background
 .tile:nth-child(-2n+8),
 .tile:nth-child(8) ~ .tile:nth-child(-2n+15),
@@ -703,5 +706,4 @@ img {
         font-size:24px;
         margin-bottom: 25px;
     }
-
 }
