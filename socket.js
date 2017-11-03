@@ -3,10 +3,71 @@ const User = require('./models/users.js')
 
 let findQue = []
 let users = {}
+let rooms = []
 module.exports = function(io) {
     io.on('connection', socket => {
         socket.on('login', data => {
             users[data.username] = data.socketId
+        })
+
+        socket.on('disconnect', () => {
+            let loserInfo
+            let winnerInfo
+            let roomIndex
+            //find the room and opponent
+            let gameRoom = rooms.find((room, index) => {
+                let key
+                for(key in room) {
+                    if(room[key]) {
+                        loserInfo = {
+                            username: key,
+                            socketId: socket.id
+                        }
+                        roomIndex = index
+                        return room
+                    }
+                }
+            })
+            //If the user was inside a game
+            if(gameRoom) {
+                let key
+                for(key in gameRoom) {
+                    if(gameRoom[key] != socket.id) {
+                        winnerInfo = {
+                            username: key,
+                            socketId: gameRoom[key]
+                        }
+                    }
+                }
+
+                let info = {
+                    winner: winnerInfo.username,
+                    loser: loserInfo.username
+                }
+
+                //Only emit a game over to the user that did not disconnect
+                io.to(winnerInfo.socketId).emit('game over', info)
+                //Remove the room
+                rooms.splice(roomIndex, 1)
+
+                let findWinner = User.findOne({"local.username": info.winner})
+                let findLoser = User.findOne({"local.username": info.loser})
+
+                Promise.all([findWinner, findLoser])
+                .then(users => {
+                    let winUser = users[0]
+                    let loseUser = users[1]
+                    winUser.wins++
+                    loseUser.losses++
+                    winUser.save()
+                    return loseUser.save()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+            }
+
         })
 
         socket.on('find game', data => {
@@ -117,6 +178,11 @@ function matchPlayers(io) {
                 playerTwoSelectedClass: playerTwo.selectedClass,
                 opponentInfo: userInfoOne
             })
+            //Add users to rooms
+            let newRoom = {}
+            newRoom[userInfoOne.username] = playerOne.id
+            newRoom[userInfoTwo.username] = playerTwo.id
+            rooms.push(newRoom)
             //Update the room que
             findQue.splice(0, 2)
         })

@@ -367,12 +367,13 @@ body {
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
   .board-view {
-    display: flex; }
+    display: flex;
+    width: 100%; }
   .board {
     width: 54.5%;
     background-color: #ffffff; }
   .board-users-info-container {
-    width: 30%; }
+    padding: 25px; }
   .game-user-container {
     display: flex;
     align-items: center; }
@@ -644,7 +645,8 @@ body {
     width: 100%; }
   .board-view {
     background-color: #828282;
-    height: 100vh; }
+    height: 100vh;
+    width: 100%; }
   .board-users-info-container {
     padding: 20px; }
   .board-users-info-container > h4 {
