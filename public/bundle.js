@@ -5970,7 +5970,7 @@ var Login = function (_React$Component) {
                 'div',
                 { className: 'landing' },
                 _react2.default.createElement(
-                    'h1',
+                    'h2',
                     null,
                     'Chess Battles'
                 ),
@@ -24114,6 +24114,14 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(7);
 
+var _cbConqueror = __webpack_require__(201);
+
+var _cbConqueror2 = _interopRequireDefault(_cbConqueror);
+
+var _cbKnight = __webpack_require__(202);
+
+var _cbKnight2 = _interopRequireDefault(_cbKnight);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24144,7 +24152,7 @@ var Landing = function (_React$Component) {
                         'div',
                         { className: 'header-container' },
                         _react2.default.createElement(
-                            'h2',
+                            'h1',
                             null,
                             'Chess Battles'
                         ),
@@ -24158,7 +24166,7 @@ var Landing = function (_React$Component) {
                             { to: 'login' },
                             _react2.default.createElement(
                                 'button',
-                                null,
+                                { className: 'l-login' },
                                 'login'
                             )
                         ),
@@ -24172,7 +24180,7 @@ var Landing = function (_React$Component) {
                             { to: 'signup' },
                             _react2.default.createElement(
                                 'button',
-                                null,
+                                { className: 'l-signup' },
                                 'Signup'
                             )
                         )
@@ -24184,6 +24192,47 @@ var Landing = function (_React$Component) {
                             'h3',
                             null,
                             'News'
+                        ),
+                        _react2.default.createElement('div', { className: 'horizontal-line' }),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'news-item' },
+                            _react2.default.createElement(
+                                'h5',
+                                null,
+                                'New Class'
+                            ),
+                            _react2.default.createElement(
+                                'h4',
+                                null,
+                                'Conqueror'
+                            ),
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'Who said the king is the weakest piece on the board? "Jump" into battle with the conqueror!'
+                            ),
+                            _react2.default.createElement('img', { className: 'news-class-img', src: _cbConqueror2.default, alt: 'Conqueror-One' })
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'news-item' },
+                            _react2.default.createElement(
+                                'h5',
+                                null,
+                                'New Class'
+                            ),
+                            _react2.default.createElement(
+                                'h4',
+                                null,
+                                'Knight'
+                            ),
+                            _react2.default.createElement(
+                                'p',
+                                null,
+                                'Give your knight some more flexibility by being able to move straight!'
+                            ),
+                            _react2.default.createElement('img', { className: 'news-class-img', src: _cbKnight2.default, alt: '' })
                         )
                     )
                 )
@@ -24195,6 +24244,18 @@ var Landing = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Landing;
+
+/***/ }),
+/* 201 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "e9294bc90702401b4f229e814894b658.gif";
+
+/***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "e4ac71865b7aa202e06a48ac0e30af9c.gif";
 
 /***/ })
 /******/ ]);

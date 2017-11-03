@@ -47,7 +47,7 @@ class Login extends React.Component {
         let display = this.props.error ? 'show' : null
         return(
             <div className="landing">
-                <h1>Chess Battles</h1>
+                <h2>Chess Battles</h2>
                 <div className="login-container">
                     <h2>Login</h2>
                     <div className="err-msg-container">

@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito:200,400);@import url(https://fonts.googleapis.com/css?family=Press+Start+2P);* {
+@import url(https://fonts.googleapis.com/css?family=Nunito:200,400);@import url(https://fonts.googleapis.com/css?family=Ubuntu+Condensed);* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -10,8 +10,7 @@ h1, h2, h3, h4, h5, h6, a, p, input[type="submit"], button {
   font-weight: normal; }
 
 h1 {
-  font-family: 'Press Start 2P';
-  color: #322d72; }
+  font-family: 'Ubuntu Condensed'; }
 
 input[type="submit"], button {
   background-color: #ff9900;
@@ -22,6 +21,9 @@ input[type="submit"], button {
 a {
   text-decoration: none; }
 
+a:hover {
+  opacity: .6; }
+
 body {
   background-color: #828282; }
 
@@ -31,6 +33,10 @@ body {
 
 .err-msg {
   color: #ff5454; }
+
+.horizontal-line {
+  width: 100%;
+  border-bottom: 1px solid #cccccc; }
 
 .tile {
   width: 12.5%;
@@ -56,6 +62,12 @@ body {
 
 .in-check {
   background-color: #f74747 !important; }
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 0; }
+  to {
+    box-shadow: 0 0 10px; } }
 
 @keyframes winner {
   from {
@@ -339,23 +351,72 @@ body {
 @media (max-width: 420px) {
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
-  .main-landing {
-    width: 100%;
-    height: 100vh;
+  body {
     background-image: url(f2764c077e54193e86581982b635b8f5.jpg);
     background-repeat: no-repeat;
-    background-size: cover; }
+    background-size: cover;
+    background-position: -100px -150px; }
   .main-landing-content {
     background-color: rgba(53, 53, 53, 0.8);
     width: 100%;
-    height: 100vh; }
+    display: flex;
+    flex-direction: column;
+    padding: 30px; }
+  .header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 80px; }
+  .header-container h1 {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    font-family: 'Ubuntu Condensed', sans-serif; }
+  .header-container > p {
+    margin-bottom: 30px;
+    font-weight: 300; }
+  .header-container button {
+    width: 150px;
+    height: 40px;
+    font-size: 18px; }
+  .header-container > a {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  .l-signup {
+    background-color: #00d66b;
+    animation-name: glow;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate; }
+  .news-container {
+    margin-top: 25px;
+    background-color: rgba(135, 135, 135, 0.6);
+    padding: 15px; }
+  .news-item {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 1px solid #c1c1c1; }
+  .news-item > h5 {
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 7px; }
+  .news-item > h4 {
+    margin-bottom: 10px; }
+  .news-item > p {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 300; }
+  .news-class-img {
+    width: 100%;
+    margin: 20px 0; }
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
   .landing {
     height: 100vh;
     width: 100%;
-    padding: 110px 50px; }
-  .landing > h1 {
+    padding: 110px 50px;
+    background-color: rgba(53, 53, 53, 0.8); }
+  .landing > h2 {
     text-align: center;
     margin-bottom: 20px; }
   .login-container > h2 {

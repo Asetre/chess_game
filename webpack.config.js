@@ -23,7 +23,7 @@ var config = {
                 use: [ 'file-loader?name=[name].[ext]', 'extract-loader', 'html-loader']
             },
             {
-                test: /\.(jpg|png)$/,
+                test: /\.(jpg|png|gif)$/,
                 loader: 'url-loader',
                 options: {
                     limit: 4500
