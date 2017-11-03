@@ -329,13 +329,15 @@ body {
     .dashboard {
         height: $full;
         display: flex;
+        justify-content: center;
         flex-direction: column;
         text-align: center;
         background-color: rgba(53, 53, 53, .8);
     }
 
     .dashboard>h2 {
-        margin: 45px 0;
+        margin-top: -100px;
+        margin-bottom: 45px 0;
     }
     .dashboard>h4 {
         margin-bottom: 10px;
@@ -444,13 +446,14 @@ body {
     /*---------------------------------------------------------------*/
     .board-view {
         display: flex;
+        width: 100%;
     }
     .board {
         width: 54.5%;
         background-color: #ffffff;
     }
     .board-users-info-container {
-        width: 30%;
+        padding: 25px;
     }
     .game-user-container {
         display: flex;
@@ -802,6 +805,7 @@ body {
     .board-view {
         background-color: $bg;
         height: $full;
+        width: 100%;
     }
     .board-users-info-container {
         padding: 20px;
