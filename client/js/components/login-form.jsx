@@ -1,9 +1,8 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import * as actions from '../actions.js'
-import {Redirect} from 'react-router-dom'
 
 class Login extends React.Component {
     constructor(props) {

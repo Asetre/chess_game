@@ -54,7 +54,7 @@ class Signup extends React.Component {
                         <input type="password" name="password" placeholder="password" required/>
                         <input type="submit" value="Signup"/>
                     </form>
-                    <Link to="/" className="return-login">
+                    <Link to="login" className="return-login">
                         Already have an account? Login here.
                     </Link>
                 </div>

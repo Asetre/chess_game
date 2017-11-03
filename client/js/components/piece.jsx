@@ -36,7 +36,7 @@ export default class Piece extends React.Component {
     render() {
         let piece = this.props.piece
         if(piece) {
-            return <img src={images[piece.name]} alt={piece.name}/>
+            return <img className='piece' src={images[piece.name]} alt={piece.name}/>
         }else return null
     }
 }

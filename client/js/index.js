@@ -13,13 +13,15 @@ import Layout from './components/layout.jsx'
 import Dashboard from './components/dash.jsx'
 import Login from './components/login-form.jsx'
 import Signup from './components/signup.jsx'
+import Landing from './components/landing-page.jsx'
 
 document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(
         <Provider store={store}>
             <Router>
                 <div>
-                    <Route exact path="/" component={Login} />
+                    <Route exact path="/" component={Landing}/>
+                    <Route exact path="/login" component={Login} />
                     <Route exact path="/signup" component={Signup} />
                     <Route exact path="/board" component={Board}/>
                     <Route exact path='/dashboard' component={Dashboard}/>
