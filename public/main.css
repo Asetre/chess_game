@@ -132,11 +132,75 @@ body {
 @media (min-width: 420px) {
   /*---------------------------------------------------------------*/
   /*---------------------------------------------------------------*/
+  body {
+    background-image: url(f2764c077e54193e86581982b635b8f5.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: -100px -150px; }
+  .main-landing-content {
+    background-color: rgba(53, 53, 53, 0.8);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 30px; }
+  .header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+    height: 70vh; }
+  .header-container h1 {
+    font-size: 3.2em;
+    margin-bottom: 20px;
+    font-family: 'Ubuntu Condensed', sans-serif; }
+  .header-container > p {
+    margin-bottom: 30px;
+    font-weight: 300; }
+  .header-container button {
+    width: 150px;
+    height: 40px;
+    font-size: 18px; }
+  .header-container > a {
+    margin-top: 10px;
+    margin-bottom: 10px; }
+  .l-signup {
+    background-color: #00d66b;
+    animation-name: glow;
+    animation-duration: .75s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate; }
+  .news-container {
+    margin-top: 25px;
+    background-color: rgba(135, 135, 135, 0.6);
+    padding: 15px; }
+  .news-item {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding: 10px;
+    border: 1px solid #c1c1c1; }
+  .news-item > h5 {
+    font-style: italic;
+    font-weight: 300;
+    margin-bottom: 7px; }
+  .news-item > h4 {
+    margin-bottom: 10px; }
+  .news-item > p {
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 300; }
+  .news-class-img {
+    width: 100%;
+    margin: 20px 0;
+    max-width: 400px; }
+  /*---------------------------------------------------------------*/
+  /*---------------------------------------------------------------*/
   .landing {
     height: 100vh;
     width: 100%;
-    padding: 110px 50px; }
-  .landing > h1 {
+    padding: 110px 50px;
+    background-color: rgba(53, 53, 53, 0.8); }
+  .landing > h2 {
     text-align: center;
     margin-bottom: 20px; }
   .login-container > h2 {
@@ -211,7 +275,8 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    text-align: center; }
+    text-align: center;
+    background-color: rgba(53, 53, 53, 0.8); }
   .dashboard > h2 {
     margin: 45px 0; }
   .dashboard > h4 {
@@ -245,7 +310,8 @@ body {
     background-color: #828282;
     display: flex;
     flex-direction: column;
-    align-items: center; }
+    align-items: center;
+    background-color: rgba(53, 53, 53, 0.8); }
   .finding-game-load-screen > h2 {
     font-weight: 200;
     font-style: italic;
@@ -384,7 +450,7 @@ body {
   .l-signup {
     background-color: #00d66b;
     animation-name: glow;
-    animation-duration: 1s;
+    animation-duration: .75s;
     animation-iteration-count: infinite;
     animation-direction: alternate; }
   .news-container {
@@ -464,7 +530,8 @@ body {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    text-align: center; }
+    text-align: center;
+    background-color: rgba(53, 53, 53, 0.8); }
   .dashboard > h2 {
     margin: 45px 0; }
   .dashboard > h4 {
@@ -498,7 +565,8 @@ body {
     background-color: #828282;
     display: flex;
     flex-direction: column;
-    align-items: center; }
+    align-items: center;
+    background-color: rgba(53, 53, 53, 0.8); }
   .finding-game-load-screen > h2 {
     font-weight: 200;
     font-style: italic;
@@ -626,3 +694,7 @@ body {
   .game-loser {
     font-size: 24px;
     margin-bottom: 25px; } }
+
+@media (min-width: 1520px) {
+  body {
+    background-size: 110%; } }
