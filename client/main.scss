@@ -449,11 +449,23 @@ body {
         width: 100%;
     }
     .board {
-        width: 54.5%;
+        width: 52%;
         background-color: #ffffff;
     }
     .board-users-info-container {
         padding: 25px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgba(53, 53, 53, .8);
+        width: 100%;
+        max-width: 48%;
+    }
+    .board-users-info-container>button {
+        width: 40%;
+        max-width: 300px;
+        margin: 25px;
+
     }
     .game-user-container {
         display: flex;
@@ -461,8 +473,6 @@ body {
     }
     .game-user-container>h3 {
         margin-right: 20px;
-    }
-    .board-username {
     }
     .turn-show {
         animation-name: turn;
