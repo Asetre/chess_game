@@ -14,6 +14,7 @@ import Dashboard from './components/dash.jsx'
 import Login from './components/login-form.jsx'
 import Signup from './components/signup.jsx'
 import Landing from './components/landing-page.jsx'
+import Demo from './components/demo.jsx'
 
 document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <Route exact path="/signup" component={Signup} />
                     <Route exact path="/board" component={Board}/>
                     <Route exact path='/dashboard' component={Dashboard}/>
+                    <Route exct path='/demo' render={props => <Demo {...props} />} />
                 </div>
             </Router>
         </Provider>,

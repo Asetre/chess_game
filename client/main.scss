@@ -32,8 +32,14 @@ input[type="submit"], button {
     height: 50px;
     font-family: 'Nunito', sans-serif;
 }
+ul {
+    list-style: none;
+}
 a {
     text-decoration: none;
+}
+button:hover {
+    opacity: .7;
 }
 a:hover {
     opacity: .6;
@@ -144,6 +150,40 @@ body {
     from {background-color: #ffffff;}
     to {background-color: #ffae2d;}
 }
+
+/*---------------------------------------------------------------*/
+//Demo view
+/*---------------------------------------------------------------*/
+.demo-container {
+    background-color: rgba(53, 53, 53, .8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    height: 100vh;
+    width: 100%;
+}
+.demo-container h2 {
+    margin: 20px 0;
+}
+.demo-container h3 {
+    margin: 10px 0;
+}
+.demo-container a {
+    color: #06D4FF;
+}
+.demo-container h4 {
+    margin: 5px 0;
+}
+.demo-container li {
+    margin: 20px 0;
+}
+.demo-container button {
+    margin-top: 20px;
+    padding: 8px 25px;
+    width: 200px;
+}
+
 /*---------------------------------------------------------------*/
 //Desktop/Landscape View
 /*---------------------------------------------------------------*/
@@ -348,6 +388,10 @@ body {
 
     .user-info {
         margin-bottom:  35px;
+    }
+
+    .user-info li{
+        color: white;
     }
 
     .find-game-btn {

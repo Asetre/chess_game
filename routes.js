@@ -3,6 +3,13 @@ const path = require('path')
 const passport = require('passport')
 
 module.exports = function(router) {
+    router.get('/user/:id', (req, res) => {
+        User.findOne({_id: req.params.id})
+        .then(user => {
+            if(!user) return res.send('User not found')
+            return res.send(JSON.stringify({user: user}))
+        })
+    })
     router.get('*', function (request, response){
         response.sendFile(path.resolve(__dirname, 'public', 'index.html'))
     })

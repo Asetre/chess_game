@@ -6,6 +6,7 @@ export let initialBoardState = {
     playerTurn: 1,
     selectedPiece: null,
     status: null,
+    loggedIn: false,
     playerTeam: null,
     playerOneClass: 'no class',
     playerTwoClass: 'no class',
@@ -40,7 +41,7 @@ export default function reducer(state=initialBoardState, action) {
         return Object.assign({}, state, {playerTurn: payload})
 
         case actions.user_login:
-        return Object.assign({}, state, {user: payload, status: 'dashboard'})
+        return Object.assign({}, state, {user: payload, status: 'dashboard', loggedIn: true})
 
         case actions.find_game:
         return Object.assign({}, state, {status: 'looking for game'})
@@ -65,6 +66,9 @@ export default function reducer(state=initialBoardState, action) {
 
         case actions.add_err:
         return Object.assign({}, state, {errors: payload})
+
+        case actions.update_user:
+        return Object.assign({}, state, {user: payload})
 
         default:
         return state

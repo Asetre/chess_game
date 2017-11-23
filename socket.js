@@ -109,9 +109,6 @@ module.exports = function(io) {
                 loser: loser
             }
 
-            io.to(data.userSocketId).emit('game over', info)
-            io.to(data.opponentSocketId).emit('game over', info)
-
             let findWinner = User.findOne({"local.username": winner})
             let findLoser = User.findOne({"local.username": loser})
 
@@ -123,6 +120,10 @@ module.exports = function(io) {
                 loseUser.losses++
                 winUser.save()
                 return loseUser.save()
+            })
+            .then(() => {
+                io.to(data.userSocketId).emit('game over', info)
+                io.to(data.opponentSocketId).emit('game over', info)
             })
             .catch(err => {
                 console.log(err)

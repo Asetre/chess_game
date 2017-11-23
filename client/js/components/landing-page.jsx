@@ -18,6 +18,9 @@ export default class Landing extends React.Component {
                         <Link to='signup'>
                             <button className="l-signup">Signup</button>
                         </Link>
+                        <Link to="/demo">
+                            <button style={{fontSize: '14px'}}>Are you a Hiring Manager?</button>
+                        </Link>
                     </div>
                     <div className="news-container">
                         <h3>News</h3>

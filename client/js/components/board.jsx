@@ -3,6 +3,7 @@ import * as Engine from '../chess_engine.js'
 import * as actions from '../actions.js'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
+import axios from 'axios'
 
 import Tile from './tile.jsx'
 
@@ -34,6 +35,16 @@ class Board extends React.Component {
         })
         socket.on('game over', data => {
             props.gameOver(data.winner, data.loser)
+            axios.get(`/user/${this.props.user._id}`)
+            .then(res => {
+                if(res.data.user) {
+                    return this.props.updateUser(res.data.user)
+                }
+                console.log('Could not update user')
+            })
+            .catch(err => {
+                console.log(err)
+            })
         })
     }
 
@@ -84,7 +95,6 @@ class Board extends React.Component {
             white = this.props.opponentInfo
             black = updatedInfo
         }
-
         //Redirect if user is not logged in
         if(!this.props.user) return <Redirect to="/"></Redirect>
         //Redirect to dashboard once game is over
@@ -116,14 +126,14 @@ class Board extends React.Component {
                 <div className="board-users-info-container">
                     <div className="game-user-container">
                     <h3 className={blackHighlight + " board-username"}>{black.username}</h3>
-                    <h3 className="board-class">({this.props.playerOneClass})</h3>
+                    <h3 className="board-class">({this.props.playerTwoClass})</h3>
                     <h3 className="board-wl">wins: {black.wins}</h3>
                     <h3 className="board-wl">losses: {black.losses}</h3>
                     </div>
                     <h4>vs</h4>
                     <div className="game-user-container">
                     <h3 className={whiteHighlight + " board-username"}>{white.username}</h3>
-                    <h3 className="board-class">({this.props.playerTwoClass})</h3>
+                    <h3 className="board-class">({this.props.playerOneClass})</h3>
                     <h3 className="board-wl">wins: {white.wins}</h3>
                     <h3 className="board-wl">losses: {white.losses}</h3>
                     </div>
@@ -147,7 +157,7 @@ const mapStateToProps = state => {
         opponentInfo: state.opponentInfo,
         team: state.playerTeam,
         turn: state.playerTurn,
-        opponent: state.opponent
+        opponent: state.opponent,
     }
 }
 const mapDispatchToProps = dispatch => {
@@ -166,6 +176,9 @@ const mapDispatchToProps = dispatch => {
         },
         returnToMenu: () => {
             dispatch(actions.redirectDashboard())
+        },
+        updateUser: data => {
+            dispatch(actions.updateUser(data))
         }
     }
 }

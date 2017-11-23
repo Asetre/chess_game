@@ -12,6 +12,7 @@ export const game_over = 'game over'
 export const cancel_search = 'cancel search'
 export const redirect_dashboard = 'redirect to dashboard'
 export const add_err = 'add error'
+export const update_user = 'update user'
 
 export function initializeBoard(board) {
     return {
@@ -109,5 +110,12 @@ export function addError(err) {
     return {
         type: add_err,
         payload: err
+    }
+}
+
+export function updateUser(user) {
+    return {
+        type: update_user,
+        payload: user
     }
 }

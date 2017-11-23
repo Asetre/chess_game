@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import * as actions from '../actions.js'
+import axios from 'axios'
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -9,7 +10,6 @@ class Dashboard extends React.Component {
         this.findGame = this.findGame.bind(this)
         this.cancelSearch = this.cancelSearch.bind(this)
     }
-
     componentDidMount() {
         let props = this.props
         socket.on('game found', function(data) {
@@ -79,8 +79,12 @@ class Dashboard extends React.Component {
                 <h2>{user.local.username}</h2>
                 <div className="user-info">
                     <ul>
-                        <li>Wins: {props.user.wins}</li>
-                        <li>Loss: {props.user.losses}</li>
+                        <li>
+                            <h4>Wins: {props.user.wins}</h4>
+                        </li>
+                        <li>
+                            <h4>Loss: {props.user.losses}</h4>
+                        </li>
                     </ul>
                 </div>
 
