@@ -68,3 +68,63 @@ export class Knight extends Piece {
 Chess Engine
 ---
 The engine uses two arrays to position the pieces on the board and to detect moves considered out of bounds.
+
+Board = array of length 64 (8x8)
+OutOfBounds = array of length 120 (12x10)
+
+![Board representation](./client/images/representation.png)
+
+We convert between the two arrays
+```
+//converts 64 index based array to 120 index based array
+export function convertBounds(rankFile) {
+    //rankFile is a string ex: '0,6' => board[6]
+    //convert rankFile to an array of integers ex: '1,8' => [1,8]
+    let parsed = rankFile.split(',').map(num => parseInt(num))
+    let rank = parsed[0]
+    let file = parsed[1]
+    let boundsIndex = (21 + file) + (rank * 10)
+    //return the index of 120 array
+    return boundsIndex
+}
+//converts index from 120 array to 64 array
+export function convertBoard(index){
+    //index === boundsBoard[index]
+    let val
+    //convert depending on index inside boundsBoard
+    if(index<31) {
+        val = index-21
+    }else if(index<41) {
+        val = index-21-2
+    }else if(index<51) {
+        val = index-21-4
+    }else if(index<61) {
+        val = index-21-6
+    }else if(index<71) {
+        val = index-21-8
+    }else if(index<81) {
+        val = index-21-10
+    }else if(index<91) {
+        val = index-21-12
+    }else if(index<101) {
+        val  = index-21-14
+    }
+    //return the board index if not out of bounds
+    if(!isOffBoard(index)) return val
+    //return null if out of bounds
+    else return null
+}
+```
+Each tile is represented as so:
+```
+    //push 64 empty the tiles into the board
+    for(let i = 0; i < 8; i++) {
+        for(let j = 0; j < 8; j++) {
+            let tile = {
+                rankFile: `${i},${j}`,
+                piece: null
+            }
+            board.push(tile)
+        }
+    }
+```
