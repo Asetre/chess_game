@@ -7,7 +7,7 @@ Main Functionality
 ---
 Play a game of Chess with a twist! There are different classes in the game, where each class has it's own unique moves. We keep track of how well you're doing by recording your wins and losses.
 
-![]
+![Game Demo](./client/images/game.png)
 
 User actions
 ---
