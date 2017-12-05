@@ -22325,12 +22325,16 @@ var Board = function (_React$Component) {
     function Board(props) {
         _classCallCheck(this, Board);
 
+        //Setup the board
         var _this = _possibleConstructorReturn(this, (Board.__proto__ || Object.getPrototypeOf(Board)).call(this, props));
 
         Engine.InitializeBoard();
+        //Place piece on board
         Engine.setupPieces(props.playerOneClass, props.playerTwoClass);
         var board = Engine.board;
+        //Save board to redux store
         props.initB(board);
+
         _this.returnToMenu = _this.returnToMenu.bind(_this);
         _this.quitGame = _this.quitGame.bind(_this);
         return _this;
@@ -22342,6 +22346,7 @@ var Board = function (_React$Component) {
             var _this2 = this;
 
             var props = this.props;
+            //call when there is a change in the board
             socket.on('update board', function (data) {
                 Engine.movePiece(data.oldLocation, data.newLocation);
                 var newData = {
@@ -22350,12 +22355,14 @@ var Board = function (_React$Component) {
                 };
                 props.updateBoard(newData);
                 var inCheck = Engine.inCheck();
+                //check if any of the kings are in check
                 if (inCheck) {
                     props.playerInCheck(inCheck);
                 } else {
                     props.playerInCheck([]);
                 }
             });
+            //Game over event listener
             socket.on('game over', function (data) {
                 props.gameOver(data.winner, data.loser);
                 _axios2.default.get('/user/' + _this2.props.user._id).then(function (res) {
@@ -22374,6 +22381,7 @@ var Board = function (_React$Component) {
             //remove socket listeners
             socket.removeAllListeners('update board');
             socket.removeAllListeners('game over');
+            //Empty board array
             Engine.resetBoard();
         }
     }, {
@@ -22403,6 +22411,7 @@ var Board = function (_React$Component) {
             var white = void 0;
             var black = void 0;
 
+            //Highlight player name whos turn it is to move
             var whiteHighlight = this.props.turn === 1 ? 'turn-show' : null;
             var blackHighlight = this.props.turn === 0 ? 'turn-show' : null;
 
@@ -22424,6 +22433,7 @@ var Board = function (_React$Component) {
             //Redirect to dashboard once game is over
             if (this.props.status === 'dashboard') return _react2.default.createElement(_reactRouterDom.Redirect, { to: '/dashboard' });
 
+            //If the game is over render this instead of board
             if (this.props.status === 'game over') {
                 return _react2.default.createElement(
                     'div',
@@ -22465,6 +22475,7 @@ var Board = function (_React$Component) {
                 );
             }
 
+            //Tiles for board to render
             var tiles = [];
             this.props.board.forEach(function (tile, index) {
                 tiles.push(_react2.default.createElement(_tile2.default, { tile: tile, index: index, key: index }));
@@ -23477,6 +23488,7 @@ var Tile = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (Tile.__proto__ || Object.getPrototypeOf(Tile)).call(this, props));
 
         _this.tileClicked = _this.tileClicked.bind(_this);
+        //For dynamic tile width
         _this.state = { width: null };
         return _this;
     }
@@ -23486,6 +23498,7 @@ var Tile = function (_React$Component) {
         value: function componentDidMount() {
             var _this2 = this;
 
+            //Set the current tile width
             this.setState(function (prev) {
                 return {
                     width: _this2.myTile.offsetWidth
@@ -23531,6 +23544,7 @@ var Tile = function (_React$Component) {
                     if (inCheck) {
                         props.playerInCheck(inCheck);
                     }
+                    //Check if the game is over
                     var isGameOver = Engine.isGameOver();
                     if (isGameOver || isGameOver === 0) {
                         socket.emit('game over', {

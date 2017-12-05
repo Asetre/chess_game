@@ -8,10 +8,12 @@ class Tile extends React.Component {
     constructor(props){
         super(props)
         this.tileClicked = this.tileClicked.bind(this)
+        //For dynamic tile width
         this.state = {width: null}
     }
 
     componentDidMount() {
+        //Set the current tile width
         this.setState(prev => {
             return  {
                 width: this.myTile.offsetWidth
@@ -56,6 +58,7 @@ class Tile extends React.Component {
                 if(inCheck) {
                     props.playerInCheck(inCheck)
                 }
+                //Check if the game is over
                 let isGameOver = Engine.isGameOver()
                 if(isGameOver || isGameOver === 0) {
                     socket.emit('game over', {

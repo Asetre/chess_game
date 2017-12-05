@@ -10,15 +10,20 @@ import Tile from './tile.jsx'
 class Board extends React.Component {
     constructor(props) {
         super(props)
+        //Setup the board
         Engine.InitializeBoard()
+        //Place piece on board
         Engine.setupPieces(props.playerOneClass, props.playerTwoClass)
         let board = Engine.board
+        //Save board to redux store
         props.initB(board)
+
         this.returnToMenu = this.returnToMenu.bind(this)
         this.quitGame = this.quitGame.bind(this)
     }
     componentDidMount() {
         let props = this.props
+        //call when there is a change in the board
         socket.on('update board', data => {
             Engine.movePiece(data.oldLocation, data.newLocation)
             let newData = {
@@ -27,12 +32,14 @@ class Board extends React.Component {
             }
             props.updateBoard(newData)
             let inCheck = Engine.inCheck()
+            //check if any of the kings are in check
             if(inCheck) {
                 props.playerInCheck(inCheck)
             }else {
                 props.playerInCheck([])
             }
         })
+        //Game over event listener
         socket.on('game over', data => {
             props.gameOver(data.winner, data.loser)
             axios.get(`/user/${this.props.user._id}`)
@@ -47,11 +54,11 @@ class Board extends React.Component {
             })
         })
     }
-
     componentWillUnmount() {
         //remove socket listeners
         socket.removeAllListeners('update board')
         socket.removeAllListeners('game over')
+        //Empty board array
         Engine.resetBoard()
     }
 
@@ -78,6 +85,7 @@ class Board extends React.Component {
         let white
         let black
 
+        //Highlight player name whos turn it is to move
         let whiteHighlight = this.props.turn === 1 ? 'turn-show' : null
         let blackHighlight = this.props.turn === 0 ? 'turn-show' : null
 
@@ -100,6 +108,7 @@ class Board extends React.Component {
         //Redirect to dashboard once game is over
         if(this.props.status === 'dashboard') return <Redirect to="/dashboard"></Redirect>
 
+        //If the game is over render this instead of board
         if(this.props.status === 'game over') {
             return (
                 <div className="game-over-screen">
@@ -115,6 +124,7 @@ class Board extends React.Component {
             )
         }
 
+        //Tiles for board to render
         let tiles = []
         this.props.board.forEach((tile, index) => { tiles.push(<Tile tile={tile} index={index} key={index}/>)})
 

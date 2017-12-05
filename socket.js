@@ -1,8 +1,11 @@
 const shortid = require('shortid')
 const User = require('./models/users.js')
 
+//Array of ids
 let findQue = []
+//Array of user objects with their information
 let users = {}
+//Array of games
 let rooms = []
 module.exports = function(io) {
     io.on('connection', socket => {
@@ -70,6 +73,7 @@ module.exports = function(io) {
 
         })
 
+        //Push user to find que with their information
         socket.on('find game', data => {
             let player = {
                 id: data.id,
@@ -79,6 +83,7 @@ module.exports = function(io) {
             matchPlayers(io)
         })
 
+        //Update opponents board on move
         socket.on('move piece', data => {
             let turn
             if(data.turn === 1) turn = 0
@@ -89,9 +94,11 @@ module.exports = function(io) {
                 newLocation: data.newLocation,
                 oldLocation: data.oldLocation
             }
+            //Emit the board update to opponent
             io.to(data.opponent).emit('update board', info)
         })
 
+        //Remove user from findQue
         socket.on('cancel search', socketId => {
             let i = findQue.findIndex(player => player.id == socket.id)
             findQue.splice(i, 1)
@@ -109,9 +116,14 @@ module.exports = function(io) {
                 loser: loser
             }
 
+            //Emit game over events to both users
+            io.to(data.userSocketId).emit('game over', info)
+            io.to(data.opponentSocketId).emit('game over', info)
+
             let findWinner = User.findOne({"local.username": winner})
             let findLoser = User.findOne({"local.username": loser})
 
+            //Update database wins and losses
             Promise.all([findWinner, findLoser])
             .then(users => {
                 let winUser = users[0]
@@ -165,6 +177,7 @@ function matchPlayers(io) {
                 losses: userTwo.losses
             }
 
+            //Emit event to start game for both players
             io.to(playerOne.id).emit('game found', {
                 team: 1,
                 opponent: playerTwo.id,
@@ -184,7 +197,7 @@ function matchPlayers(io) {
             newRoom[userInfoOne.username] = playerOne.id
             newRoom[userInfoTwo.username] = playerTwo.id
             rooms.push(newRoom)
-            //Update the room que
+            //Remove both users from findQue
             findQue.splice(0, 2)
         })
 
